@@ -1,0 +1,53 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://dy005her2c1pw" path="res://scenes/Transcoding/NodeViews/SettingsNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/PortPairRow.tscn" id="PortPairRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ChoiceControl.tscn" id="ChoiceControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ToggleControl.tscn" id="ToggleControl"]
+
+[node name="ImageGalleryNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(300, 0)
+title = "Image Gallery"
+script = ExtResource("script")
+
+[node name="InPorts" parent="." instance=ExtResource("PortPairRow")]
+unique_name_in_owner = true
+layout_mode = 2
+InputKey = "in"
+OutputKey = "file"
+
+[node name="InputLabel" parent="InPorts" index="0"]
+text = "Video"
+
+[node name="OutputLabel" parent="InPorts" index="1"]
+text = "File"
+
+[node name="FormatRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "format"
+
+[node name="Label" parent="FormatRow" index="0"]
+text = "Format"
+
+[node name="Format" parent="FormatRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SkipBlackRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "skip-black"
+
+[node name="Label" parent="SkipBlackRow" index="0"]
+text = "Skip black pictures"
+
+[node name="SkipBlack" parent="SkipBlackRow" instance=ExtResource("ToggleControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="InPorts"]
+[editable path="FormatRow"]
+[editable path="SkipBlackRow"]

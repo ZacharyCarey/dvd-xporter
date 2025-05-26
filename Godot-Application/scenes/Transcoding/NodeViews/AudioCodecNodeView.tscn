@@ -1,0 +1,92 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://dy005her2c1pw" path="res://scenes/Transcoding/NodeViews/SettingsNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/PortPairRow.tscn" id="PortPairRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ChoiceControl.tscn" id="ChoiceControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/TextControl.tscn" id="TextControl"]
+
+[node name="AudioCodecNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(300, 0)
+title = "Audio Codec"
+script = ExtResource("script")
+
+[node name="InPorts" parent="." instance=ExtResource("PortPairRow")]
+unique_name_in_owner = true
+layout_mode = 2
+InputKey = "in"
+OutputKey = "out"
+
+[node name="InputLabel" parent="InPorts" index="0"]
+text = "Audio"
+
+[node name="OutputLabel" parent="InPorts" index="1"]
+text = "Audio"
+
+[node name="CodecRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "codec"
+
+[node name="Label" parent="CodecRow" index="0"]
+text = "Codec"
+
+[node name="Codec" parent="CodecRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BitrateRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "bitrate"
+
+[node name="Label" parent="BitrateRow" index="0"]
+text = "Bitrate (kbps)"
+
+[node name="Bitrate" parent="BitrateRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ChannelsRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "channels"
+
+[node name="Label" parent="ChannelsRow" index="0"]
+text = "Channels"
+
+[node name="Channels" parent="ChannelsRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SampleRateRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "sample-rate"
+
+[node name="Label" parent="SampleRateRow" index="0"]
+text = "Sample rate"
+
+[node name="SampleRate" parent="SampleRateRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ExtraRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "extra"
+
+[node name="Label" parent="ExtraRow" index="0"]
+text = "Extra options"
+
+[node name="Extra" parent="ExtraRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="InPorts"]
+[editable path="CodecRow"]
+[editable path="BitrateRow"]
+[editable path="ChannelsRow"]
+[editable path="SampleRateRow"]
+[editable path="ExtraRow"]

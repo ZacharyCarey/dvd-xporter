@@ -1,0 +1,45 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://2cmtpmhmljnl" path="res://scenes/Project/ReleaseDialog.cs" id="1_release"]
+
+[node name="ReleaseDialog" type="ConfirmationDialog"]
+title = "New Release"
+size = Vector2i(480, 230)
+ok_button_text = "Create"
+script = ExtResource("1_release")
+
+[node name="Content" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 472.0
+offset_bottom = 181.0
+theme_override_constants/separation = 6
+
+[node name="NameLabel" type="Label" parent="Content"]
+layout_mode = 2
+text = "Release name:"
+
+[node name="NameEdit" type="LineEdit" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "e.g. Season 1 (DVD) or Complete Series"
+
+[node name="BarcodeLabel" type="Label" parent="Content"]
+layout_mode = 2
+text = "Barcode (UPC/EAN):"
+
+[node name="BarcodeEdit" type="LineEdit" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Optional, e.g. 025192123456"
+
+[node name="MessageLabel" type="Label" parent="Content"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.6)
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+
+[connection signal="text_changed" from="Content/NameEdit" to="." method="On_Edit_TextChanged"]
+[connection signal="text_changed" from="Content/BarcodeEdit" to="." method="On_Edit_TextChanged"]

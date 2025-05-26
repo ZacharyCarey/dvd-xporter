@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://dx3ja6ouhgh5i" path="res://scenes/Transcoding/NodeRows/TextControl.cs" id="1_script"]
+
+[node name="TextControl" type="LineEdit"]
+custom_minimum_size = Vector2(120, 0)
+size_flags_horizontal = 3
+script = ExtResource("1_script")

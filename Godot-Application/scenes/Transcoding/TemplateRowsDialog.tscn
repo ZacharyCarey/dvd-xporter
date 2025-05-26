@@ -1,0 +1,55 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://cwbhyhvpxrs5i" path="res://scenes/Transcoding/TemplateRowsDialog.cs" id="1_rows"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TemplateVideoRow.tscn" id="2_row"]
+[ext_resource type="Texture2D" uid="uid://cfwmvq5c1i2pt" path="res://icons/add.svg" id="3_add"]
+
+[node name="TemplateRowsDialog" type="ConfirmationDialog"]
+title = "Template Videos"
+ok_button_text = "Save"
+script = ExtResource("1_rows")
+RowScene = ExtResource("2_row")
+
+[node name="Box" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 892.0
+offset_bottom = 471.0
+theme_override_constants/separation = 8
+
+[node name="Intro" type="Label" parent="Box"]
+custom_minimum_size = Vector2(840, 0)
+layout_mode = 2
+text = "Each video is made with the template and goes to its library item. Chapters plays only those chapters of the video (e.g. \"1-5\" for one episode of several in a clip); leave it empty to play it as the template does. Add picks the next video (or the next chapters) and episode; change either if it guessed wrong."
+autowrap_mode = 3
+
+[node name="Scroll" type="ScrollContainer" parent="Box"]
+custom_minimum_size = Vector2(860, 360)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="List" type="VBoxContainer" parent="Box/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="EmptyLabel" type="Label" parent="Box/Scroll/List"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = "No videos yet. Add the first one below."
+
+[node name="Rows" type="VBoxContainer" parent="Box/Scroll/List"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="AddVideoButton" type="Button" parent="Box"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Add Video"
+icon = ExtResource("3_add")
+
+[connection signal="confirmed" from="." to="." method="On_Confirmed"]
+[connection signal="pressed" from="Box/AddVideoButton" to="." method="On_AddVideoButton_Pressed"]

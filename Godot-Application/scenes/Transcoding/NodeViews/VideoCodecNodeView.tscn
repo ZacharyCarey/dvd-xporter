@@ -1,0 +1,118 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://dy005her2c1pw" path="res://scenes/Transcoding/NodeViews/SettingsNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/PortPairRow.tscn" id="PortPairRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ChoiceControl.tscn" id="ChoiceControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/TextControl.tscn" id="TextControl"]
+
+[node name="VideoCodecNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(300, 0)
+title = "Video Codec"
+script = ExtResource("script")
+
+[node name="InPorts" parent="." instance=ExtResource("PortPairRow")]
+unique_name_in_owner = true
+layout_mode = 2
+InputKey = "in"
+OutputKey = "out"
+
+[node name="InputLabel" parent="InPorts" index="0"]
+text = "Video"
+
+[node name="OutputLabel" parent="InPorts" index="1"]
+text = "Video"
+
+[node name="CodecRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "codec"
+
+[node name="Label" parent="CodecRow" index="0"]
+text = "Codec"
+
+[node name="Codec" parent="CodecRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CrfRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "crf"
+
+[node name="Label" parent="CrfRow" index="0"]
+text = "Quality (CRF)"
+
+[node name="Crf" parent="CrfRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PresetRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "preset"
+
+[node name="Label" parent="PresetRow" index="0"]
+text = "Preset"
+
+[node name="Preset" parent="PresetRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SvtPresetRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "svt-preset"
+
+[node name="Label" parent="SvtPresetRow" index="0"]
+text = "Preset"
+
+[node name="SvtPreset" parent="SvtPresetRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TuneRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "tune"
+
+[node name="Label" parent="TuneRow" index="0"]
+text = "Tune"
+
+[node name="Tune" parent="TuneRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PixelFormatRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "pixel-format"
+
+[node name="Label" parent="PixelFormatRow" index="0"]
+text = "Bit depth"
+
+[node name="PixelFormat" parent="PixelFormatRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ExtraRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "extra"
+
+[node name="Label" parent="ExtraRow" index="0"]
+text = "Extra options"
+
+[node name="Extra" parent="ExtraRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="InPorts"]
+[editable path="CodecRow"]
+[editable path="CrfRow"]
+[editable path="PresetRow"]
+[editable path="SvtPresetRow"]
+[editable path="TuneRow"]
+[editable path="PixelFormatRow"]
+[editable path="ExtraRow"]

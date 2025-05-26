@@ -1,0 +1,52 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://dy005her2c1pw" path="res://scenes/Transcoding/NodeViews/SettingsNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/PortPairRow.tscn" id="PortPairRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ToggleControl.tscn" id="ToggleControl"]
+
+[node name="FlipNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(300, 0)
+title = "Flip"
+script = ExtResource("script")
+
+[node name="InPorts" parent="." instance=ExtResource("PortPairRow")]
+unique_name_in_owner = true
+layout_mode = 2
+InputKey = "in"
+OutputKey = "out"
+
+[node name="InputLabel" parent="InPorts" index="0"]
+text = "Video"
+
+[node name="OutputLabel" parent="InPorts" index="1"]
+text = "Video"
+
+[node name="HorizontalRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "horizontal"
+
+[node name="Label" parent="HorizontalRow" index="0"]
+text = "Horizontal"
+
+[node name="Horizontal" parent="HorizontalRow" instance=ExtResource("ToggleControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VerticalRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "vertical"
+
+[node name="Label" parent="VerticalRow" index="0"]
+text = "Vertical"
+
+[node name="Vertical" parent="VerticalRow" instance=ExtResource("ToggleControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="InPorts"]
+[editable path="HorizontalRow"]
+[editable path="VerticalRow"]

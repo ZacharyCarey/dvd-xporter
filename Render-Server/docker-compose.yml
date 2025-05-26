@@ -1,0 +1,35 @@
+# Builds the render server's image, and runs it here to try it. From the repository's root folder:
+#   docker compose -f Render-Server/docker-compose.yml build
+#   docker compose -f Render-Server/docker-compose.yml up -d
+# The folders it uses are set in Render-Server/.env (see .env.example). It sets itself up the first time it starts, and
+# shows its access key in its log.
+
+services:
+  dvdx-server:
+    image: ${DVDX_IMAGE:-dvdx-server}:${DVDX_VERSION:-latest}
+    build:
+      context: ..
+      dockerfile: Render-Server/Dockerfile
+      args:
+        FFMPEG_SERIES: ${FFMPEG_SERIES:-8.1}
+    hostname: dvdx-server
+    restart: unless-stopped
+    # The files it writes (exports, discs copied to its library) are owned by this user and group
+    user: "${PUID:-1000}:${PGID:-1000}"
+    # On the host's network, so the app can find it by itself (Linux only; see README.md for Docker Desktop)
+    network_mode: host
+    # Lets "docker attach" type its commands (jobs, rescan, key, quit); Ctrl+P then Ctrl+Q leaves it running
+    stdin_open: true
+    tty: true
+    # Time to stop ffmpeg and tidy up what it was making; the job starts again when the server next runs
+    stop_grace_period: 1m
+    # What it's called and its key (blank: its computer's name, and one it makes). The folders are where the volumes
+    # below are mounted: the image knows them (see the Dockerfile)
+    environment:
+      DVDX_SERVER_NAME: ${DVDX_NAME:-}
+      DVDX_ACCESS_KEY: ${DVDX_ACCESS_KEY:-}
+    volumes:
+      - ${DVDX_DATA:-./data}:/data
+      - ${DVDX_DISCS:-./discs}:/discs
+      - ${DVDX_MOVIES:-./movies}:/media/movies
+      - ${DVDX_SHOWS:-./shows}:/media/shows

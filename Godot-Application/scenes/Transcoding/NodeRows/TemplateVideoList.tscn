@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://dmhbub4n81yw4" path="res://scenes/Transcoding/NodeRows/TemplateVideoList.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://csonwkyb10ub5" path="res://icons/edit.svg" id="2_edit"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/TemplateVideoLine.tscn" id="3_line"]
+
+[node name="TemplateVideoList" type="VBoxContainer"]
+script = ExtResource("1_script")
+LineScene = ExtResource("3_line")
+
+[node name="Lines" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EmptyLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = "No videos yet."
+
+[node name="EditButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Edit Videos..."
+icon = ExtResource("2_edit")
+
+[connection signal="pressed" from="EditButton" to="." method="On_EditButton_Pressed"]

@@ -1,0 +1,75 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/Main/ServerJobsDialog.cs" id="1_script"]
+
+[node name="ServerJobsDialog" type="AcceptDialog"]
+title = "Server Jobs"
+size = Vector2i(820, 480)
+ok_button_text = "Close"
+script = ExtResource("1_script")
+
+[node name="Content" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 812.0
+offset_bottom = 431.0
+theme_override_constants/separation = 8
+
+[node name="StatusLabel" type="Label" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+modulate = Color(1, 1, 1, 0.75)
+
+[node name="JobTree" type="Tree" parent="Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_vertical = 3
+columns = 3
+column_titles_visible = true
+hide_root = true
+select_mode = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CancelJobButton" type="Button" parent="Content/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+tooltip_text = "Stop the selected job, or take it off the queue. The file being made is thrown away."
+text = "Cancel Job"
+
+[node name="RemoveJobButton" type="Button" parent="Content/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+tooltip_text = "Take the selected finished job off the list (what it exported stays where it is)"
+text = "Remove"
+
+[node name="ClearFinishedButton" type="Button" parent="Content/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+tooltip_text = "Take every finished job off the list (what they exported stays where it is)"
+text = "Clear Finished"
+
+[node name="RefreshTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 2.0
+
+[node name="CancelConfirmDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Cancel Job"
+ok_button_text = "Cancel Job"
+cancel_button_text = "Keep It"
+
+[connection signal="visibility_changed" from="." to="." method="On_VisibilityChanged"]
+[connection signal="item_selected" from="Content/JobTree" to="." method="On_JobTree_ItemSelected"]
+[connection signal="pressed" from="Content/Buttons/CancelJobButton" to="." method="On_CancelJobButton_Pressed"]
+[connection signal="pressed" from="Content/Buttons/RemoveJobButton" to="." method="On_RemoveJobButton_Pressed"]
+[connection signal="pressed" from="Content/Buttons/ClearFinishedButton" to="." method="On_ClearFinishedButton_Pressed"]
+[connection signal="timeout" from="RefreshTimer" to="." method="Refresh"]
+[connection signal="confirmed" from="CancelConfirmDialog" to="." method="On_CancelConfirmDialog_Confirmed"]

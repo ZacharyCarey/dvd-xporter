@@ -1,0 +1,112 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/Transcoding/OutputPanel.cs" id="1_script"]
+
+[node name="OutputPanel" type="VBoxContainer"]
+size_flags_horizontal = 3
+script = ExtResource("1_script")
+
+[node name="JobRow" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="JobLabel" type="Label" parent="JobRow"]
+layout_mode = 2
+text = "Output"
+
+[node name="JobOption" type="OptionButton" parent="JobRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "The output file whose command is shown"
+fit_to_longest_item = false
+
+[node name="CopyCommandButton" type="Button" parent="JobRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Copy the ffmpeg command"
+text = "Copy Command"
+
+[node name="JobInfoLabel" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.65)
+layout_mode = 2
+text_overrun_behavior = 3
+
+[node name="CommandText" type="TextEdit" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+editable = false
+wrap_mode = 1
+
+[node name="TestRow" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TestFromLabel" type="Label" parent="TestRow"]
+layout_mode = 2
+text = "Test from"
+
+[node name="TestStartEdit" type="LineEdit" parent="TestRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+tooltip_text = "Where the test starts in the output, e.g. 5:00"
+placeholder_text = "0:00"
+
+[node name="TestForLabel" type="Label" parent="TestRow"]
+layout_mode = 2
+text = "for"
+
+[node name="TestLengthSpin" type="SpinBox" parent="TestRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "How many seconds to encode"
+min_value = 5.0
+max_value = 600.0
+step = 5.0
+value = 30.0
+suffix = "s"
+
+[node name="QualityCheck" type="CheckBox" parent="TestRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Quality score"
+
+[node name="TestButton" type="Button" parent="TestRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Test Encode"
+
+[node name="CancelTestButton" type="Button" parent="TestRow"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Cancel"
+
+[node name="TestProgress" type="ProgressBar" parent="TestRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="OpenTestButton" type="Button" parent="TestRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Play the test encode in your video player"
+text = "Open Result"
+
+[node name="TestResultLabel" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 1
+autowrap_mode = 3
+
+[connection signal="item_selected" from="JobRow/JobOption" to="." method="On_JobOption_ItemSelected"]
+[connection signal="pressed" from="JobRow/CopyCommandButton" to="." method="On_CopyCommandButton_Pressed"]
+[connection signal="text_changed" from="TestRow/TestStartEdit" to="." method="On_TestStartEdit_TextChanged"]
+[connection signal="value_changed" from="TestRow/TestLengthSpin" to="." method="On_TestLengthSpin_ValueChanged"]
+[connection signal="pressed" from="TestRow/TestButton" to="." method="On_TestButton_Pressed"]
+[connection signal="pressed" from="TestRow/CancelTestButton" to="." method="On_CancelTestButton_Pressed"]
+[connection signal="pressed" from="TestRow/OpenTestButton" to="." method="On_OpenTestButton_Pressed"]

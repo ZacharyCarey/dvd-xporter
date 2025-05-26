@@ -1,0 +1,25 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://w3m3pchoht1y" path="res://scenes/Transcoding/NodeRows/TrackRow.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://csonwkyb10ub5" path="res://icons/edit.svg" id="2_edit"]
+
+[node name="TrackRow" type="HBoxContainer"]
+script = ExtResource("1_script")
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+text = "1. (add a track)"
+text_overrun_behavior = 3
+
+[node name="EditButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Title, language and flags for this track"
+icon = ExtResource("2_edit")
+flat = true
+
+[connection signal="pressed" from="EditButton" to="." method="On_EditButton_Pressed"]

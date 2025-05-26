@@ -1,0 +1,58 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/Info/InfoNavigator.cs" id="1_script"]
+
+[node name="InfoNavigator" type="VBoxContainer"]
+custom_minimum_size = Vector2(290, 0)
+theme_override_constants/separation = 8
+script = ExtResource("1_script")
+
+[node name="NavTree" type="Tree" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+hide_root = true
+
+[node name="NavButtons" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="AddSeasonButton" type="Button" parent="NavButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Add the next season"
+text = "+ Season"
+
+[node name="AddEpisodeButton" type="Button" parent="NavButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Add the next episode to the selected season"
+disabled = true
+text = "+ Episode"
+
+[node name="AddExtraButton" type="Button" parent="NavButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Add an extra: a bonus video, such as a featurette or deleted scenes"
+text = "+ Extra"
+
+[node name="RemoveButton" type="Button" parent="NavButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Remove the selected season, episode or extra"
+disabled = true
+text = "Remove"
+
+[node name="RemoveDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Remove"
+ok_button_text = "Remove"
+
+[connection signal="item_selected" from="NavTree" to="." method="On_NavTree_ItemSelected"]
+[connection signal="pressed" from="NavButtons/AddSeasonButton" to="." method="On_AddSeasonButton_Pressed"]
+[connection signal="pressed" from="NavButtons/AddEpisodeButton" to="." method="On_AddEpisodeButton_Pressed"]
+[connection signal="pressed" from="NavButtons/AddExtraButton" to="." method="On_AddExtraButton_Pressed"]
+[connection signal="pressed" from="NavButtons/RemoveButton" to="." method="On_RemoveButton_Pressed"]
+[connection signal="confirmed" from="RemoveDialog" to="." method="On_RemoveDialog_Confirmed"]

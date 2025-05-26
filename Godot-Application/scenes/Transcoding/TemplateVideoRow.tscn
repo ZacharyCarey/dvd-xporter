@@ -1,0 +1,75 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" uid="uid://b8yre2xufa736" path="res://icons/remove.svg" id="1_remove"]
+
+[node name="TemplateVideoRow" type="HBoxContainer"]
+theme_override_constants/separation = 6
+
+[node name="Number" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+text = "1."
+
+[node name="Disc" type="OptionButton" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+clip_text = true
+fit_to_longest_item = false
+
+[node name="Item" type="OptionButton" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+clip_text = true
+fit_to_longest_item = false
+
+[node name="Chapters" type="LineEdit" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+tooltip_text = "The chapters to play, e.g. \"1-5\" or \"6-6\". Empty = as the template plays the video."
+placeholder_text = "All"
+
+[node name="Arrow" type="Label" parent="."]
+layout_mode = 2
+text = "→"
+
+[node name="Target" type="OptionButton" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+clip_text = true
+fit_to_longest_item = false
+
+[node name="Version" type="LineEdit" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+tooltip_text = "Optional: the version this video's files are, e.g. \"Extended\". It goes before any version the template's Export nodes give, e.g. \"Extended 720p\"."
+placeholder_text = "Version"
+
+[node name="UpButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Move up"
+text = "▲"
+
+[node name="DownButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Move down"
+text = "▼"
+
+[node name="DetachButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Make this one an ordinary graph on the canvas, to change it on its own. It stops following the template."
+text = "Detach"
+
+[node name="RemoveButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Remove this video"
+icon = ExtResource("1_remove")

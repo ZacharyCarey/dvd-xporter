@@ -1,0 +1,47 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/Info/DiscFilesDialog.cs" id="1_script"]
+
+[node name="DiscFilesDialog" type="ConfirmationDialog"]
+title = "Add Files from a Disc"
+size = Vector2i(560, 480)
+ok_button_text = "Add"
+script = ExtResource("1_script")
+
+[node name="Content" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 552.0
+offset_bottom = 431.0
+theme_override_constants/separation = 8
+
+[node name="DiscRow" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+
+[node name="DiscLabel" type="Label" parent="Content/DiscRow"]
+layout_mode = 2
+text = "Disc:"
+
+[node name="DiscChoice" type="OptionButton" parent="Content/DiscRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatusLabel" type="Label" parent="Content"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.6)
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="FilesTree" type="Tree" parent="Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+hide_root = true
+
+[connection signal="confirmed" from="." to="." method="On_Confirmed"]
+[connection signal="item_selected" from="Content/DiscRow/DiscChoice" to="." method="On_DiscChoice_ItemSelected"]
+[connection signal="item_edited" from="Content/FilesTree" to="." method="On_FilesTree_ItemEdited"]

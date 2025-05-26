@@ -1,0 +1,78 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://dy005her2c1pw" path="res://scenes/Transcoding/NodeViews/SettingsNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/PortPairRow.tscn" id="PortPairRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ChoiceControl.tscn" id="ChoiceControl"]
+
+[node name="DeinterlaceNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(300, 0)
+title = "Deinterlace"
+script = ExtResource("script")
+
+[node name="InPorts" parent="." instance=ExtResource("PortPairRow")]
+unique_name_in_owner = true
+layout_mode = 2
+InputKey = "in"
+OutputKey = "out"
+
+[node name="InputLabel" parent="InPorts" index="0"]
+text = "Video"
+
+[node name="OutputLabel" parent="InPorts" index="1"]
+text = "Video"
+
+[node name="MethodRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "method"
+
+[node name="Label" parent="MethodRow" index="0"]
+text = "Method"
+
+[node name="Method" parent="MethodRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ModeRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "mode"
+
+[node name="Label" parent="ModeRow" index="0"]
+text = "Output"
+
+[node name="Mode" parent="ModeRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ParityRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "parity"
+
+[node name="Label" parent="ParityRow" index="0"]
+text = "Field order"
+
+[node name="Parity" parent="ParityRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DeintRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "deint"
+
+[node name="Label" parent="DeintRow" index="0"]
+text = "Deinterlace"
+
+[node name="Deint" parent="DeintRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="InPorts"]
+[editable path="MethodRow"]
+[editable path="ModeRow"]
+[editable path="ParityRow"]
+[editable path="DeintRow"]

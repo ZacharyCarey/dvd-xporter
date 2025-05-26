@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://d28nj7q2ynwfl" path="res://scenes/Info/Editors/ImportRow.cs" id="1_script"]
+
+[node name="ImportRow" type="HBoxContainer"]
+theme_override_constants/separation = 12
+script = ExtResource("1_script")
+
+[node name="ImportButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Search TMDB, TVDB or IMDb (OMDb) and fill in details, seasons and episodes"
+text = "Import Details Online..."
+
+[node name="ImportHint" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+size_flags_horizontal = 3
+autowrap_mode = 3
+
+[connection signal="pressed" from="ImportButton" to="." method="On_ImportButton_Pressed"]

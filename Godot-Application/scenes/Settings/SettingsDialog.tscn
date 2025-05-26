@@ -1,0 +1,652 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://c0pxeem3lby6y" path="res://scenes/Settings/SettingsDialog.cs" id="1_settings"]
+
+[node name="SettingsDialog" type="ConfirmationDialog"]
+title = "Settings"
+size = Vector2i(760, 440)
+ok_button_text = "Save"
+script = ExtResource("1_settings")
+
+[node name="Tabs" type="TabContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 752.0
+offset_bottom = 391.0
+current_tab = 0
+
+[node name="General" type="MarginContainer" parent="Tabs"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+metadata/_tab_index = 0
+
+[node name="Grid" type="GridContainer" parent="Tabs/General"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="DiscLibraryLabel" type="Label" parent="Tabs/General/Grid"]
+layout_mode = 2
+text = "Disc Library"
+
+[node name="DiscLibraryRow" type="HBoxContainer" parent="Tabs/General/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DiscLibraryEdit" type="LineEdit" parent="Tabs/General/Grid/DiscLibraryRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Folder containing your disc rips (ISOs, VIDEO_TS or BDMV folders)"
+
+[node name="BrowseDiscLibraryButton" type="Button" parent="Tabs/General/Grid/DiscLibraryRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse..."
+
+[node name="ClearCacheButtonLabel" type="Label" parent="Tabs/General/Grid"]
+layout_mode = 2
+text = "Disc fingerprint cache"
+
+[node name="ClearCacheButton" type="Button" parent="Tabs/General/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Clear Cache and Rescan"
+tooltip_text = "Forget all cached disc fingerprints and rescan the Disc Library"
+
+[node name="ShortClipSpinLabel" type="Label" parent="Tabs/General/Grid"]
+layout_mode = 2
+text = "Short clips are under"
+
+[node name="ShortClipSpin" type="SpinBox" parent="Tabs/General/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Unnamed clips shorter than this, such as menu loops and logos, are hidden in the Clip Renamer when \"Hide short clips\" is ticked"
+min_value = 1.0
+max_value = 600.0
+value = 12.0
+rounded = true
+suffix = "seconds"
+
+[node name="ThemeOptionLabel" type="Label" parent="Tabs/General/Grid"]
+layout_mode = 2
+text = "Theme"
+
+[node name="ThemeOption" type="OptionButton" parent="Tabs/General/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 3
+popup/item_0/text = "System"
+popup/item_0/id = 0
+popup/item_1/text = "Dark"
+popup/item_1/id = 1
+popup/item_2/text = "Light"
+popup/item_2/id = 2
+
+[node name="RecentCountSpinLabel" type="Label" parent="Tabs/General/Grid"]
+layout_mode = 2
+text = "Recent projects to remember"
+
+[node name="RecentCountSpin" type="SpinBox" parent="Tabs/General/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 30.0
+value = 10.0
+
+[node name="CheckUpdatesCheckLabel" type="Label" parent="Tabs/General/Grid"]
+layout_mode = 2
+text = "Check for updates on startup"
+
+[node name="CheckUpdatesCheck" type="CheckBox" parent="Tabs/General/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+button_pressed = true
+
+[node name="Tools" type="MarginContainer" parent="Tabs"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+metadata/_tab_index = 1
+
+[node name="Grid" type="GridContainer" parent="Tabs/Tools"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="FfmpegPathLabel" type="Label" parent="Tabs/Tools/Grid"]
+layout_mode = 2
+text = "FFmpeg"
+
+[node name="FfmpegPathRow" type="HBoxContainer" parent="Tabs/Tools/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FfmpegPathEdit" type="LineEdit" parent="Tabs/Tools/Grid/FfmpegPathRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Use ffmpeg from PATH"
+
+[node name="BrowseFfmpegPathButton" type="Button" parent="Tabs/Tools/Grid/FfmpegPathRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse..."
+
+[node name="FfprobePathLabel" type="Label" parent="Tabs/Tools/Grid"]
+layout_mode = 2
+text = "FFprobe"
+
+[node name="FfprobePathRow" type="HBoxContainer" parent="Tabs/Tools/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FfprobePathEdit" type="LineEdit" parent="Tabs/Tools/Grid/FfprobePathRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Use ffprobe from PATH"
+
+[node name="BrowseFfprobePathButton" type="Button" parent="Tabs/Tools/Grid/FfprobePathRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse..."
+
+[node name="MakeMkvPathLabel" type="Label" parent="Tabs/Tools/Grid"]
+layout_mode = 2
+text = "MakeMKV (makemkvcon)"
+
+[node name="MakeMkvPathRow" type="HBoxContainer" parent="Tabs/Tools/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MakeMkvPathEdit" type="LineEdit" parent="Tabs/Tools/Grid/MakeMkvPathRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Use makemkvcon from PATH"
+
+[node name="BrowseMakeMkvPathButton" type="Button" parent="Tabs/Tools/Grid/MakeMkvPathRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse..."
+
+[node name="Online" type="MarginContainer" parent="Tabs"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+metadata/_tab_index = 2
+
+[node name="Grid" type="GridContainer" parent="Tabs/Online"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="TmdbKeyLabel" type="Label" parent="Tabs/Online/Grid"]
+layout_mode = 2
+text = "TMDB API key"
+
+[node name="TmdbKeyRow" type="HBoxContainer" parent="Tabs/Online/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TmdbKeyEdit" type="LineEdit" parent="Tabs/Online/Grid/TmdbKeyRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+secret = true
+placeholder_text = "API key or read access token"
+
+[node name="TestTmdbKeyButton" type="Button" parent="Tabs/Online/Grid/TmdbKeyRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Test"
+tooltip_text = "Check that this key works"
+
+[node name="TmdbKeyLinkLabel" type="Label" parent="Tabs/Online/Grid"]
+layout_mode = 2
+text = ""
+
+[node name="TmdbKeyLink" type="LinkButton" parent="Tabs/Online/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Get a free TMDB key..."
+uri = "https://www.themoviedb.org/settings/api"
+
+[node name="TvdbKeyLabel" type="Label" parent="Tabs/Online/Grid"]
+layout_mode = 2
+text = "TVDB API key"
+
+[node name="TvdbKeyRow" type="HBoxContainer" parent="Tabs/Online/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TvdbKeyEdit" type="LineEdit" parent="Tabs/Online/Grid/TvdbKeyRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+secret = true
+placeholder_text = "TVDB v4 API key"
+
+[node name="TestTvdbKeyButton" type="Button" parent="Tabs/Online/Grid/TvdbKeyRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Test"
+tooltip_text = "Check that this key (and PIN) works"
+
+[node name="TvdbPinLabel" type="Label" parent="Tabs/Online/Grid"]
+layout_mode = 2
+text = "TVDB subscriber PIN"
+
+[node name="TvdbPinEdit" type="LineEdit" parent="Tabs/Online/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+secret = true
+placeholder_text = "Only for user-supported keys"
+tooltip_text = "A \"user-supported\" TVDB key also needs your TVDB subscriber PIN. Leave it blank for other keys."
+
+[node name="TvdbKeyLinkLabel" type="Label" parent="Tabs/Online/Grid"]
+layout_mode = 2
+text = ""
+
+[node name="TvdbKeyLink" type="LinkButton" parent="Tabs/Online/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Get a TVDB key..."
+uri = "https://thetvdb.com/api-information"
+
+[node name="OmdbKeyLabel" type="Label" parent="Tabs/Online/Grid"]
+layout_mode = 2
+text = "IMDb (OMDb) API key"
+
+[node name="OmdbKeyRow" type="HBoxContainer" parent="Tabs/Online/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OmdbKeyEdit" type="LineEdit" parent="Tabs/Online/Grid/OmdbKeyRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+secret = true
+placeholder_text = "OMDb API key"
+
+[node name="TestOmdbKeyButton" type="Button" parent="Tabs/Online/Grid/OmdbKeyRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Test"
+tooltip_text = "Check that this key works"
+
+[node name="OmdbKeyLinkLabel" type="Label" parent="Tabs/Online/Grid"]
+layout_mode = 2
+text = ""
+
+[node name="OmdbKeyLink" type="LinkButton" parent="Tabs/Online/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Get a free OMDb key..."
+uri = "https://www.omdbapi.com/apikey.aspx"
+tooltip_text = "IMDb doesn't offer personal API keys; OMDb provides IMDb's data."
+
+[node name="MetadataLanguageEditLabel" type="Label" parent="Tabs/Online/Grid"]
+layout_mode = 2
+text = "Metadata language"
+
+[node name="MetadataLanguageEdit" type="LineEdit" parent="Tabs/Online/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "en-US"
+tooltip_text = "Language and region for titles, overviews and ratings, e.g. en-US, en-GB or fr-FR."
+
+[node name="OnlineTestResultLabelLabel" type="Label" parent="Tabs/Online/Grid"]
+layout_mode = 2
+text = ""
+
+[node name="OnlineTestResultLabel" type="Label" parent="Tabs/Online/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(420, 0)
+autowrap_mode = 3
+modulate = Color(1, 1, 1, 0.75)
+
+[node name="Encoding" type="MarginContainer" parent="Tabs"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+metadata/_tab_index = 3
+
+[node name="Grid" type="GridContainer" parent="Tabs/Encoding"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="VideoCodecOptionLabel" type="Label" parent="Tabs/Encoding/Grid"]
+layout_mode = 2
+text = "Default video codec"
+
+[node name="VideoCodecOption" type="OptionButton" parent="Tabs/Encoding/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 2
+item_count = 4
+popup/item_0/text = "Copy (no re-encode)"
+popup/item_0/id = 0
+popup/item_1/text = "H.264 (libx264)"
+popup/item_1/id = 1
+popup/item_2/text = "H.265 / HEVC (libx265)"
+popup/item_2/id = 2
+popup/item_3/text = "AV1 (libsvtav1)"
+popup/item_3/id = 3
+
+[node name="CrfSpinLabel" type="Label" parent="Tabs/Encoding/Grid"]
+layout_mode = 2
+text = "Quality (CRF)"
+
+[node name="CrfSpin" type="SpinBox" parent="Tabs/Encoding/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 51.0
+value = 20.0
+
+[node name="PresetOptionLabel" type="Label" parent="Tabs/Encoding/Grid"]
+layout_mode = 2
+text = "Encoder preset"
+
+[node name="PresetOption" type="OptionButton" parent="Tabs/Encoding/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 6
+item_count = 9
+popup/item_0/text = "ultrafast"
+popup/item_0/id = 0
+popup/item_1/text = "superfast"
+popup/item_1/id = 1
+popup/item_2/text = "veryfast"
+popup/item_2/id = 2
+popup/item_3/text = "faster"
+popup/item_3/id = 3
+popup/item_4/text = "fast"
+popup/item_4/id = 4
+popup/item_5/text = "medium"
+popup/item_5/id = 5
+popup/item_6/text = "slow"
+popup/item_6/id = 6
+popup/item_7/text = "slower"
+popup/item_7/id = 7
+popup/item_8/text = "veryslow"
+popup/item_8/id = 8
+
+[node name="AudioCodecOptionLabel" type="Label" parent="Tabs/Encoding/Grid"]
+layout_mode = 2
+text = "Default audio codec"
+
+[node name="AudioCodecOption" type="OptionButton" parent="Tabs/Encoding/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 5
+popup/item_0/text = "Copy (no re-encode)"
+popup/item_0/id = 0
+popup/item_1/text = "AAC"
+popup/item_1/id = 1
+popup/item_2/text = "AC-3 (Dolby Digital)"
+popup/item_2/id = 2
+popup/item_3/text = "E-AC-3"
+popup/item_3/id = 3
+popup/item_4/text = "Opus"
+popup/item_4/id = 4
+
+[node name="HwAccelOptionLabel" type="Label" parent="Tabs/Encoding/Grid"]
+layout_mode = 2
+text = "Hardware acceleration"
+
+[node name="HwAccelOption" type="OptionButton" parent="Tabs/Encoding/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 4
+popup/item_0/text = "None"
+popup/item_0/id = 0
+popup/item_1/text = "NVIDIA NVENC"
+popup/item_1/id = 1
+popup/item_2/text = "VAAPI"
+popup/item_2/id = 2
+popup/item_3/text = "Intel Quick Sync"
+popup/item_3/id = 3
+
+[node name="Library" type="MarginContainer" parent="Tabs"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+metadata/_tab_index = 4
+
+[node name="Grid" type="GridContainer" parent="Tabs/Library"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="MoviesLibraryLabel" type="Label" parent="Tabs/Library/Grid"]
+layout_mode = 2
+text = "Emby Movies library"
+
+[node name="MoviesLibraryRow" type="HBoxContainer" parent="Tabs/Library/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MoviesLibraryEdit" type="LineEdit" parent="Tabs/Library/Grid/MoviesLibraryRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "The folder of your Emby library for movies"
+tooltip_text = "Export writes movie projects here, each in its own folder."
+
+[node name="BrowseMoviesLibraryButton" type="Button" parent="Tabs/Library/Grid/MoviesLibraryRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse..."
+
+[node name="ShowsLibraryLabel" type="Label" parent="Tabs/Library/Grid"]
+layout_mode = 2
+text = "Emby TV Shows library"
+
+[node name="ShowsLibraryRow" type="HBoxContainer" parent="Tabs/Library/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ShowsLibraryEdit" type="LineEdit" parent="Tabs/Library/Grid/ShowsLibraryRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "The folder of your Emby library for TV shows"
+tooltip_text = "Export writes show projects here, each in its own folder."
+
+[node name="BrowseShowsLibraryButton" type="Button" parent="Tabs/Library/Grid/ShowsLibraryRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse..."
+
+[node name="MovieFormatEditLabel" type="Label" parent="Tabs/Library/Grid"]
+layout_mode = 2
+text = "Movie folder format"
+
+[node name="MovieFormatEdit" type="LineEdit" parent="Tabs/Library/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "{Title} ({Year})"
+
+[node name="ShowFormatEditLabel" type="Label" parent="Tabs/Library/Grid"]
+layout_mode = 2
+text = "Show folder format"
+
+[node name="ShowFormatEdit" type="LineEdit" parent="Tabs/Library/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "{Show} ({Year})"
+
+[node name="EpisodeFormatEditLabel" type="Label" parent="Tabs/Library/Grid"]
+layout_mode = 2
+text = "Episode file format"
+
+[node name="EpisodeFormatEdit" type="LineEdit" parent="Tabs/Library/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "{Show} - S{Season:00}E{Episode:00} - {EpisodeTitle}"
+
+[node name="ExtrasFolderEditLabel" type="Label" parent="Tabs/Library/Grid"]
+layout_mode = 2
+text = "Extras folder name"
+
+[node name="ExtrasFolderEdit" type="LineEdit" parent="Tabs/Library/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "extras"
+
+[node name="Server" type="MarginContainer" parent="Tabs"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+metadata/_tab_index = 5
+
+[node name="Layout" type="VBoxContainer" parent="Tabs/Server"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ServerHelpLabel" type="Label" parent="Tabs/Server/Layout"]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+text = "A render server is another computer running DVD Xporter Render Server (dvdx-server). The Export step can send it files to export into its own library, so this computer is free while they're made. Its discs are marked on the project overview, and the Clip Renamer can play them."
+autowrap_mode = 3
+modulate = Color(1, 1, 1, 0.75)
+
+[node name="ServerWarningLabel" type="Label" parent="Tabs/Server/Layout"]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.72, 0.29, 1)
+text = "Only use a render server on a local network you trust. Projects and discs are sent to it unencrypted, and anyone on the network with its access key can export with it."
+autowrap_mode = 3
+
+[node name="Grid" type="GridContainer" parent="Tabs/Server/Layout"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="ServerAddressLabel" type="Label" parent="Tabs/Server/Layout/Grid"]
+layout_mode = 2
+text = "Server address"
+
+[node name="ServerAddressRow" type="HBoxContainer" parent="Tabs/Server/Layout/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ServerAddressEdit" type="LineEdit" parent="Tabs/Server/Layout/Grid/ServerAddressRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Name or IP address, e.g. 192.168.1.20 (blank for none)"
+tooltip_text = "Add :port if the server doesn't use the usual one (47830)."
+
+[node name="FindServersButton" type="Button" parent="Tabs/Server/Layout/Grid/ServerAddressRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Look for render servers on this network"
+text = "Find on Network"
+
+[node name="ServerKeyLabel" type="Label" parent="Tabs/Server/Layout/Grid"]
+layout_mode = 2
+text = "Access key"
+
+[node name="ServerKeyRow" type="HBoxContainer" parent="Tabs/Server/Layout/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ServerKeyEdit" type="LineEdit" parent="Tabs/Server/Layout/Grid/ServerKeyRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+secret = true
+placeholder_text = "Shown on the server when it's set up (or run: dvdx-server key)"
+
+[node name="TestServerButton" type="Button" parent="Tabs/Server/Layout/Grid/ServerKeyRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Check that the server can be reached and takes this key"
+text = "Test"
+
+[node name="ServerResultLabelLabel" type="Label" parent="Tabs/Server/Layout/Grid"]
+layout_mode = 2
+text = ""
+
+[node name="ServerResultLabel" type="Label" parent="Tabs/Server/Layout/Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+autowrap_mode = 3
+modulate = Color(1, 1, 1, 0.75)
+
+[node name="FoundServersMenu" type="PopupMenu" parent="."]
+unique_name_in_owner = true
+
+[node name="BrowseDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+size = Vector2i(720, 460)
+ok_button_text = "Select"
+mode_overrides_title = false
+access = 2
+use_native_dialog = true
+
+[connection signal="about_to_popup" from="." to="." method="On_AboutToPopup"]
+[connection signal="dir_selected" from="BrowseDialog" to="." method="On_BrowseDialog_PathChosen"]
+[connection signal="file_selected" from="BrowseDialog" to="." method="On_BrowseDialog_PathChosen"]
+[connection signal="pressed" from="Tabs/General/Grid/DiscLibraryRow/BrowseDiscLibraryButton" to="." method="On_BrowseDiscLibraryButton_Pressed"]
+[connection signal="pressed" from="Tabs/General/Grid/ClearCacheButton" to="." method="On_ClearCacheButton_Pressed"]
+[connection signal="pressed" from="Tabs/Tools/Grid/FfmpegPathRow/BrowseFfmpegPathButton" to="." method="On_BrowseFfmpegPathButton_Pressed"]
+[connection signal="pressed" from="Tabs/Tools/Grid/FfprobePathRow/BrowseFfprobePathButton" to="." method="On_BrowseFfprobePathButton_Pressed"]
+[connection signal="pressed" from="Tabs/Tools/Grid/MakeMkvPathRow/BrowseMakeMkvPathButton" to="." method="On_BrowseMakeMkvPathButton_Pressed"]
+[connection signal="pressed" from="Tabs/Online/Grid/TmdbKeyRow/TestTmdbKeyButton" to="." method="On_TestTmdbKeyButton_Pressed"]
+[connection signal="pressed" from="Tabs/Online/Grid/TvdbKeyRow/TestTvdbKeyButton" to="." method="On_TestTvdbKeyButton_Pressed"]
+[connection signal="pressed" from="Tabs/Online/Grid/OmdbKeyRow/TestOmdbKeyButton" to="." method="On_TestOmdbKeyButton_Pressed"]
+[connection signal="pressed" from="Tabs/Library/Grid/MoviesLibraryRow/BrowseMoviesLibraryButton" to="." method="On_BrowseMoviesLibraryButton_Pressed"]
+[connection signal="pressed" from="Tabs/Library/Grid/ShowsLibraryRow/BrowseShowsLibraryButton" to="." method="On_BrowseShowsLibraryButton_Pressed"]
+[connection signal="pressed" from="Tabs/Server/Layout/Grid/ServerAddressRow/FindServersButton" to="." method="On_FindServersButton_Pressed"]
+[connection signal="pressed" from="Tabs/Server/Layout/Grid/ServerKeyRow/TestServerButton" to="." method="On_TestServerButton_Pressed"]
+[connection signal="id_pressed" from="FoundServersMenu" to="." method="On_FoundServersMenu_IdPressed"]

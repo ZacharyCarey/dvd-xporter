@@ -1,0 +1,51 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/Project/AddDiscPicker.cs" id="1_picker"]
+[ext_resource type="PackedScene" path="res://scenes/Project/LibraryPickerDialog.tscn" id="2_library"]
+
+[node name="AddDiscPicker" type="Node"]
+script = ExtResource("1_picker")
+
+[node name="Menu" type="PopupMenu" parent="."]
+unique_name_in_owner = true
+item_count = 3
+item_0/text = "From Disc Library..."
+item_0/id = 0
+item_1/text = "From Folder..."
+item_1/id = 1
+item_2/text = "From Image (ISO)..."
+item_2/id = 2
+
+[node name="FolderDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Add Disc from Folder"
+mode_overrides_title = false
+file_mode = 2
+access = 2
+use_native_dialog = true
+option_count = 1
+option_0/name = "Check every frame for interlacing"
+option_0/values = PackedStringArray("On DVDs", "On all discs", "Off")
+option_0/default = 0
+
+[node name="ImageDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Add Disc from Image"
+mode_overrides_title = false
+file_mode = 1
+access = 2
+filters = PackedStringArray("*.iso ; Disc Images")
+use_native_dialog = true
+option_count = 1
+option_0/name = "Check every frame for interlacing"
+option_0/values = PackedStringArray("On DVDs", "On all discs", "Off")
+option_0/default = 0
+
+[node name="LibraryPickerDialog" parent="." instance=ExtResource("2_library")]
+unique_name_in_owner = true
+
+[connection signal="id_pressed" from="Menu" to="." method="On_Menu_IdPressed"]
+[connection signal="dir_selected" from="FolderDialog" to="." method="On_FolderDialog_DirSelected"]
+[connection signal="files_selected" from="ImageDialog" to="." method="On_ImageDialog_FilesSelected"]
+[connection signal="DiscsChosen" from="LibraryPickerDialog" to="." method="On_LibraryPickerDialog_DiscsChosen"]
+[connection signal="RescanRequested" from="LibraryPickerDialog" to="." method="On_LibraryPickerDialog_RescanRequested"]

@@ -1,0 +1,64 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/Info/Editors/FilesSection.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b8yre2xufa736" path="res://icons/remove.svg" id="2_remove"]
+[ext_resource type="PackedScene" path="res://scenes/Info/DiscFilesDialog.tscn" id="3_disc_files"]
+
+[node name="FilesSection" type="VBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_script")
+RemoveIcon = ExtResource("2_remove")
+
+[node name="Spacer1" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="Header1" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Files"
+
+[node name="Hint1" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = "Files that aren't videos, such as a comic as a PDF or wallpapers: off a disc, or from this computer (copied into the project, so they go with it). They're copied as they are into a Files folder beside the videos; Emby doesn't show them."
+autowrap_mode = 3
+
+[node name="FilesTable" type="Tree" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 3
+column_titles_visible = true
+hide_root = true
+select_mode = 1
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AddFromDiscButton" type="Button" parent="Buttons"]
+layout_mode = 2
+tooltip_text = "Files or folders off one of the project's discs, besides its video."
+text = "Add from a Disc..."
+
+[node name="AddFromComputerButton" type="Button" parent="Buttons"]
+layout_mode = 2
+tooltip_text = "Files from this computer, copied into the project so they go with it."
+text = "Add from This Computer..."
+
+[node name="DiscFilesDialog" parent="." instance=ExtResource("3_disc_files")]
+unique_name_in_owner = true
+visible = false
+
+[node name="AddFilesDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Add Files"
+file_mode = 1
+access = 2
+use_native_dialog = true
+
+[connection signal="button_clicked" from="FilesTable" to="." method="On_FilesTable_ButtonClicked"]
+[connection signal="pressed" from="Buttons/AddFromDiscButton" to="." method="On_AddFromDiscButton_Pressed"]
+[connection signal="pressed" from="Buttons/AddFromComputerButton" to="." method="On_AddFromComputerButton_Pressed"]
+[connection signal="FilesPicked" from="DiscFilesDialog" to="." method="On_DiscFilesDialog_FilesPicked"]
+[connection signal="files_selected" from="AddFilesDialog" to="." method="On_AddFilesDialog_FilesSelected"]

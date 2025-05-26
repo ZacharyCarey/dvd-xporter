@@ -1,0 +1,47 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://dy005her2c1pw" path="res://scenes/Transcoding/NodeViews/SettingsNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/InputPortRow.tscn" id="InputPortRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/TextControl.tscn" id="TextControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ChoiceControl.tscn" id="ChoiceControl"]
+
+[node name="CustomOutputNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(300, 0)
+title = "Custom Output"
+script = ExtResource("script")
+
+[node name="InInput" parent="." instance=ExtResource("InputPortRow")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Output"
+InputKey = "in"
+NamedByPort = true
+
+[node name="NameRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "name"
+
+[node name="Label" parent="NameRow" index="0"]
+text = "Name"
+
+[node name="Name" parent="NameRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="KindRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "kind"
+
+[node name="Label" parent="KindRow" index="0"]
+text = "Kind"
+
+[node name="Kind" parent="KindRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="NameRow"]
+[editable path="KindRow"]

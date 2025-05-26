@@ -1,0 +1,41 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://sb8f5map53p5" path="res://scenes/Clips/PlaylistImportPopup.cs" id="1_popup"]
+
+[node name="PlaylistImportPopup" type="PopupPanel"]
+script = ExtResource("1_popup")
+
+[node name="Box" type="VBoxContainer" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 96.0
+offset_bottom = 96.0
+theme_override_constants/separation = 8
+
+[node name="Hint" type="Label" parent="Box"]
+modulate = Color(1, 1, 1, 0.55)
+layout_mode = 2
+text = "Pick one of the disc's playlists. Unfold one to see its video files."
+
+[node name="Tree" type="Tree" parent="Box"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+columns = 3
+column_titles_visible = true
+hide_root = true
+select_mode = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Box"]
+layout_mode = 2
+alignment = 2
+
+[node name="ImportButton" type="Button" parent="Box/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+text = "Import"
+
+[connection signal="item_selected" from="Box/Tree" to="." method="On_Tree_ItemSelected"]
+[connection signal="item_activated" from="Box/Tree" to="." method="On_Tree_ItemActivated"]
+[connection signal="pressed" from="Box/Buttons/ImportButton" to="." method="On_ImportButton_Pressed"]

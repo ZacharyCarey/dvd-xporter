@@ -1,0 +1,226 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/VlcPlayer/VlcPlayer.cs" id="1_vlc"]
+
+[sub_resource type="Shader" id="Shader_bgrx"]
+code = "shader_type canvas_item;
+
+// VLC's RV32 frames are stored B, G, R, unused; show them as RGB.
+void fragment() {
+	vec4 c = texture(TEXTURE, UV);
+	COLOR = vec4(c.b, c.g, c.r, 1.0);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bgrx"]
+shader = SubResource("Shader_bgrx")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frame"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bubble"]
+content_margin_left = 6.0
+content_margin_top = 2.0
+content_margin_right = 6.0
+content_margin_bottom = 2.0
+bg_color = Color(0.1, 0.1, 0.11, 0.92)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_debug"]
+content_margin_left = 7.0
+content_margin_top = 7.0
+content_margin_right = 7.0
+content_margin_bottom = 7.0
+bg_color = Color(0.230469, 0.230469, 0.230469, 0.556863)
+corner_radius_bottom_right = 14
+
+[node name="VlcPlayer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vlc")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="FramePanel" type="PanelContainer" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_frame")
+
+[node name="Aspect" type="AspectRatioContainer" parent="VBox/FramePanel"]
+unique_name_in_owner = true
+layout_mode = 2
+ratio = 1.7778
+
+[node name="Frame" type="TextureRect" parent="VBox/FramePanel/Aspect"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_bgrx")
+layout_mode = 2
+expand_mode = 1
+
+[node name="EmptyLabel" type="Label" parent="VBox/FramePanel"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.55)
+layout_mode = 2
+text = "No video selected"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="BottomPanel" type="PanelContainer" parent="VBox"]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="VBox/BottomPanel"]
+layout_mode = 2
+
+[node name="Timeline" type="HSlider" parent="VBox/BottomPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+step = 1.0
+
+[node name="Buttons" type="HBoxContainer" parent="VBox/BottomPanel/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="PrevFrameButton" type="Button" parent="VBox/BottomPanel/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+tooltip_text = "Previous frame (seeks back one frame's time)"
+focus_mode = 0
+text = "◀|"
+
+[node name="PlayPauseButton" type="Button" parent="VBox/BottomPanel/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+focus_mode = 0
+text = "▶"
+
+[node name="NextFrameButton" type="Button" parent="VBox/BottomPanel/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+tooltip_text = "Next frame"
+focus_mode = 0
+text = "|▶"
+
+[node name="Info" type="HBoxContainer" parent="VBox/BottomPanel/VBox"]
+layout_mode = 2
+
+[node name="TimeLabel" type="Label" parent="VBox/BottomPanel/VBox/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0:00:00.000 / 0:00:00.000"
+
+[node name="VolumeLabel" type="Label" parent="VBox/BottomPanel/VBox/Info"]
+layout_mode = 2
+text = "Volume:"
+
+[node name="VolumeSlider" type="HSlider" parent="VBox/BottomPanel/VBox/Info"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Volume: 75%"
+focus_mode = 0
+max_value = 125.0
+value = 75.0
+tick_count = 6
+ticks_on_borders = true
+
+[node name="AudioLabel" type="Label" parent="VBox/BottomPanel/VBox/Info"]
+layout_mode = 2
+text = "Audio:"
+
+[node name="AudioOption" type="OptionButton" parent="VBox/BottomPanel/VBox/Info"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+disabled = true
+fit_to_longest_item = false
+
+[node name="SubtitleLabel" type="Label" parent="VBox/BottomPanel/VBox/Info"]
+layout_mode = 2
+text = "Subtitles:"
+
+[node name="SubtitleOption" type="OptionButton" parent="VBox/BottomPanel/VBox/Info"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+disabled = true
+fit_to_longest_item = false
+
+[node name="Deinterlace" type="CheckButton" parent="VBox/BottomPanel/VBox/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Smooth out interlacing (yadif) while previewing. Off shows the video as stored, so interlaced sources show combing on motion."
+focus_mode = 0
+text = "Deinterlace"
+
+[node name="AutoPlay" type="CheckButton" parent="VBox/BottomPanel/VBox/Info"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "Auto-play"
+
+[node name="VolumeBubble" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bubble")
+
+[node name="VolumeBubbleLabel" type="Label" parent="VolumeBubble"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "75%"
+horizontal_alignment = 1
+
+[node name="Debug" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DebugPanel" type="PanelContainer" parent="Debug"]
+layout_mode = 0
+offset_right = 260.0
+offset_bottom = 40.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_debug")
+
+[node name="DebugLabel" type="Label" parent="Debug/DebugPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Player: VLC (LibVLCSharp)"
+
+[connection signal="pressed" from="VBox/BottomPanel/VBox/Buttons/PrevFrameButton" to="." method="On_PrevFrameButton_Pressed"]
+[connection signal="pressed" from="VBox/BottomPanel/VBox/Buttons/PlayPauseButton" to="." method="On_PlayPauseButton_Pressed"]
+[connection signal="pressed" from="VBox/BottomPanel/VBox/Buttons/NextFrameButton" to="." method="On_NextFrameButton_Pressed"]
+[connection signal="drag_started" from="VBox/BottomPanel/VBox/Timeline" to="." method="OnTimelineDragStarted"]
+[connection signal="drag_ended" from="VBox/BottomPanel/VBox/Timeline" to="." method="OnTimelineDragEnded"]
+[connection signal="value_changed" from="VBox/BottomPanel/VBox/Timeline" to="." method="OnTimelineValueChanged"]
+[connection signal="value_changed" from="VBox/BottomPanel/VBox/Info/VolumeSlider" to="." method="On_VolumeSlider_ValueChanged"]
+[connection signal="drag_started" from="VBox/BottomPanel/VBox/Info/VolumeSlider" to="." method="On_VolumeSlider_DragStarted"]
+[connection signal="drag_ended" from="VBox/BottomPanel/VBox/Info/VolumeSlider" to="." method="On_VolumeSlider_DragEnded"]
+[connection signal="item_selected" from="VBox/BottomPanel/VBox/Info/AudioOption" to="." method="On_AudioOption_ItemSelected"]
+[connection signal="item_selected" from="VBox/BottomPanel/VBox/Info/SubtitleOption" to="." method="On_SubtitleOption_ItemSelected"]
+[connection signal="toggled" from="VBox/BottomPanel/VBox/Info/Deinterlace" to="." method="On_Deinterlace_Toggled"]

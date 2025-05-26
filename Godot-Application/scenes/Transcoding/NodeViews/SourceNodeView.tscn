@@ -1,0 +1,99 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://bvh62s3f4231d" path="res://scenes/Transcoding/NodeViews/SourceNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="row"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ChoiceControl.tscn" id="choice"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ModeChoiceControl.tscn" id="mode"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/TextControl.tscn" id="text"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/HintRow.tscn" id="hint"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/OutputPortRow.tscn" id="port"]
+
+[node name="SourceNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(440, 0)
+title = "Disc Video"
+script = ExtResource("script")
+
+[node name="DiscRow" parent="." instance=ExtResource("row")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" parent="DiscRow" index="0"]
+text = "Disc"
+
+[node name="Disc" parent="DiscRow" instance=ExtResource("choice")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ItemRow" parent="." instance=ExtResource("row")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" parent="ItemRow" index="0"]
+text = "Video"
+
+[node name="Item" parent="ItemRow" instance=ExtResource("choice")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Length" parent="." instance=ExtResource("hint")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Picture" parent="." instance=ExtResource("hint")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Range" parent="." instance=ExtResource("hint")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Chapters" parent="." instance=ExtResource("port")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Chapters"
+
+[node name="StartRow" parent="." instance=ExtResource("row")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" parent="StartRow" index="0"]
+text = "Start"
+
+[node name="StartBy" parent="StartRow" instance=ExtResource("mode")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Start" parent="StartRow" instance=ExtResource("text")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="StartChapter" parent="StartRow" instance=ExtResource("choice")]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+
+[node name="EndRow" parent="." instance=ExtResource("row")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" parent="EndRow" index="0"]
+text = "End"
+
+[node name="EndBy" parent="EndRow" instance=ExtResource("mode")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="End" parent="EndRow" instance=ExtResource("text")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EndChapter" parent="EndRow" instance=ExtResource("choice")]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+
+[editable path="DiscRow"]
+[editable path="ItemRow"]
+[editable path="StartRow"]
+[editable path="EndRow"]

@@ -1,0 +1,117 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://cfjyb18jms3t6" path="res://scenes/Info/ImageSlot.cs" id="1_slot"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frame"]
+bg_color = Color(0, 0, 0, 0.25)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.12)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="ImageSlot" type="VBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+theme_override_constants/separation = 4
+script = ExtResource("1_slot")
+
+[node name="TitleLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Poster"
+
+[node name="HintLabel" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.55)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "2:3"
+
+[node name="Frame" type="AspectRatioContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+ratio = 0.6667
+
+[node name="PreviewArea" type="Panel" parent="Frame"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_frame")
+
+[node name="Preview" type="TextureRect" parent="Frame/PreviewArea"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EmptyLabel" type="Label" parent="Frame/PreviewArea"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.45)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 13
+text = "No image"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InfoLabel" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.55)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ChooseButton" type="Button" parent="Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Choose..."
+
+[node name="OnlineButton" type="Button" parent="Buttons"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "TMDB..."
+
+[node name="RemoveButton" type="Button" parent="Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "Remove"
+
+[node name="ChooseDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Choose Image"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.jpg, *.jpeg, *.png, *.webp ; Images")
+use_native_dialog = true
+
+[connection signal="gui_input" from="Frame/PreviewArea" to="." method="On_PreviewArea_GuiInput"]
+[connection signal="pressed" from="Buttons/ChooseButton" to="." method="On_ChooseButton_Pressed"]
+[connection signal="pressed" from="Buttons/OnlineButton" to="." method="On_OnlineButton_Pressed"]
+[connection signal="pressed" from="Buttons/RemoveButton" to="." method="On_RemoveButton_Pressed"]
+[connection signal="file_selected" from="ChooseDialog" to="." method="On_ChooseDialog_FileSelected"]

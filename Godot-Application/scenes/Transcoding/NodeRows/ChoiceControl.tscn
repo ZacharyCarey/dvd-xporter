@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://cv6i3wb5loq7y" path="res://scenes/Transcoding/NodeRows/ChoiceControl.cs" id="1_script"]
+
+[node name="ChoiceControl" type="OptionButton"]
+custom_minimum_size = Vector2(120, 0)
+size_flags_horizontal = 3
+clip_text = true
+fit_to_longest_item = false
+script = ExtResource("1_script")

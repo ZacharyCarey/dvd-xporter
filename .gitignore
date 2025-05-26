@@ -1,0 +1,19 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+.vs
+.vscode/launch.json
+.vscode/settings.json
+
+# C#
+*/bin/
+*/obj/
+Tools/*/bin/
+Tools/*/obj/
+DiscDecoders/*/bin/
+DiscDecoders/*/obj/
+
+# The render server run here with Docker (see Render-Server/README.md)
+Render-Server/data/
+Render-Server/.env
+Render-Server/*.tar.gz

@@ -1,0 +1,35 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/Project/LocateDiscPicker.cs" id="1_picker"]
+
+[node name="LocateDiscPicker" type="Node"]
+script = ExtResource("1_picker")
+
+[node name="Menu" type="PopupMenu" parent="."]
+unique_name_in_owner = true
+item_count = 2
+item_0/text = "Locate Disc Folder..."
+item_0/id = 0
+item_1/text = "Locate Disc Image (ISO)..."
+item_1/id = 1
+
+[node name="FolderDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Locate Disc Folder"
+mode_overrides_title = false
+file_mode = 2
+access = 2
+use_native_dialog = true
+
+[node name="ImageDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Locate Disc Image"
+mode_overrides_title = false
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.iso ; Disc Images")
+use_native_dialog = true
+
+[connection signal="id_pressed" from="Menu" to="." method="On_Menu_IdPressed"]
+[connection signal="dir_selected" from="FolderDialog" to="." method="On_Dialog_PathSelected"]
+[connection signal="file_selected" from="ImageDialog" to="." method="On_Dialog_PathSelected"]

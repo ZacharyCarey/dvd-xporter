@@ -1,0 +1,211 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://da5l6qe4qke6n" path="res://scenes/Info/Editors/ShowEditor.cs" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/Info/Editors/ImportRow.tscn" id="2_import"]
+[ext_resource type="PackedScene" path="res://scenes/Info/Editors/IdsSection.tscn" id="3_ids"]
+[ext_resource type="PackedScene" path="res://scenes/Info/Editors/ArtworkSection.tscn" id="4_art"]
+[ext_resource type="PackedScene" path="res://scenes/Info/Editors/FilesSection.tscn" id="6_files"]
+
+[node name="ShowEditor" type="VBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_script")
+
+[node name="ImportRow" parent="." instance=ExtResource("2_import")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Spacer1" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="Header1" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Show Details"
+
+[node name="Grid" type="GridContainer" parent="."]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="TitleLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Title"
+
+[node name="TitleEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Required"
+
+[node name="YearLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Year"
+
+[node name="YearEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "A number from 1880 to 2200, or blank."
+placeholder_text = "Year it first aired, e.g. 2002"
+
+[node name="OriginalTitleLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Original title"
+
+[node name="OriginalTitleEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "If different, e.g. in its original language"
+
+[node name="SortTitleLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Sort title"
+
+[node name="SortTitleEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Optional: the text Emby sorts the show by in the library instead of its title, written as typed."
+placeholder_text = "e.g. Office, The"
+
+[node name="PremieredLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "First aired"
+
+[node name="PremieredEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "A date like 2002-09-20, or blank."
+placeholder_text = "YYYY-MM-DD"
+
+[node name="StatusLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Status"
+
+[node name="Status" type="OptionButton" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+item_count = 3
+popup/item_0/text = "Unknown"
+popup/item_0/id = 0
+popup/item_1/text = "Continuing"
+popup/item_1/id = 1
+popup/item_2/text = "Ended"
+popup/item_2/id = 2
+
+[node name="ContentRatingLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Content rating"
+
+[node name="ContentRatingEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "e.g. TV-14"
+
+[node name="StudiosLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Networks / studios"
+
+[node name="StudiosEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Separate multiple entries with commas."
+placeholder_text = "e.g. FOX"
+
+[node name="GenresLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Genres"
+
+[node name="GenresEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Separate multiple entries with commas."
+placeholder_text = "e.g. Drama, Sci-Fi"
+
+[node name="TagsLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Tags"
+
+[node name="TagsEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Separate multiple entries with commas."
+
+[node name="OverviewLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 0
+text = "Overview"
+
+[node name="OverviewEdit" type="TextEdit" parent="Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "What the show is about"
+wrap_mode = 1
+
+[node name="Ids" parent="." instance=ExtResource("3_ids")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Artwork" parent="." instance=ExtResource("4_art")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Files" parent="." instance=ExtResource("6_files")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Spacer2" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="Header2" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Seasons"
+
+[node name="SeasonsHint" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = ""
+autowrap_mode = 3
+
+[connection signal="ImportRequested" from="ImportRow" to="." method="On_ImportRow_ImportRequested"]
+[connection signal="text_changed" from="Grid/TitleEdit" to="." method="On_TitleEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/YearEdit" to="." method="On_YearEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/OriginalTitleEdit" to="." method="On_OriginalTitleEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/SortTitleEdit" to="." method="On_SortTitleEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/PremieredEdit" to="." method="On_PremieredEdit_TextChanged"]
+[connection signal="item_selected" from="Grid/Status" to="." method="On_Status_ItemSelected"]
+[connection signal="text_changed" from="Grid/ContentRatingEdit" to="." method="On_ContentRatingEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/StudiosEdit" to="." method="On_StudiosEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/GenresEdit" to="." method="On_GenresEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/TagsEdit" to="." method="On_TagsEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/OverviewEdit" to="." method="On_OverviewEdit_TextChanged"]
+[connection signal="Edited" from="Ids" to="." method="On_Section_Edited"]
+[connection signal="StatusChanged" from="Ids" to="." method="On_Section_StatusChanged"]
+[connection signal="Edited" from="Files" to="." method="On_Section_Edited"]
+[connection signal="StatusChanged" from="Files" to="." method="On_Section_StatusChanged"]
+[connection signal="Edited" from="Artwork" to="." method="On_Section_Edited"]
+[connection signal="StatusChanged" from="Artwork" to="." method="On_Section_StatusChanged"]

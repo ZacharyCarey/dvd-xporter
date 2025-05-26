@@ -1,0 +1,273 @@
+[gd_scene format=3 uid="uid://dja5xfhhiyj3e"]
+
+[ext_resource type="Script" uid="uid://cdqsw6hqu30td" path="res://scenes/Project/ProjectPage.cs" id="1_page"]
+[ext_resource type="PackedScene" uid="uid://wj4jtwat2e4d" path="res://scenes/Project/StepButton.tscn" id="2_sbhwj"]
+[ext_resource type="PackedScene" path="res://scenes/Project/ReleaseDialog.tscn" id="3_release"]
+[ext_resource type="Texture2D" uid="uid://b8yrcx6k2jcix" path="res://icons/step_information.svg" id="3_s7va6"]
+[ext_resource type="Texture2D" uid="uid://d3acnpx80hltj" path="res://icons/step_clip_renamer.svg" id="4_f1ktx"]
+[ext_resource type="Texture2D" uid="uid://d3lfp2hra6n0u" path="res://icons/step_transcoding.svg" id="5_ueo7c"]
+[ext_resource type="Texture2D" uid="uid://dp25nbeujl5sf" path="res://icons/step_export.svg" id="6_nb43k"]
+[ext_resource type="Texture2D" uid="uid://cijeohktv3tvf" path="res://icons/disc.svg" id="7_disc"]
+[ext_resource type="Texture2D" uid="uid://bexmbqkeiwqr0" path="res://icons/release.svg" id="8_release"]
+[ext_resource type="Texture2D" uid="uid://bhdwron3gpihh" path="res://icons/status_found.svg" id="9_found"]
+[ext_resource type="Texture2D" uid="uid://dvtar8nay8hk1" path="res://icons/status_probable.svg" id="10_probable"]
+[ext_resource type="Texture2D" uid="uid://dmarc6a8iy1sp" path="res://icons/status_missing.svg" id="11_missing"]
+[ext_resource type="Texture2D" uid="uid://kajpfxlpe3d3" path="res://icons/status_checking.svg" id="12_checking"]
+[ext_resource type="Texture2D" uid="uid://dtykyc01k6ytq" path="res://icons/locate.svg" id="13_locate"]
+[ext_resource type="Texture2D" uid="uid://choom6uadec1" path="res://icons/rescan.svg" id="14_rescan"]
+[ext_resource type="Texture2D" uid="uid://cfwmvq5c1i2pt" path="res://icons/add.svg" id="15_add"]
+[ext_resource type="Texture2D" uid="uid://csonwkyb10ub5" path="res://icons/edit.svg" id="16_edit"]
+[ext_resource type="Texture2D" uid="uid://bapwclbnfwp0q" path="res://icons/server.svg" id="18_server"]
+[ext_resource type="Script" path="res://scenes/Project/DiscTree.cs" id="17_tree"]
+[ext_resource type="PackedScene" path="res://scenes/Project/AddDiscPicker.tscn" id="18_add"]
+[ext_resource type="PackedScene" path="res://scenes/Project/LocateDiscPicker.tscn" id="19_locate"]
+
+[node name="ProjectPage" type="MarginContainer" unique_id=2081756306]
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 16
+script = ExtResource("1_page")
+
+[node name="Layout" type="VBoxContainer" parent="." unique_id=861119019]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="VBoxContainer" parent="Layout" unique_id=1229862299]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ProjectTitle" type="Label" parent="Layout/Header" unique_id=380175228]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Project Title"
+text_overrun_behavior = 3
+
+[node name="ProjectSubtitle" type="Label" parent="Layout/Header" unique_id=783435326]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.65)
+layout_mode = 2
+text = "Movie project  ·  0 discs"
+
+[node name="HeaderSeparator" type="HSeparator" parent="Layout" unique_id=1213930433]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Layout" unique_id=79006289]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="StepsPanel" type="VBoxContainer" parent="Layout/Body" unique_id=1561266800]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="StepsHeader" type="Label" parent="Layout/Body/StepsPanel" unique_id=2119965731]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Workflow"
+
+[node name="Steps" type="VBoxContainer" parent="Layout/Body/StepsPanel" unique_id=1677595096]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Information" parent="Layout/Body/StepsPanel/Steps" unique_id=633716856 instance=ExtResource("2_sbhwj")]
+unique_name_in_owner = true
+layout_mode = 2
+Title = "Show Information"
+Description = "Title, year, and other details."
+StepIcon = ExtResource("3_s7va6")
+
+[node name="ClipRenamer" parent="Layout/Body/StepsPanel/Steps" unique_id=252006063 instance=ExtResource("2_sbhwj")]
+layout_mode = 2
+StepNumber = 2
+Title = "Clip Renamer"
+Description = "Identify and name each video on the discs."
+StepIcon = ExtResource("4_f1ktx")
+
+[node name="Transcoding" parent="Layout/Body/StepsPanel/Steps" unique_id=1007985918 instance=ExtResource("2_sbhwj")]
+layout_mode = 2
+StepNumber = 3
+Title = "Transcoding"
+Description = "Choose codecs, tracks, and stream names."
+StepIcon = ExtResource("5_ueo7c")
+
+[node name="Export" parent="Layout/Body/StepsPanel/Steps" unique_id=1651868289 instance=ExtResource("2_sbhwj")]
+layout_mode = 2
+StepNumber = 4
+Title = "Export"
+Description = "Write the finished files into your Emby library."
+StepIcon = ExtResource("6_nb43k")
+
+[node name="BodySeparator" type="VSeparator" parent="Layout/Body" unique_id=575790160]
+layout_mode = 2
+
+[node name="DiscsPanel" type="VBoxContainer" parent="Layout/Body" unique_id=971490373]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="DiscsToolbar" type="HBoxContainer" parent="Layout/Body/DiscsPanel" unique_id=2080698679]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DiscsHeader" type="Label" parent="Layout/Body/DiscsPanel/DiscsToolbar" unique_id=1501472446]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "Releases & Discs"
+
+[node name="NewReleaseButton" type="Button" parent="Layout/Body/DiscsPanel/DiscsToolbar" unique_id=167770556]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Add a product, e.g. a season box set, to this project"
+text = "New Release..."
+
+[node name="AddDiscButton" type="Button" parent="Layout/Body/DiscsPanel/DiscsToolbar" unique_id=1302372112]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Add discs to the selected release"
+text = "Add Disc ▾"
+
+[node name="EditButton" type="Button" parent="Layout/Body/DiscsPanel/DiscsToolbar" unique_id=352827348]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Edit..."
+
+[node name="RemoveButton" type="Button" parent="Layout/Body/DiscsPanel/DiscsToolbar" unique_id=550990325]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Remove"
+
+[node name="MoveUpButton" type="Button" parent="Layout/Body/DiscsPanel/DiscsToolbar" unique_id=1612143673]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Move the selected release up the list, so it's preferred over those below it when several have the same episode or movie."
+disabled = true
+text = "Move Up"
+
+[node name="MoveDownButton" type="Button" parent="Layout/Body/DiscsPanel/DiscsToolbar" unique_id=369288650]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Move the selected release down the list, so those above it are preferred when several have the same episode or movie."
+disabled = true
+text = "Move Down"
+
+[node name="CopyToServerButton" type="Button" parent="Layout/Body/DiscsPanel/DiscsToolbar"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+disabled = true
+text = "Copy to Server..."
+
+[node name="DiscTree" type="Tree" parent="Layout/Body/DiscsPanel" unique_id=299786339]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+columns = 4
+column_titles_visible = true
+hide_root = true
+select_mode = 1
+script = ExtResource("17_tree")
+DiscIcon = ExtResource("7_disc")
+ReleaseIcon = ExtResource("8_release")
+FoundIcon = ExtResource("9_found")
+ProbableIcon = ExtResource("10_probable")
+MissingIcon = ExtResource("11_missing")
+CheckingIcon = ExtResource("12_checking")
+ServerIcon = ExtResource("18_server")
+LocateIcon = ExtResource("13_locate")
+RescanIcon = ExtResource("14_rescan")
+AddIcon = ExtResource("15_add")
+EditIcon = ExtResource("16_edit")
+
+[node name="ServerWarning" type="Label" parent="Layout/Body/DiscsPanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 1
+theme_override_colors/font_color = Color(0.91, 0.72, 0.29, 1)
+autowrap_mode = 3
+
+[node name="OrderHint" type="Label" parent="Layout/Body/DiscsPanel" unique_id=1715529444]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0.55)
+layout_mode = 2
+tooltip_text = "The order of releases matters when more than one has the same episode or movie, e.g. a season on both Blu-ray and DVD. Each file is made from the highest release in this list that you have the discs for, and the others are skipped. Put the version you'd rather have first. Releases you don't have are passed over, so a shared project can hold every version. You can still pick another version for a file in the Export step."
+mouse_filter = 1
+mouse_default_cursor_shape = 16
+text = "Releases higher in the list are preferred when several have the same episode or movie (e.g. Blu-ray and DVD). Hover here for more."
+autowrap_mode = 3
+
+[node name="DiscsEmptyLabel" type="Label" parent="Layout/Body/DiscsPanel" unique_id=1278015932]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+size_flags_vertical = 3
+text = "No releases yet.
+Create a release for each product (e.g. \"Season 1 (DVD)\"), then add its discs."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CopyToServerDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Copy to Server"
+ok_button_text = "Copy"
+dialog_autowrap = true
+
+[node name="RemoveDialog" type="ConfirmationDialog" parent="." unique_id=1565281954]
+unique_name_in_owner = true
+title = "Remove"
+ok_button_text = "Remove"
+
+[node name="ErrorDialog" type="AcceptDialog" parent="." unique_id=2102231803]
+unique_name_in_owner = true
+title = "Error"
+size = Vector2i(460, 160)
+dialog_autowrap = true
+
+[node name="AddDiscPicker" parent="." unique_id=1301402931 instance=ExtResource("18_add")]
+unique_name_in_owner = true
+
+[node name="LocateDiscPicker" parent="." unique_id=573346494 instance=ExtResource("19_locate")]
+unique_name_in_owner = true
+
+[node name="ReleaseDialog" parent="." unique_id=915918738 instance=ExtResource("3_release")]
+unique_name_in_owner = true
+
+[connection signal="pressed" from="Layout/Body/StepsPanel/Steps/Information" to="." method="On_ShowInfoStepButton_Pressed"]
+[connection signal="pressed" from="Layout/Body/StepsPanel/Steps/ClipRenamer" to="." method="On_ClipRenamerStepButton_Pressed"]
+[connection signal="pressed" from="Layout/Body/StepsPanel/Steps/Transcoding" to="." method="On_TranscodingStepButton_Pressed"]
+[connection signal="pressed" from="Layout/Body/StepsPanel/Steps/Export" to="." method="On_ExportStepButton_Pressed"]
+[connection signal="pressed" from="Layout/Body/DiscsPanel/DiscsToolbar/NewReleaseButton" to="." method="On_NewReleaseButton_Pressed"]
+[connection signal="pressed" from="Layout/Body/DiscsPanel/DiscsToolbar/AddDiscButton" to="." method="On_AddDiscButton_Pressed"]
+[connection signal="item_selected" from="Layout/Body/DiscsPanel/DiscTree" to="Layout/Body/DiscsPanel/DiscTree" method="On_DiscTree_ItemSelected"]
+[connection signal="nothing_selected" from="Layout/Body/DiscsPanel/DiscTree" to="Layout/Body/DiscsPanel/DiscTree" method="On_DiscTree_NothingSelected"]
+[connection signal="item_activated" from="Layout/Body/DiscsPanel/DiscTree" to="Layout/Body/DiscsPanel/DiscTree" method="On_DiscTree_ItemActivated"]
+[connection signal="item_edited" from="Layout/Body/DiscsPanel/DiscTree" to="Layout/Body/DiscsPanel/DiscTree" method="On_DiscTree_ItemEdited"]
+[connection signal="button_clicked" from="Layout/Body/DiscsPanel/DiscTree" to="Layout/Body/DiscsPanel/DiscTree" method="On_DiscTree_ButtonClicked"]
+[connection signal="SelectionChanged" from="Layout/Body/DiscsPanel/DiscTree" to="." method="On_DiscTree_SelectionChanged"]
+[connection signal="AddDiscRequested" from="Layout/Body/DiscsPanel/DiscTree" to="." method="On_DiscTree_AddDiscRequested"]
+[connection signal="EditReleaseRequested" from="Layout/Body/DiscsPanel/DiscTree" to="." method="On_DiscTree_EditReleaseRequested"]
+[connection signal="LocateRequested" from="Layout/Body/DiscsPanel/DiscTree" to="." method="On_DiscTree_LocateRequested"]
+[connection signal="RescanRequested" from="Layout/Body/DiscsPanel/DiscTree" to="." method="On_DiscTree_RescanRequested"]
+[connection signal="DiscRenamed" from="Layout/Body/DiscsPanel/DiscTree" to="." method="On_DiscTree_DiscRenamed"]
+[connection signal="pressed" from="Layout/Body/DiscsPanel/DiscsToolbar/EditButton" to="." method="On_EditButton_Pressed"]
+[connection signal="pressed" from="Layout/Body/DiscsPanel/DiscsToolbar/RemoveButton" to="." method="On_RemoveButton_Pressed"]
+[connection signal="pressed" from="Layout/Body/DiscsPanel/DiscsToolbar/MoveUpButton" to="." method="On_MoveUpButton_Pressed"]
+[connection signal="pressed" from="Layout/Body/DiscsPanel/DiscsToolbar/MoveDownButton" to="." method="On_MoveDownButton_Pressed"]
+[connection signal="pressed" from="Layout/Body/DiscsPanel/DiscsToolbar/CopyToServerButton" to="." method="On_CopyToServerButton_Pressed"]
+[connection signal="confirmed" from="CopyToServerDialog" to="." method="On_CopyToServerDialog_Confirmed"]
+[connection signal="confirmed" from="RemoveDialog" to="." method="On_RemoveDialog_Confirmed"]
+[connection signal="confirmed" from="ReleaseDialog" to="." method="On_ReleaseDialog_Confirmed"]
+[connection signal="canceled" from="ReleaseDialog" to="." method="On_ReleaseDialog_Canceled"]
+[connection signal="SourceChosen" from="AddDiscPicker" to="." method="On_AddDiscPicker_SourceChosen"]
+[connection signal="DiscsChosen" from="AddDiscPicker" to="." method="On_AddDiscPicker_DiscsChosen"]
+[connection signal="LibraryRescanRequested" from="AddDiscPicker" to="." method="On_AddDiscPicker_LibraryRescanRequested"]
+[connection signal="PathChosen" from="LocateDiscPicker" to="." method="On_LocateDiscPicker_PathChosen"]

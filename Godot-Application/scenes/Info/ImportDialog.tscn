@@ -1,0 +1,104 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://bd8ih3mbov5sj" path="res://scenes/Info/ImportDialog.cs" id="1_import"]
+
+[node name="ImportDialog" type="ConfirmationDialog"]
+title = "Import Details"
+size = Vector2i(820, 580)
+ok_button_text = "Import"
+script = ExtResource("1_import")
+
+[node name="Content" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 812.0
+offset_bottom = 531.0
+theme_override_constants/separation = 8
+
+[node name="SourceRow" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SourceLabel" type="Label" parent="Content/SourceRow"]
+layout_mode = 2
+text = "Source"
+
+[node name="SourceOption" type="OptionButton" parent="Content/SourceRow"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SearchRow" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="QueryEdit" type="LineEdit" parent="Content/SearchRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Title, or an IMDb ID like tt0303461"
+clear_button_enabled = true
+
+[node name="YearEdit" type="LineEdit" parent="Content/SearchRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+placeholder_text = "Year"
+
+[node name="SearchButton" type="Button" parent="Content/SearchRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Search"
+
+[node name="ResultsList" type="ItemList" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+fixed_icon_size = Vector2i(46, 69)
+
+[node name="MessageLabel" type="Label" parent="Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+modulate = Color(1, 1, 1, 0.7)
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="Options" type="HFlowContainer" parent="Content"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+
+[node name="DetailsCheck" type="CheckBox" parent="Content/Options"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Title, year, overview, genres, ratings, IDs and so on"
+button_pressed = true
+text = "Details"
+
+[node name="EpisodesCheck" type="CheckBox" parent="Content/Options"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Add seasons and episodes, with their titles, air dates and overviews"
+button_pressed = true
+text = "Seasons & episodes"
+
+[node name="SpecialsCheck" type="CheckBox" parent="Content/Options"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Include season 0 (specials). IMDb (OMDb) doesn't have them."
+text = "Include specials"
+
+[node name="OverwriteCheck" type="CheckBox" parent="Content/Options"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Off: only blank fields are filled in, so nothing you've typed is lost. On: imported values replace yours."
+text = "Replace what I've already entered"
+
+[connection signal="confirmed" from="." to="." method="On_Confirmed"]
+[connection signal="visibility_changed" from="." to="." method="On_VisibilityChanged"]
+[connection signal="item_selected" from="Content/SourceRow/SourceOption" to="." method="On_SourceOption_ItemSelected"]
+[connection signal="text_submitted" from="Content/SearchRow/QueryEdit" to="." method="On_Edit_TextSubmitted"]
+[connection signal="text_submitted" from="Content/SearchRow/YearEdit" to="." method="On_Edit_TextSubmitted"]
+[connection signal="pressed" from="Content/SearchRow/SearchButton" to="." method="On_SearchButton_Pressed"]
+[connection signal="item_selected" from="Content/ResultsList" to="." method="On_ResultsList_ItemSelected"]
+[connection signal="item_activated" from="Content/ResultsList" to="." method="On_ResultsList_ItemActivated"]
+[connection signal="toggled" from="Content/Options/DetailsCheck" to="." method="On_DetailsCheck_Toggled"]
+[connection signal="toggled" from="Content/Options/EpisodesCheck" to="." method="On_EpisodesCheck_Toggled"]

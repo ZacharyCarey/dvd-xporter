@@ -1,0 +1,66 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://dy005her2c1pw" path="res://scenes/Transcoding/NodeViews/SettingsNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/PortPairRow.tscn" id="PortPairRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ChoiceControl.tscn" id="ChoiceControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ToggleControl.tscn" id="ToggleControl"]
+
+[node name="DynamicRangeNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(300, 0)
+title = "Dynamic Range"
+script = ExtResource("script")
+
+[node name="InPorts" parent="." instance=ExtResource("PortPairRow")]
+unique_name_in_owner = true
+layout_mode = 2
+InputKey = "in"
+OutputKey = "out"
+
+[node name="InputLabel" parent="InPorts" index="0"]
+text = "Video"
+
+[node name="OutputLabel" parent="InPorts" index="1"]
+text = "Video"
+
+[node name="ModeRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "mode"
+
+[node name="Label" parent="ModeRow" index="0"]
+text = "Output"
+
+[node name="Mode" parent="ModeRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CurveRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "curve"
+
+[node name="Label" parent="CurveRow" index="0"]
+text = "Tone mapping"
+
+[node name="Curve" parent="CurveRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="GpuRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "gpu"
+
+[node name="Label" parent="GpuRow" index="0"]
+text = "Use the GPU"
+
+[node name="Gpu" parent="GpuRow" instance=ExtResource("ToggleControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="InPorts"]
+[editable path="ModeRow"]
+[editable path="CurveRow"]
+[editable path="GpuRow"]

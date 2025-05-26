@@ -1,0 +1,99 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://cxnysqnkygnjl" path="res://scenes/Transcoding/TrackOptionsDialog.cs" id="1_track"]
+
+[node name="TrackOptionsDialog" type="ConfirmationDialog"]
+title = "Track Options"
+script = ExtResource("1_track")
+
+[node name="Box" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 420.0
+offset_bottom = 300.0
+theme_override_constants/separation = 10
+
+[node name="SourceLabel" type="Label" parent="Box"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="Grid" type="GridContainer" parent="Box"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="TitleLabel" type="Label" parent="Box/Grid"]
+layout_mode = 2
+text = "Title"
+
+[node name="TitleEdit" type="LineEdit" parent="Box/Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+placeholder_text = "None"
+
+[node name="LanguageLabel" type="Label" parent="Box/Grid"]
+layout_mode = 2
+text = "Language"
+
+[node name="LanguageEdit" type="LineEdit" parent="Box/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "ISO 639-2 code, e.g. eng, fre, ger, jpn. Leave empty to keep the source's."
+max_length = 3
+
+[node name="DefaultLabel" type="Label" parent="Box/Grid"]
+layout_mode = 2
+text = "Default track"
+
+[node name="DefaultOption" type="OptionButton" parent="Box/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Players pick a default track of each kind unless the viewer chooses another."
+item_count = 3
+popup/item_0/text = "Automatic (first video and audio)"
+popup/item_0/id = 0
+popup/item_1/text = "Yes"
+popup/item_1/id = 1
+popup/item_2/text = "No"
+popup/item_2/id = 2
+
+[node name="Flags" type="VBoxContainer" parent="Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="forced" type="CheckBox" parent="Box/Flags"]
+layout_mode = 2
+tooltip_text = "Always shown, e.g. subtitles for foreign-language lines only."
+text = "Forced"
+
+[node name="hearing-impaired" type="CheckBox" parent="Box/Flags"]
+layout_mode = 2
+tooltip_text = "Subtitles that describe sounds as well as speech."
+text = "Hearing impaired (SDH)"
+
+[node name="visual-impaired" type="CheckBox" parent="Box/Flags"]
+layout_mode = 2
+tooltip_text = "Audio description."
+text = "Visually impaired"
+
+[node name="original" type="CheckBox" parent="Box/Flags"]
+layout_mode = 2
+tooltip_text = "The language the film or show was made in."
+text = "Original language"
+
+[node name="commentary" type="CheckBox" parent="Box/Flags"]
+layout_mode = 2
+tooltip_text = "A commentary track."
+text = "Commentary"
+
+[node name="descriptions" type="CheckBox" parent="Box/Flags"]
+layout_mode = 2
+tooltip_text = "Subtitles that describe what's on screen, for viewers who can't see it."
+text = "Text descriptions"
+
+[connection signal="confirmed" from="." to="." method="On_Confirmed"]

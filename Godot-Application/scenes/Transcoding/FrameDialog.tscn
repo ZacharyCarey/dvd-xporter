@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://bw14rpm8ykhva" path="res://scenes/Transcoding/FrameDialog.cs" id="1_frame"]
+
+[node name="FrameDialog" type="ConfirmationDialog"]
+title = "Frame"
+ok_button_text = "Save"
+script = ExtResource("1_frame")
+
+[node name="Grid" type="GridContainer" parent="."]
+custom_minimum_size = Vector2(360, 0)
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 368.0
+offset_bottom = 74.0
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="TitleLabel" type="Label" parent="Grid"]
+layout_mode = 2
+text = "Title"
+
+[node name="TitleEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "e.g. Episode audio"
+
+[node name="ColorLabel" type="Label" parent="Grid"]
+layout_mode = 2
+text = "Colour"
+
+[node name="ColorOption" type="OptionButton" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="confirmed" from="." to="." method="On_Confirmed"]

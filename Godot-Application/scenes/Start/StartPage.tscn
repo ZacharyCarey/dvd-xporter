@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://bdp7ephvd41bt"]
+
+[ext_resource type="Script" uid="uid://b41oiyy8xbv63" path="res://scenes/Start/StartPage.cs" id="1_start"]
+[ext_resource type="PackedScene" path="res://scenes/Start/NewProjectDialog.tscn" id="2_w8053"]
+
+[node name="StartPage" type="CenterContainer" unique_id=1072553988]
+script = ExtResource("1_start")
+
+[node name="Content" type="VBoxContainer" parent="." unique_id=1591038125]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Content" unique_id=1114301083]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "DVD Xporter"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Content" unique_id=972841109]
+modulate = Color(1, 1, 1, 0.7)
+layout_mode = 2
+text = "Turn your disc rips into Emby-ready movies and shows."
+horizontal_alignment = 1
+
+[node name="Actions" type="HBoxContainer" parent="Content" unique_id=540812815]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="NewProjectButton" type="MenuButton" parent="Content/Actions" unique_id=35934317]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 36)
+layout_mode = 2
+text = "New Project ▾"
+flat = false
+
+[node name="OpenProjectButton" type="Button" parent="Content/Actions" unique_id=1149149732]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 36)
+layout_mode = 2
+text = "Open Project..."
+
+[node name="ImportProjectButton" type="Button" parent="Content/Actions" unique_id=723196464]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 36)
+layout_mode = 2
+text = "Import Project"
+
+[node name="ClearRecentButton" type="Button" parent="Content/Actions" unique_id=1095683728]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 36)
+layout_mode = 2
+text = "Clear Recent"
+
+[node name="Separator" type="HSeparator" parent="Content" unique_id=1976510262]
+layout_mode = 2
+
+[node name="RecentHeader" type="Label" parent="Content" unique_id=373834346]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Recent Projects"
+
+[node name="RecentList" type="ItemList" parent="Content" unique_id=1167010472]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 220)
+layout_mode = 2
+
+[node name="RecentEmptyLabel" type="Label" parent="Content" unique_id=1321040357]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0.6)
+custom_minimum_size = Vector2(0, 220)
+layout_mode = 2
+text = "No recent projects yet. Create or open one to get started."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NewProjectDialog" parent="." unique_id=1098478052 instance=ExtResource("2_w8053")]
+unique_name_in_owner = true
+oversampling_override = 1.0
+
+[node name="OpenProjectDialog" type="FileDialog" parent="." unique_id=1091056799]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Open Project"
+size = Vector2i(760, 480)
+ok_button_text = "Open"
+mode_overrides_title = false
+file_mode = 0
+access = 2
+use_native_dialog = true
+
+[node name="ImportProjectDialog" type="FileDialog" parent="." unique_id=796770846]
+unique_name_in_owner = true
+title = "Import Project"
+mode_overrides_title = false
+file_mode = 0
+access = 2
+use_native_dialog = true
+
+[connection signal="pressed" from="Content/Actions/OpenProjectButton" to="OpenProjectDialog" method="popup_centered"]
+[connection signal="pressed" from="Content/Actions/ImportProjectButton" to="ImportProjectDialog" method="popup_centered"]
+[connection signal="pressed" from="Content/Actions/ClearRecentButton" to="." method="On_ClearRecentButton_Pressed"]
+[connection signal="item_activated" from="Content/RecentList" to="." method="On_RecentProjectActivated"]
+[connection signal="confirmed" from="NewProjectDialog" to="." method="On_CreateProject"]
+[connection signal="file_selected" from="OpenProjectDialog" to="." method="On_OpenProject"]
+[connection signal="file_selected" from="ImportProjectDialog" to="." method="On_OpenProject"]

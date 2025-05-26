@@ -1,0 +1,206 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://bnpbdi8ft2fj3" path="res://scenes/Export/ExportPage.cs" id="1_export"]
+[ext_resource type="Texture2D" uid="uid://choom6uadec1" path="res://icons/rescan.svg" id="2_rescan"]
+[ext_resource type="Texture2D" uid="uid://btxgjdy53fkdy" path="res://icons/disc_missing.svg" id="3_missing"]
+[ext_resource type="PackedScene" path="res://scenes/Export/ExportProgressDialog.tscn" id="4_progress"]
+[ext_resource type="PackedScene" path="res://scenes/Export/ExportDetailsPanel.tscn" id="5_details"]
+[ext_resource type="Script" path="res://scenes/Export/ExportFileTree.cs" id="6_tree"]
+
+[node name="ExportPage" type="MarginContainer"]
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_export")
+
+[node name="Layout" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="Layout"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BackButton" type="Button" parent="Layout/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Back to the project overview"
+text = "‹ Project Overview"
+
+[node name="TitleLabel" type="Label" parent="Layout/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "4. Export"
+
+[node name="CheckAgainButton" type="Button" parent="Layout/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Look for the project's discs again, and check every file"
+text = "Check Again"
+icon = ExtResource("2_rescan")
+
+[node name="Toolbar" type="HBoxContainer" parent="Layout"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SelectAllButton" type="Button" parent="Layout/Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Select every file that can be exported now"
+text = "Select All Valid"
+
+[node name="SelectNoneButton" type="Button" parent="Layout/Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Select None"
+
+[node name="SummaryLabel" type="Label" parent="Layout/Toolbar"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_alignment = 2
+text_overrun_behavior = 3
+
+[node name="Split" type="HSplitContainer" parent="Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="FileTree" type="Tree" parent="Layout/Split"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 8
+column_titles_visible = true
+hide_root = true
+select_mode = 1
+script = ExtResource("6_tree")
+MissingIcon = ExtResource("3_missing")
+
+[node name="DetailsPanel" parent="Layout/Split" instance=ExtResource("5_details")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Footer" type="HBoxContainer" parent="Layout"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ExportOnLabel" type="Label" parent="Layout/Footer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Export on"
+
+[node name="ExportOnOption" type="OptionButton" parent="Layout/Footer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+tooltip_text = "Export here, or send the files to your render server to export there (Settings › Server), so this computer is free"
+selected = 0
+item_count = 2
+popup/item_0/text = "This computer"
+popup/item_0/id = 0
+popup/item_1/text = "Render server"
+popup/item_1/id = 1
+
+[node name="ExportOnSeparator" type="VSeparator" parent="Layout/Footer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="LibraryFolderLabel" type="Label" parent="Layout/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Emby library"
+
+[node name="LibraryFolderEdit" type="LineEdit" parent="Layout/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+editable = false
+
+[node name="ChooseFolderButton" type="Button" parent="Layout/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Change where your Emby library is (for every project of this kind)"
+text = "Choose..."
+
+[node name="FooterSeparator" type="VSeparator" parent="Layout/Footer"]
+layout_mode = 2
+
+[node name="NfoCheck" type="CheckBox" parent="Layout/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Write .nfo files beside the videos with the details from the Information step, which Emby uses instead of looking them up"
+text = "Details (.nfo)"
+
+[node name="ArtworkCheck" type="CheckBox" parent="Layout/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Copy the Information step's artwork beside the videos (poster, fanart, episode thumbnails, ...)"
+text = "Artwork"
+
+[node name="FooterSeparator2" type="VSeparator" parent="Layout/Footer"]
+layout_mode = 2
+
+[node name="ExportToFolderButton" type="Button" parent="Layout/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Export to Folder..."
+
+[node name="ExportButton" type="Button" parent="Layout/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "Export to Emby"
+
+[node name="LibraryFolderDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Choose Emby Library Folder"
+mode_overrides_title = false
+file_mode = 2
+access = 2
+use_native_dialog = true
+
+[node name="DoneDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+title = "Export Finished"
+size = Vector2i(560, 220)
+dialog_autowrap = true
+
+[node name="ExportFolderDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Export to Folder"
+mode_overrides_title = false
+ok_button_text = "Export Here"
+file_mode = 2
+access = 2
+use_native_dialog = true
+
+[node name="ExportProgressDialog" parent="." instance=ExtResource("4_progress")]
+unique_name_in_owner = true
+
+[connection signal="pressed" from="Layout/Header/BackButton" to="." method="On_BackButton_Pressed"]
+[connection signal="pressed" from="Layout/Header/CheckAgainButton" to="." method="On_CheckAgainButton_Pressed"]
+[connection signal="pressed" from="Layout/Toolbar/SelectAllButton" to="." method="On_SelectAllButton_Pressed"]
+[connection signal="pressed" from="Layout/Toolbar/SelectNoneButton" to="." method="On_SelectNoneButton_Pressed"]
+[connection signal="item_edited" from="Layout/Split/FileTree" to="Layout/Split/FileTree" method="On_FileTree_ItemEdited"]
+[connection signal="item_selected" from="Layout/Split/FileTree" to="Layout/Split/FileTree" method="On_FileTree_ItemSelected"]
+[connection signal="item_activated" from="Layout/Split/FileTree" to="Layout/Split/FileTree" method="On_FileTree_ItemActivated"]
+[connection signal="item_collapsed" from="Layout/Split/FileTree" to="Layout/Split/FileTree" method="On_FileTree_ItemCollapsed"]
+[connection signal="SelectionChanged" from="Layout/Split/FileTree" to="." method="On_FileTree_SelectionChanged"]
+[connection signal="PicksChanged" from="Layout/Split/FileTree" to="." method="On_FileTree_PicksChanged"]
+[connection signal="SourcePicked" from="Layout/Split/FileTree" to="." method="On_FileTree_SourcePicked"]
+[connection signal="ShowInTranscodingRequested" from="Layout/Split/DetailsPanel" to="." method="On_DetailsPanel_ShowInTranscodingRequested"]
+[connection signal="item_selected" from="Layout/Footer/ExportOnOption" to="." method="On_ExportOnOption_ItemSelected"]
+[connection signal="pressed" from="Layout/Footer/ChooseFolderButton" to="." method="On_ChooseFolderButton_Pressed"]
+[connection signal="toggled" from="Layout/Footer/NfoCheck" to="." method="On_NfoCheck_Toggled"]
+[connection signal="toggled" from="Layout/Footer/ArtworkCheck" to="." method="On_ArtworkCheck_Toggled"]
+[connection signal="pressed" from="Layout/Footer/ExportToFolderButton" to="." method="On_ExportToFolderButton_Pressed"]
+[connection signal="pressed" from="Layout/Footer/ExportButton" to="." method="On_ExportButton_Pressed"]
+[connection signal="dir_selected" from="LibraryFolderDialog" to="." method="On_LibraryFolderDialog_DirSelected"]
+[connection signal="dir_selected" from="ExportFolderDialog" to="." method="On_ExportFolderDialog_DirSelected"]
+[connection signal="CancelRequested" from="ExportProgressDialog" to="." method="On_ExportProgressDialog_CancelRequested"]

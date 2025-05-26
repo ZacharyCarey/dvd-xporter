@@ -1,0 +1,10 @@
+# What the render server's image is built from (see Render-Server/Dockerfile): everything but the app, and what builds
+# and editors leave behind
+**/bin/
+**/obj/
+.git/
+.vscode/
+.godot/
+Godot-Application/
+Render-Server/data/
+Render-Server/.env

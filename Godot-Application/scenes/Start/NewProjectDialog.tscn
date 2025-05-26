@@ -1,0 +1,63 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://b7rmei6x1jd1i" path="res://scenes/Start/NewProjectDialog.cs" id="1_new"]
+
+[node name="NewProjectDialog" type="ConfirmationDialog"]
+title = "New Project"
+size = Vector2i(560, 230)
+ok_button_text = "Create"
+script = ExtResource("1_new")
+
+[node name="Content" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 552.0
+offset_bottom = 181.0
+theme_override_constants/separation = 6
+
+[node name="PromptLabel" type="Label" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Title:"
+
+[node name="NameEdit" type="LineEdit" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LocationLabel" type="Label" parent="Content"]
+layout_mode = 2
+text = "Create in:"
+
+[node name="LocationRow" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+
+[node name="LocationEdit" type="LineEdit" parent="Content/LocationRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BrowseLocationButton" type="Button" parent="Content/LocationRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse..."
+
+[node name="PreviewLabel" type="Label" parent="Content"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.6)
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+
+[node name="LocationDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Choose Project Location"
+mode_overrides_title = false
+file_mode = 2
+access = 2
+use_native_dialog = true
+
+[connection signal="text_changed" from="Content/NameEdit" to="." method="On_Edit_TextChanged"]
+[connection signal="text_changed" from="Content/LocationRow/LocationEdit" to="." method="On_Edit_TextChanged"]
+[connection signal="pressed" from="Content/LocationRow/BrowseLocationButton" to="." method="On_BrowseLocationButton_Pressed"]
+[connection signal="dir_selected" from="LocationDialog" to="." method="On_LocationDialog_DirSelected"]

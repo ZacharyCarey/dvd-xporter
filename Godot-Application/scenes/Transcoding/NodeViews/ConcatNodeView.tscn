@@ -1,0 +1,51 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://bp46s4v0thch0" path="res://scenes/Transcoding/NodeViews/ConcatNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/StepperControl.tscn" id="StepperControl"]
+
+[node name="ConcatNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(300, 0)
+title = "Concat"
+script = ExtResource("script")
+
+[node name="SegmentsRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "segments"
+
+[node name="Label" parent="SegmentsRow" index="0"]
+text = "Segments"
+
+[node name="Segments" parent="SegmentsRow" instance=ExtResource("StepperControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VideoRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "video"
+
+[node name="Label" parent="VideoRow" index="0"]
+text = "Video streams"
+
+[node name="Video" parent="VideoRow" instance=ExtResource("StepperControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AudioRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "audio"
+
+[node name="Label" parent="AudioRow" index="0"]
+text = "Audio streams"
+
+[node name="Audio" parent="AudioRow" instance=ExtResource("StepperControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="SegmentsRow"]
+[editable path="VideoRow"]
+[editable path="AudioRow"]

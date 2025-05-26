@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://darfvvoehthch" path="res://scenes/Transcoding/NodeRows/TemplateVideoLine.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cmiko44lw4mpc" path="res://icons/play.svg" id="2_play"]
+
+[node name="TemplateVideoLine" type="HBoxContainer"]
+script = ExtResource("1_script")
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+text = "Video"
+text_overrun_behavior = 3
+
+[node name="TestButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Test encode this one"
+icon = ExtResource("2_play")
+flat = true

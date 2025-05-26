@@ -1,0 +1,85 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://dy005her2c1pw" path="res://scenes/Transcoding/NodeViews/SettingsNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/PortPairRow.tscn" id="PortPairRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/InputPortRow.tscn" id="InputPortRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/TextControl.tscn" id="TextControl"]
+
+[node name="OverlayNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(300, 0)
+title = "Overlay"
+script = ExtResource("script")
+
+[node name="MainPorts" parent="." instance=ExtResource("PortPairRow")]
+unique_name_in_owner = true
+layout_mode = 2
+InputKey = "main"
+OutputKey = "out"
+
+[node name="InputLabel" parent="MainPorts" index="0"]
+text = "Main"
+
+[node name="OutputLabel" parent="MainPorts" index="1"]
+text = "Video"
+
+[node name="OverlayInput" parent="." instance=ExtResource("InputPortRow")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Overlay"
+InputKey = "overlay"
+
+[node name="XRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "x"
+
+[node name="Label" parent="XRow" index="0"]
+text = "X"
+
+[node name="X" parent="XRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="YRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "y"
+
+[node name="Label" parent="YRow" index="0"]
+text = "Y"
+
+[node name="Y" parent="YRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="StartRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "start"
+
+[node name="Label" parent="StartRow" index="0"]
+text = "From"
+
+[node name="Start" parent="StartRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EndRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "end"
+
+[node name="Label" parent="EndRow" index="0"]
+text = "Until"
+
+[node name="End" parent="EndRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="MainPorts"]
+[editable path="XRow"]
+[editable path="YRow"]
+[editable path="StartRow"]
+[editable path="EndRow"]

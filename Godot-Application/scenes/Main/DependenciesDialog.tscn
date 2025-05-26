@@ -1,0 +1,49 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/Main/DependenciesDialog.cs" id="1_script"]
+
+[node name="DependenciesDialog" type="AcceptDialog"]
+title = "Programs Needed"
+ok_button_text = "Quit"
+script = ExtResource("1_script")
+
+[node name="Content" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 568.0
+offset_bottom = 100.0
+theme_override_constants/separation = 12
+
+[node name="MessageLabel" type="Label" parent="Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="GetFFmpegButton" type="Button" parent="Content/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Open FFmpeg's download page"
+text = "Get FFmpeg"
+
+[node name="GetVlcButton" type="Button" parent="Content/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Open VLC's download page"
+text = "Get VLC"
+
+[node name="CheckAgainButton" type="Button" parent="Content/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 10
+tooltip_text = "Look for them again, e.g. after installing them"
+text = "Check Again"
+
+[connection signal="canceled" from="." to="." method="On_Closed"]
+[connection signal="confirmed" from="." to="." method="On_Closed"]
+[connection signal="pressed" from="Content/Buttons/GetFFmpegButton" to="." method="On_GetFFmpegButton_Pressed"]
+[connection signal="pressed" from="Content/Buttons/GetVlcButton" to="." method="On_GetVlcButton_Pressed"]
+[connection signal="pressed" from="Content/Buttons/CheckAgainButton" to="." method="On_CheckAgainButton_Pressed"]

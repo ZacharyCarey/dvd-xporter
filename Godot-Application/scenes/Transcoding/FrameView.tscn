@@ -1,0 +1,5 @@
+[gd_scene format=3]
+
+[node name="FrameView" type="GraphFrame"]
+autoshrink_margin = 24
+tint_color_enabled = true

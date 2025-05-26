@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/Main/ProjectPackages.cs" id="1_script"]
+
+[node name="ProjectPackages" type="Node"]
+script = ExtResource("1_script")
+
+[node name="ExportPackageDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Export Project"
+mode_overrides_title = false
+access = 2
+filters = PackedStringArray("*.dvdxp ; DVD Xporter Project Package")
+use_native_dialog = true
+
+[connection signal="file_selected" from="ExportPackageDialog" to="." method="On_ExportPackageDialog_FileSelected"]

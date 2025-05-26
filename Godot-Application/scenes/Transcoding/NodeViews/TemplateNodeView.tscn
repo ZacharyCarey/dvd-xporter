@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://4rbgq1yiba6t" path="res://scenes/Transcoding/NodeViews/TemplateNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ChoiceControl.tscn" id="ChoiceControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/TemplateVideoList.tscn" id="TemplateVideoList"]
+
+[node name="TemplateNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(360, 0)
+title = "Template"
+script = ExtResource("script")
+
+[node name="TemplateRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "template"
+
+[node name="Label" parent="TemplateRow" index="0"]
+text = "Template"
+
+[node name="Template" parent="TemplateRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Videos" parent="." instance=ExtResource("TemplateVideoList")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="TemplateRow"]
+
+[connection signal="TestRequested" from="Videos" to="." method="On_Videos_TestRequested"]
+[connection signal="EditRequested" from="Videos" to="." method="On_Videos_EditRequested"]

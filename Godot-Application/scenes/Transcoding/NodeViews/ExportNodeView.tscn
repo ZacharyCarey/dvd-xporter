@@ -1,0 +1,46 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://dy005her2c1pw" path="res://scenes/Transcoding/NodeViews/SettingsNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/InputPortRow.tscn" id="InputPortRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ChoiceControl.tscn" id="ChoiceControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/TextControl.tscn" id="TextControl"]
+
+[node name="ExportNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(360, 0)
+title = "Export"
+script = ExtResource("script")
+
+[node name="FileInput" parent="." instance=ExtResource("InputPortRow")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "File"
+InputKey = "file"
+
+[node name="TargetRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "target"
+
+[node name="Label" parent="TargetRow" index="0"]
+text = "Library item"
+
+[node name="Target" parent="TargetRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VersionRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "version"
+
+[node name="Label" parent="VersionRow" index="0"]
+text = "Version"
+
+[node name="Version" parent="VersionRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="TargetRow"]
+[editable path="VersionRow"]

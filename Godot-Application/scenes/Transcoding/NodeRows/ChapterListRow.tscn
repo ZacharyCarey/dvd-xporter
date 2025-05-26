@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" uid="uid://csonwkyb10ub5" path="res://icons/edit.svg" id="1_edit"]
+[ext_resource type="Script" uid="uid://d1n0r1l7e3362" path="res://scenes/Transcoding/NodeRows/ActionButton.cs" id="2_script"]
+
+[node name="ChapterListRow" type="Button"]
+text = "Edit Chapters..."
+icon = ExtResource("1_edit")
+script = ExtResource("2_script")

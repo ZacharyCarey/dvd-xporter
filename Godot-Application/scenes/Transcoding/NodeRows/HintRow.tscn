@@ -1,0 +1,7 @@
+[gd_scene format=3]
+
+[node name="HintRow" type="Label"]
+modulate = Color(1, 1, 1, 0.6)
+custom_minimum_size = Vector2(200, 0)
+text = "Hint"
+autowrap_mode = 3

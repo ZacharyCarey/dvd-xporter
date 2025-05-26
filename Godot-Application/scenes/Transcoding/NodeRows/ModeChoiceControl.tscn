@@ -1,0 +1,7 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://cv6i3wb5loq7y" path="res://scenes/Transcoding/NodeRows/ChoiceControl.cs" id="1_script"]
+
+[node name="ModeChoiceControl" type="OptionButton"]
+fit_to_longest_item = true
+script = ExtResource("1_script")

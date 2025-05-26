@@ -1,0 +1,114 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://cdx0junlu8oap" path="res://scenes/Transcoding/NodeViews/OutputFileNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/PortSettingRow.tscn" id="PortSettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ChoiceControl.tscn" id="ChoiceControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/TextControl.tscn" id="TextControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ToggleControl.tscn" id="ToggleControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/InputPortRow.tscn" id="InputPortRow"]
+
+[node name="OutputFileNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(360, 0)
+title = "Output File"
+script = ExtResource("script")
+
+[node name="ContainerRow" parent="." instance=ExtResource("PortSettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "container"
+OutputKey = "file"
+
+[node name="PortLabel" parent="ContainerRow" index="0"]
+text = "File"
+
+[node name="Container" parent="ContainerRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TitleRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "title"
+
+[node name="Label" parent="TitleRow" index="0"]
+text = "Title"
+
+[node name="Title" parent="TitleRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LibraryTagsRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "library-tags"
+
+[node name="Label" parent="LibraryTagsRow" index="0"]
+text = "Write library info"
+
+[node name="LibraryTags" parent="LibraryTagsRow" instance=ExtResource("ToggleControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CommentRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "comment"
+
+[node name="Label" parent="CommentRow" index="0"]
+text = "Comment"
+
+[node name="Comment" parent="CommentRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PlaybackRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "playback"
+
+[node name="Label" parent="PlaybackRow" index="0"]
+text = "Check playback"
+
+[node name="Playback" parent="PlaybackRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="StartRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "start"
+
+[node name="Label" parent="StartRow" index="0"]
+text = "Start"
+
+[node name="Start" parent="StartRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EndRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "end"
+
+[node name="Label" parent="EndRow" index="0"]
+text = "End"
+
+[node name="End" parent="EndRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ChaptersInput" parent="." instance=ExtResource("InputPortRow")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Chapters"
+InputKey = "chapters"
+
+[editable path="ContainerRow"]
+[editable path="TitleRow"]
+[editable path="LibraryTagsRow"]
+[editable path="CommentRow"]
+[editable path="PlaybackRow"]
+[editable path="StartRow"]
+[editable path="EndRow"]

@@ -1,0 +1,213 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://dygwfo32i10jv" path="res://scenes/Clips/ClipRenamerPage.cs" id="1_clips"]
+[ext_resource type="PackedScene" path="res://scenes/VlcPlayer/VlcPlayer.tscn" id="3_vlc"]
+[ext_resource type="PackedScene" path="res://scenes/Clips/PlaylistPanel.tscn" id="6_panel"]
+[ext_resource type="Script" path="res://scenes/Clips/ClipTree.cs" id="7_tree"]
+
+[node name="ClipRenamerPage" type="MarginContainer"]
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_clips")
+
+[node name="Columns" type="HSplitContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ClipPanel" type="PanelContainer" parent="Columns"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Columns/ClipPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="Columns/ClipPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BackButton" type="Button" parent="Columns/ClipPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Back to the project overview"
+text = "‹ Project Overview"
+
+[node name="DiscOption" type="OptionButton" parent="Columns/ClipPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "The disc whose video files are shown"
+fit_to_longest_item = false
+
+[node name="PreparePanel" type="VBoxContainer" parent="Columns/ClipPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PrepareLabel" type="Label" parent="Columns/ClipPanel/Margin/VBox/PreparePanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="ClipTree" type="Tree" parent="Columns/ClipPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+column_titles_visible = true
+hide_root = true
+select_mode = 1
+script = ExtResource("7_tree")
+
+[node name="HideShortCheck" type="CheckBox" parent="Columns/ClipPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Hide unnamed video files shorter than 12 seconds, such as menu loops and logos. The length is in Settings › General."
+button_pressed = true
+text = "Hide short clips"
+
+[node name="HideUnnamedCheck" type="CheckBox" parent="Columns/ClipPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Hide the video files that haven't been given a name, to see only the named ones."
+text = "Hide unnamed clips"
+
+[node name="OtherFilesLabel" type="Label" parent="Columns/ClipPanel/Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0.55)
+layout_mode = 2
+mouse_filter = 1
+autowrap_mode = 3
+
+[node name="Inner" type="HSplitContainer" parent="Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="PreviewPanel" type="VBoxContainer" parent="Columns/Inner"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="VlcPlayer" parent="Columns/Inner/PreviewPanel" instance=ExtResource("3_vlc")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 240)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NameRow" type="HBoxContainer" parent="Columns/Inner/PreviewPanel"]
+layout_mode = 2
+
+[node name="ClipNameLabel" type="Label" parent="Columns/Inner/PreviewPanel/NameRow"]
+layout_mode = 2
+text = "Clip Name:"
+
+[node name="ClipNameEdit" type="LineEdit" parent="Columns/Inner/PreviewPanel/NameRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Name for the selected video file. Press Enter to save it and move to the next file."
+placeholder_text = "Select a video file to name it"
+editable = false
+clear_button_enabled = true
+
+[node name="InfoRow" type="HBoxContainer" parent="Columns/Inner/PreviewPanel"]
+layout_mode = 2
+
+[node name="ClipDetails" type="Label" parent="Columns/Inner/PreviewPanel/InfoRow"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.65)
+layout_mode = 2
+size_flags_horizontal = 3
+text_overrun_behavior = 3
+
+[node name="AddToPlaylistButton" type="Button" parent="Columns/Inner/PreviewPanel/InfoRow"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Add to Playlist"
+
+[node name="OpenExternalButton" type="Button" parent="Columns/Inner/PreviewPanel/InfoRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Open the selected video file in your default video player"
+disabled = true
+text = "Open Externally"
+
+[node name="SaveFrameButton" type="Button" parent="Columns/Inner/PreviewPanel/InfoRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Save the picture being shown as an image file, at its full size"
+disabled = true
+text = "Save Frame..."
+
+[node name="InterlacingPanel" type="VBoxContainer" parent="Columns/Inner/PreviewPanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="InterlacingLabel" type="Label" parent="Columns/Inner/PreviewPanel/InterlacingPanel"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.65)
+layout_mode = 2
+mouse_filter = 0
+text_overrun_behavior = 3
+
+[node name="InterlacedList" type="ItemList" parent="Columns/Inner/PreviewPanel/InterlacingPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 84)
+layout_mode = 2
+tooltip_text = "Where this video file's frames looked interlaced. Click one to go there in the preview."
+max_columns = 0
+same_column_width = true
+
+[node name="PlaylistPanel" parent="Columns/Inner" instance=ExtResource("6_panel")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PreviewTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
+[node name="SaveFrameDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Save Frame"
+access = 2
+filters = PackedStringArray("*.png ; PNG image", "*.jpg, *.jpeg ; JPEG image")
+use_native_dialog = true
+
+[node name="ErrorDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+title = "Clip Renamer"
+dialog_autowrap = true
+size = Vector2i(480, 180)
+
+[connection signal="pressed" from="Columns/ClipPanel/Margin/VBox/BackButton" to="." method="On_BackButton_Pressed"]
+[connection signal="item_selected" from="Columns/ClipPanel/Margin/VBox/DiscOption" to="." method="On_DiscOption_ItemSelected"]
+[connection signal="item_clicked" from="Columns/Inner/PreviewPanel/InterlacingPanel/InterlacedList" to="." method="On_InterlacedList_ItemClicked"]
+[connection signal="item_selected" from="Columns/ClipPanel/Margin/VBox/ClipTree" to="Columns/ClipPanel/Margin/VBox/ClipTree" method="On_ClipTree_ItemSelected"]
+[connection signal="item_activated" from="Columns/ClipPanel/Margin/VBox/ClipTree" to="Columns/ClipPanel/Margin/VBox/ClipTree" method="On_ClipTree_ItemActivated"]
+[connection signal="ClipSelected" from="Columns/ClipPanel/Margin/VBox/ClipTree" to="." method="On_ClipTree_ClipSelected"]
+[connection signal="ClipActivated" from="Columns/ClipPanel/Margin/VBox/ClipTree" to="." method="On_ClipTree_ClipActivated"]
+[connection signal="toggled" from="Columns/ClipPanel/Margin/VBox/HideShortCheck" to="." method="On_HideShortCheck_Toggled"]
+[connection signal="toggled" from="Columns/ClipPanel/Margin/VBox/HideUnnamedCheck" to="." method="On_HideUnnamedCheck_Toggled"]
+[connection signal="text_submitted" from="Columns/Inner/PreviewPanel/NameRow/ClipNameEdit" to="." method="On_ClipNameEdit_TextSubmitted"]
+[connection signal="focus_exited" from="Columns/Inner/PreviewPanel/NameRow/ClipNameEdit" to="." method="On_ClipNameEdit_FocusExited"]
+[connection signal="pressed" from="Columns/Inner/PreviewPanel/InfoRow/AddToPlaylistButton" to="." method="On_AddToPlaylistButton_Pressed"]
+[connection signal="pressed" from="Columns/Inner/PreviewPanel/InfoRow/OpenExternalButton" to="." method="On_OpenExternalButton_Pressed"]
+[connection signal="pressed" from="Columns/Inner/PreviewPanel/InfoRow/SaveFrameButton" to="." method="On_SaveFrameButton_Pressed"]
+[connection signal="file_selected" from="SaveFrameDialog" to="." method="On_SaveFrameDialog_FileSelected"]
+[connection signal="timeout" from="PreviewTimer" to="." method="On_PreviewTimer_Timeout"]
+[connection signal="Edited" from="Columns/Inner/PlaylistPanel" to="." method="On_PlaylistPanel_Edited"]
+[connection signal="PlaylistChanged" from="Columns/Inner/PlaylistPanel" to="." method="On_PlaylistPanel_PlaylistChanged"]
+[connection signal="ClipSelected" from="Columns/Inner/PlaylistPanel" to="." method="On_PlaylistPanel_ClipSelected"]
+[connection signal="ClipActivated" from="Columns/Inner/PlaylistPanel" to="." method="On_PlaylistPanel_ClipActivated"]
+[connection signal="StatusChanged" from="Columns/Inner/PlaylistPanel" to="." method="On_PlaylistPanel_StatusChanged"]

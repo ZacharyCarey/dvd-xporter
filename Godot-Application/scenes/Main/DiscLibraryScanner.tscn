@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/Main/DiscLibraryScanner.cs" id="1_script"]
+
+[node name="DiscLibraryScanner" type="Node"]
+script = ExtResource("1_script")
+
+[node name="DiscLibraryPrompt" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Set Up Your Disc Library"
+size = Vector2i(520, 200)
+ok_button_text = "Choose Folder..."
+dialog_text = "Choose the folder where you keep your disc rips: ISO images and VIDEO_TS or BDMV folders, either loose or grouped into subfolders (e.g. one per box set).
+
+Names don't matter. DVD Xporter identifies each disc by its contents. You can change this later in Settings."
+dialog_autowrap = true
+cancel_button_text = "Later"
+
+[node name="DiscLibraryDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Choose Disc Library Folder"
+mode_overrides_title = false
+file_mode = 2
+access = 2
+use_native_dialog = true
+
+[connection signal="confirmed" from="DiscLibraryPrompt" to="DiscLibraryDialog" method="popup_centered"]
+[connection signal="dir_selected" from="DiscLibraryDialog" to="." method="On_DiscLibraryDialog_DirSelected"]

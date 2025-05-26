@@ -1,0 +1,145 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://chgcswgc2vh1k" path="res://scenes/Info/InfoPage.cs" id="1_info"]
+[ext_resource type="PackedScene" path="res://scenes/Info/ImportDialog.tscn" id="2_import"]
+[ext_resource type="PackedScene" path="res://scenes/Info/Editors/MovieEditor.tscn" id="5_movie"]
+[ext_resource type="PackedScene" path="res://scenes/Info/Editors/ShowEditor.tscn" id="6_show"]
+[ext_resource type="PackedScene" path="res://scenes/Info/Editors/SeasonEditor.tscn" id="7_season"]
+[ext_resource type="PackedScene" path="res://scenes/Info/Editors/EpisodeEditor.tscn" id="8_episode"]
+[ext_resource type="PackedScene" path="res://scenes/Info/InfoNavigator.tscn" id="9_nav"]
+[ext_resource type="PackedScene" path="res://scenes/Info/Editors/ExtraEditor.tscn" id="10_extra"]
+
+[node name="InfoPage" type="MarginContainer"]
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 16
+script = ExtResource("1_info")
+
+[node name="Layout" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Layout"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="BackButton" type="Button" parent="Layout/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Back to the project overview"
+text = "‹ Overview"
+
+[node name="Titles" type="VBoxContainer" parent="Layout/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="StepTitle" type="Label" parent="Layout/Header/Titles"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "1. Show Information"
+
+[node name="ProjectName" type="Label" parent="Layout/Header/Titles"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.65)
+layout_mode = 2
+text = "Project"
+
+[node name="HeaderSeparator" type="HSeparator" parent="Layout"]
+layout_mode = 2
+
+[node name="Body" type="HBoxContainer" parent="Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="NavPanel" parent="Layout/Body" instance=ExtResource("9_nav")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="NavSeparator" type="VSeparator" parent="Layout/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="EditorScroll" type="ScrollContainer" parent="Layout/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_scroll_mode = 0
+
+[node name="EditorMargin" type="MarginContainer" parent="Layout/Body/EditorScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="EditorHost" type="VBoxContainer" parent="Layout/Body/EditorScroll/EditorMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MovieEditor" parent="Layout/Body/EditorScroll/EditorMargin/EditorHost" instance=ExtResource("5_movie")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="ShowEditor" parent="Layout/Body/EditorScroll/EditorMargin/EditorHost" instance=ExtResource("6_show")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="SeasonEditor" parent="Layout/Body/EditorScroll/EditorMargin/EditorHost" instance=ExtResource("7_season")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="EpisodeEditor" parent="Layout/Body/EditorScroll/EditorMargin/EditorHost" instance=ExtResource("8_episode")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="ExtraEditor" parent="Layout/Body/EditorScroll/EditorMargin/EditorHost" instance=ExtResource("10_extra")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="SaveTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.6
+one_shot = true
+
+[node name="ImportDialog" parent="." instance=ExtResource("2_import")]
+unique_name_in_owner = true
+
+[node name="ErrorDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+title = "Error"
+size = Vector2i(460, 160)
+dialog_autowrap = true
+
+[connection signal="pressed" from="Layout/Header/BackButton" to="." method="On_BackButton_Pressed"]
+[connection signal="timeout" from="SaveTimer" to="." method="On_SaveTimer_Timeout"]
+[connection signal="ImportRequested" from="ImportDialog" to="." method="On_ImportDialog_ImportRequested"]
+[connection signal="Edited" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/MovieEditor" to="." method="On_Editor_Edited"]
+[connection signal="StatusChanged" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/MovieEditor" to="." method="SetStatus"]
+[connection signal="Edited" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/ShowEditor" to="." method="On_Editor_Edited"]
+[connection signal="StatusChanged" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/ShowEditor" to="." method="SetStatus"]
+[connection signal="Edited" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/SeasonEditor" to="." method="On_Editor_Edited"]
+[connection signal="StatusChanged" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/SeasonEditor" to="." method="SetStatus"]
+[connection signal="Edited" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/EpisodeEditor" to="." method="On_Editor_Edited"]
+[connection signal="StatusChanged" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/EpisodeEditor" to="." method="SetStatus"]
+[connection signal="Edited" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/ExtraEditor" to="." method="On_Editor_Edited"]
+[connection signal="StatusChanged" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/ExtraEditor" to="." method="SetStatus"]
+[connection signal="ImportRequested" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/MovieEditor" to="." method="On_Editor_ImportRequested"]
+[connection signal="ImportRequested" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/ShowEditor" to="." method="On_Editor_ImportRequested"]
+[connection signal="Renumbered" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/SeasonEditor" to="." method="On_Editor_Renumbered"]
+[connection signal="Renumbered" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/EpisodeEditor" to="." method="On_Editor_Renumbered"]
+[connection signal="Renumbered" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/ExtraEditor" to="." method="On_Editor_Renumbered"]
+[connection signal="AddEpisodesRequested" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/SeasonEditor" to="." method="On_SeasonEditor_AddEpisodesRequested"]
+[connection signal="EpisodeOpenRequested" from="Layout/Body/EditorScroll/EditorMargin/EditorHost/SeasonEditor" to="." method="On_SeasonEditor_EpisodeOpenRequested"]
+[connection signal="SelectionChanged" from="Layout/Body/NavPanel" to="." method="On_NavPanel_SelectionChanged"]
+[connection signal="Edited" from="Layout/Body/NavPanel" to="." method="MarkChanged"]
+[connection signal="StatusChanged" from="Layout/Body/NavPanel" to="." method="SetStatus"]

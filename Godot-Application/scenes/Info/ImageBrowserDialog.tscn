@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://dyr8jt2uuwif0" path="res://scenes/Info/ImageBrowserDialog.cs" id="1_browser"]
+[ext_resource type="PackedScene" path="res://scenes/Info/ImageTile.tscn" id="2_tile"]
+
+[node name="ImageBrowserDialog" type="AcceptDialog"]
+title = "Images"
+size = Vector2i(900, 620)
+ok_button_text = "Cancel"
+script = ExtResource("1_browser")
+TileScene = ExtResource("2_tile")
+
+[node name="Content" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 892.0
+offset_bottom = 571.0
+theme_override_constants/separation = 8
+
+[node name="SourceRow" type="HBoxContainer" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SourceLabel" type="Label" parent="Content/SourceRow"]
+layout_mode = 2
+text = "Images from"
+
+[node name="SourceOption" type="OptionButton" parent="Content/SourceRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Which site's images to show"
+
+[node name="MessageLabel" type="Label" parent="Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="Scroll" type="ScrollContainer" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Grid" type="HFlowContainer" parent="Content/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+
+[connection signal="visibility_changed" from="." to="." method="On_VisibilityChanged"]
+[connection signal="item_selected" from="Content/SourceRow/SourceOption" to="." method="On_SourceOption_ItemSelected"]

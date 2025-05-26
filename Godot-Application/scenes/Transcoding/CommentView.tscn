@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://45oi0hms50f4" path="res://scenes/Transcoding/CommentView.cs" id="1_comment"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_note"]
+resource_local_to_scene = true
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_flat"]
+
+[node name="CommentView" type="GraphElement"]
+custom_minimum_size = Vector2(140, 70)
+resizable = true
+script = ExtResource("1_comment")
+
+[node name="Panel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_note")
+
+[node name="Box" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/separation = 2
+
+[node name="Strip" type="Label" parent="Panel/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 12
+text = "Comment"
+
+[node name="Text" type="TextEdit" parent="Panel/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/background_color = Color(0, 0, 0, 0)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_flat")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_flat")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_flat")
+placeholder_text = "Type a note..."
+wrap_mode = 1
+
+[connection signal="resize_request" from="." to="." method="On_ResizeRequest"]
+[connection signal="resize_end" from="." to="." method="On_ResizeEnd"]
+[connection signal="node_selected" from="." to="." method="UpdateLook"]
+[connection signal="node_deselected" from="." to="." method="UpdateLook"]
+[connection signal="resized" from="." to="." method="On_Resized"]
+[connection signal="focus_exited" from="Panel/Box/Text" to="." method="On_Text_FocusExited"]

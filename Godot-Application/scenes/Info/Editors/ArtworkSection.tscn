@@ -1,0 +1,51 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/Info/Editors/ArtworkSection.cs" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/Info/ImageSlot.tscn" id="2_slot"]
+[ext_resource type="PackedScene" path="res://scenes/Info/ImageBrowserDialog.tscn" id="3_browser"]
+
+[node name="ArtworkSection" type="VBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_script")
+ImageSlotScene = ExtResource("2_slot")
+
+[node name="Spacer1" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="Header1" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Artwork"
+
+[node name="Hint1" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = "Shown in Emby's menus. Click Choose... or drop an image file onto a slot. Click a preview to see it full size."
+autowrap_mode = 3
+
+[node name="Slots" type="HFlowContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 16
+
+[node name="PreviewDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+title = "Preview"
+size = Vector2i(1000, 700)
+ok_button_text = "Close"
+
+[node name="PreviewTexture" type="TextureRect" parent="PreviewDialog"]
+unique_name_in_owner = true
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 992.0
+offset_bottom = 651.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ImageBrowserDialog" parent="." instance=ExtResource("3_browser")]
+unique_name_in_owner = true
+
+[connection signal="ImageChosen" from="ImageBrowserDialog" to="." method="On_ImageBrowserDialog_ImageChosen"]

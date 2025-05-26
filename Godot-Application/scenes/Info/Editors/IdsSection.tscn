@@ -1,0 +1,66 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://dsx6spo0lbqx6" path="res://scenes/Info/Editors/IdsSection.cs" id="1_script"]
+
+[node name="IdsSection" type="VBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_script")
+
+[node name="Spacer1" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="Header1" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Online IDs"
+
+[node name="Hint1" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = "Optional. These let Emby match the title online and fill in anything left blank here."
+autowrap_mode = 3
+
+[node name="Grid" type="GridContainer" parent="."]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="TmdbLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "TMDB ID"
+
+[node name="TmdbEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "e.g. 1437"
+
+[node name="TvdbLabel" type="Label" parent="Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "TVDB ID"
+
+[node name="TvdbEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "e.g. 78874"
+
+[node name="ImdbLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "IMDb ID"
+
+[node name="ImdbEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "e.g. tt0303461"
+
+[connection signal="text_changed" from="Grid/TmdbEdit" to="." method="On_TmdbEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/TvdbEdit" to="." method="On_TvdbEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/ImdbEdit" to="." method="On_ImdbEdit_TextChanged"]

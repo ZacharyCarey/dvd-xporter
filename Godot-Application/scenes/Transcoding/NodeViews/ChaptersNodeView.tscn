@@ -1,0 +1,64 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://bq4awpm1av5n0" path="res://scenes/Transcoding/NodeViews/ChaptersNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/PortPairRow.tscn" id="PortPairRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ToggleControl.tscn" id="ToggleControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/TextControl.tscn" id="TextControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ChapterListRow.tscn" id="ChapterListRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/HintRow.tscn" id="HintRow"]
+
+[node name="ChaptersNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(300, 0)
+title = "Chapters"
+script = ExtResource("script")
+
+[node name="InPorts" parent="." instance=ExtResource("PortPairRow")]
+unique_name_in_owner = true
+layout_mode = 2
+InputKey = "in"
+OutputKey = "out"
+
+[node name="InputLabel" parent="InPorts" index="0"]
+text = "From video"
+
+[node name="OutputLabel" parent="InPorts" index="1"]
+text = "Chapters"
+
+[node name="ClipStartsRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "clip-starts"
+
+[node name="Label" parent="ClipStartsRow" index="0"]
+text = "Chapter at each clip"
+
+[node name="ClipStarts" parent="ClipStartsRow" instance=ExtResource("ToggleControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ShiftRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "shift"
+
+[node name="Label" parent="ShiftRow" index="0"]
+text = "Shift (s)"
+
+[node name="Shift" parent="ShiftRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ListButton" parent="." instance=ExtResource("ChapterListRow")]
+unique_name_in_owner = true
+layout_mode = 2
+ActionKey = "list"
+
+[node name="Info" parent="." instance=ExtResource("HintRow")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="InPorts"]
+[editable path="ClipStartsRow"]
+[editable path="ShiftRow"]

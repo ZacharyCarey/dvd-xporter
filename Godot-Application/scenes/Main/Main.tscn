@@ -1,0 +1,258 @@
+[gd_scene format=3 uid="uid://bgjudsmq8je4h"]
+
+[ext_resource type="Script" uid="uid://bi5e2suon7gky" path="res://scenes/Main/Main.cs" id="1_exyxu"]
+[ext_resource type="PackedScene" uid="uid://bdp7ephvd41bt" path="res://scenes/Start/StartPage.tscn" id="2_r0gd4"]
+[ext_resource type="PackedScene" uid="uid://dja5xfhhiyj3e" path="res://scenes/Project/ProjectPage.tscn" id="3_krkin"]
+[ext_resource type="PackedScene" path="res://scenes/Info/InfoPage.tscn" id="4_yxg74"]
+[ext_resource type="PackedScene" path="res://scenes/Clips/ClipRenamerPage.tscn" id="5_gqpea"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodingPage.tscn" id="6_1jtt4"]
+[ext_resource type="PackedScene" path="res://scenes/Export/ExportPage.tscn" id="7_vup2a"]
+[ext_resource type="PackedScene" path="res://scenes/Settings/SettingsDialog.tscn" id="8_p7wog"]
+[ext_resource type="PackedScene" path="res://scenes/Main/DependenciesDialog.tscn" id="9_deps"]
+[ext_resource type="PackedScene" path="res://scenes/Main/DiscLibraryScanner.tscn" id="10_scanner"]
+[ext_resource type="PackedScene" path="res://scenes/Main/ProjectPackages.tscn" id="11_packages"]
+[ext_resource type="PackedScene" path="res://scenes/Main/ServerJobsDialog.tscn" id="12_jobs"]
+
+[node name="Main" type="Control" unique_id=25534590]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_exyxu")
+
+[node name="Background" type="Panel" parent="." unique_id=1436473737]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Layout" type="VBoxContainer" parent="." unique_id=1522999726]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="MenuBar" type="MenuBar" parent="Layout" unique_id=965669883]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="File" type="PopupMenu" parent="Layout/MenuBar" unique_id=1526701550]
+unique_name_in_owner = true
+item_count = 8
+item_0/text = "Close Project"
+item_0/id = 0
+item_1/id = -1
+item_1/separator = true
+item_2/text = "Export Project..."
+item_2/id = 1
+item_3/id = -1
+item_3/separator = true
+item_4/text = "Server Jobs..."
+item_4/id = 4
+item_5/text = "Settings..."
+item_5/id = 2
+item_6/id = -1
+item_6/separator = true
+item_7/text = "Quit"
+item_7/id = 3
+
+[node name="Project" type="PopupMenu" parent="Layout/MenuBar" unique_id=726168305]
+unique_name_in_owner = true
+item_count = 11
+item_0/text = "Project Overview"
+item_0/id = 105
+item_1/text = "1. Show Information"
+item_1/id = 1
+item_2/text = "2. Clip Renamer"
+item_2/id = 2
+item_3/text = "3. Transcoding"
+item_3/id = 3
+item_4/text = "4. Export"
+item_4/id = 4
+item_5/id = -1
+item_5/separator = true
+item_6/text = "New Release..."
+item_6/id = 100
+item_7/text = "Add Disc from Disc Library..."
+item_7/id = 101
+item_8/text = "Add Disc from Folder..."
+item_8/id = 102
+item_9/text = "Add Disc from Image..."
+item_9/id = 103
+item_10/text = "Rescan Disc Library"
+item_10/id = 104
+
+[node name="Help" type="PopupMenu" parent="Layout/MenuBar" unique_id=798022635]
+unique_name_in_owner = true
+item_count = 1
+item_0/text = "About DVD Xporter"
+item_0/id = 0
+
+[node name="StartPage" parent="Layout" unique_id=965858290 instance=ExtResource("2_r0gd4")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ProjectPage" parent="Layout" unique_id=223850250 instance=ExtResource("3_krkin")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="InfoPage" parent="Layout" unique_id=1595114090 instance=ExtResource("4_yxg74")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ClipRenamerPage" parent="Layout" unique_id=1123251631 instance=ExtResource("5_gqpea")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TranscodingPage" parent="Layout" unique_id=1745467776 instance=ExtResource("6_1jtt4")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ExportPage" parent="Layout" unique_id=1722991021 instance=ExtResource("7_vup2a")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="StatusBar" type="PanelContainer" parent="Layout" unique_id=938366878]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Layout/StatusBar" unique_id=549476799]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
+
+[node name="StatusRows" type="VBoxContainer" parent="Layout/StatusBar/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="StatusRow" type="HBoxContainer" parent="Layout/StatusBar/Margin/StatusRows" unique_id=1329684780]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="StatusLabel" type="Label" parent="Layout/StatusBar/Margin/StatusRows/StatusRow" unique_id=207818583]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+text = "Ready."
+text_overrun_behavior = 3
+
+[node name="ReadProgress" type="ProgressBar" parent="Layout/StatusBar/Margin/StatusRows/StatusRow" unique_id=1636674656]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "How far through reading the disc it is"
+max_value = 1.0
+step = 0.001
+
+[node name="ServerReadRow" type="HBoxContainer" parent="Layout/StatusBar/Margin/StatusRows"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ServerReadLabel" type="Label" parent="Layout/StatusBar/Margin/StatusRows/ServerReadRow"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+text_overrun_behavior = 3
+
+[node name="ServerReadProgress" type="ProgressBar" parent="Layout/StatusBar/Margin/StatusRows/ServerReadRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "How far through reading the disc on the render server it is"
+max_value = 1.0
+step = 0.001
+
+[node name="SettingsDialog" parent="." unique_id=301179452 instance=ExtResource("8_p7wog")]
+unique_name_in_owner = true
+
+[node name="DiscLibraryScanner" parent="." unique_id=591303444 instance=ExtResource("10_scanner")]
+unique_name_in_owner = true
+
+[node name="ErrorDialog" type="AcceptDialog" parent="." unique_id=1307928636]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Error"
+size = Vector2i(460, 160)
+dialog_autowrap = true
+
+[node name="StopReadingDialog" type="ConfirmationDialog" parent="." unique_id=1288140517]
+unique_name_in_owner = true
+title = "Still Reading a Disc"
+ok_button_text = "Stop Reading"
+dialog_autowrap = true
+
+[node name="ProjectPackages" parent="." unique_id=327336857 instance=ExtResource("11_packages")]
+unique_name_in_owner = true
+
+[node name="DependenciesDialog" parent="." unique_id=648340369 instance=ExtResource("9_deps")]
+unique_name_in_owner = true
+
+[node name="ServerJobsDialog" parent="." instance=ExtResource("12_jobs")]
+unique_name_in_owner = true
+
+[node name="AboutDialog" type="AcceptDialog" parent="." unique_id=473772098]
+unique_name_in_owner = true
+title = "About DVD Xporter"
+dialog_text = "DVD Xporter
+
+Turn your legally obtained DVD and Blu-ray rips into Emby-ready libraries, with shareable project files."
+
+[connection signal="id_pressed" from="Layout/MenuBar/File" to="." method="On_File_IdPressed"]
+[connection signal="id_pressed" from="Layout/MenuBar/Project" to="." method="On_Project_IdPressed"]
+[connection signal="id_pressed" from="Layout/MenuBar/Help" to="." method="On_Help_IdPressed"]
+[connection signal="ClearRecentProjects" from="Layout/StartPage" to="." method="On_ClearRecentProjects"]
+[connection signal="CreateProject" from="Layout/StartPage" to="." method="On_CreateProject"]
+[connection signal="OpenProject" from="Layout/StartPage" to="." method="On_OpenProject"]
+[connection signal="LibraryRescanRequested" from="Layout/ProjectPage" to="DiscLibraryScanner" method="Rescan"]
+[connection signal="StatusChanged" from="Layout/ProjectPage" to="." method="SetStatus"]
+[connection signal="StepSelected" from="Layout/ProjectPage" to="." method="OpenStep"]
+[connection signal="BackRequested" from="Layout/InfoPage" to="." method="ShowOverview"]
+[connection signal="StatusChanged" from="Layout/InfoPage" to="." method="SetStatus"]
+[connection signal="BackRequested" from="Layout/ClipRenamerPage" to="." method="ShowOverview"]
+[connection signal="StatusChanged" from="Layout/ClipRenamerPage" to="." method="SetStatus"]
+[connection signal="BackRequested" from="Layout/TranscodingPage" to="." method="ShowOverview"]
+[connection signal="StatusChanged" from="Layout/TranscodingPage" to="." method="SetStatus"]
+[connection signal="BackRequested" from="Layout/ExportPage" to="." method="ShowOverview"]
+[connection signal="SettingsChanged" from="Layout/ExportPage" to="." method="SaveSettings"]
+[connection signal="ShowInTranscodingRequested" from="Layout/ExportPage" to="." method="ShowInTranscoding"]
+[connection signal="StatusChanged" from="Layout/ExportPage" to="." method="SetStatus"]
+[connection signal="ServerJobsRequested" from="Layout/ExportPage" to="." method="ShowServerJobs"]
+[connection signal="ClearCacheRequested" from="SettingsDialog" to="DiscLibraryScanner" method="ClearFingerprintCache"]
+[connection signal="confirmed" from="SettingsDialog" to="." method="ApplySettings"]
+[connection signal="LibraryChanged" from="DiscLibraryScanner" to="." method="On_DiscLibraryScanner_LibraryChanged"]
+[connection signal="SettingsChanged" from="DiscLibraryScanner" to="." method="SaveSettings"]
+[connection signal="StatusChanged" from="DiscLibraryScanner" to="." method="SetStatus"]
+[connection signal="confirmed" from="StopReadingDialog" to="." method="On_StopReadingDialog_Confirmed"]
+[connection signal="ErrorOccurred" from="ProjectPackages" to="." method="ShowError"]
+[connection signal="StatusChanged" from="ProjectPackages" to="." method="SetStatus"]
+[connection signal="QuitRequested" from="DependenciesDialog" to="." method="Quit"]
+[connection signal="Satisfied" from="DependenciesDialog" to="." method="FinishStartUp"]
+[connection signal="StatusChanged" from="DependenciesDialog" to="." method="SetStatus"]

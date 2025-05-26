@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://cc83icluj6nym" path="res://scenes/Transcoding/NodeRows/PortSettingRow.cs" id="1_script"]
+
+[node name="PortSettingRow" type="HBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_script")
+
+[node name="PortLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Output"
+horizontal_alignment = 2

@@ -1,0 +1,99 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://dy005her2c1pw" path="res://scenes/Transcoding/NodeViews/SettingsNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/OutputPortRow.tscn" id="OutputPortRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ColorControl.tscn" id="ColorControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/TextControl.tscn" id="TextControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ChoiceControl.tscn" id="ChoiceControl"]
+
+[node name="SolidColorNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(300, 0)
+title = "Solid Color"
+script = ExtResource("script")
+
+[node name="OutOutput" parent="." instance=ExtResource("OutputPortRow")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Video"
+OutputKey = "out"
+
+[node name="ColorRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "color"
+
+[node name="Label" parent="ColorRow" index="0"]
+text = "Color"
+
+[node name="Color" parent="ColorRow" instance=ExtResource("ColorControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="WidthRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "width"
+
+[node name="Label" parent="WidthRow" index="0"]
+text = "Width"
+
+[node name="Width" parent="WidthRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HeightRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "height"
+
+[node name="Label" parent="HeightRow" index="0"]
+text = "Height"
+
+[node name="Height" parent="HeightRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AspectRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "aspect"
+
+[node name="Label" parent="AspectRow" index="0"]
+text = "Display aspect"
+
+[node name="Aspect" parent="AspectRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="FpsRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "fps"
+
+[node name="Label" parent="FpsRow" index="0"]
+text = "Frame rate"
+
+[node name="Fps" parent="FpsRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DurationRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "duration"
+
+[node name="Label" parent="DurationRow" index="0"]
+text = "Duration"
+
+[node name="Duration" parent="DurationRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="ColorRow"]
+[editable path="WidthRow"]
+[editable path="HeightRow"]
+[editable path="AspectRow"]
+[editable path="FpsRow"]
+[editable path="DurationRow"]

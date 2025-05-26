@@ -1,0 +1,128 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://bnbmvcx5m3uh3" path="res://scenes/Info/Editors/SeasonEditor.cs" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/Info/Editors/ArtworkSection.tscn" id="2_art"]
+
+[node name="SeasonEditor" type="VBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_script")
+
+[node name="Heading" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Season"
+
+[node name="Grid" type="GridContainer" parent="."]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="NumberLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Season number"
+
+[node name="Number" type="SpinBox" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Use 0 for specials."
+min_value = 0.0
+max_value = 999.0
+rounded = true
+
+[node name="TitleLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Title"
+
+[node name="TitleEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Optional, e.g. a story-arc name"
+
+[node name="PremieredLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Premiered"
+
+[node name="PremieredEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "A date like 2002-09-20, or blank."
+placeholder_text = "YYYY-MM-DD"
+
+[node name="OverviewLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 0
+text = "Overview"
+
+[node name="OverviewEdit" type="TextEdit" parent="Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+size_flags_horizontal = 3
+wrap_mode = 1
+
+[node name="Spacer2" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="Header2" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Episodes"
+
+[node name="Hint2" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = "Double-click a title or air date to edit it here, or select an episode on the left for all its details."
+autowrap_mode = 3
+
+[node name="EpisodeTable" type="Tree" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 3
+column_titles_visible = true
+hide_root = true
+select_mode = 1
+
+[node name="AddRow" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AddLabel" type="Label" parent="AddRow"]
+layout_mode = 2
+text = "Add"
+
+[node name="AddCount" type="SpinBox" parent="AddRow"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+value = 1.0
+
+[node name="AddAfterLabel" type="Label" parent="AddRow"]
+layout_mode = 2
+text = "more episodes, numbered after the last one"
+
+[node name="AddEpisodesButton" type="Button" parent="AddRow"]
+layout_mode = 2
+text = "Add Episodes"
+
+[node name="Artwork" parent="." instance=ExtResource("2_art")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="value_changed" from="Grid/Number" to="." method="On_Number_ValueChanged"]
+[connection signal="text_changed" from="Grid/TitleEdit" to="." method="On_TitleEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/PremieredEdit" to="." method="On_PremieredEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/OverviewEdit" to="." method="On_OverviewEdit_TextChanged"]
+[connection signal="item_edited" from="EpisodeTable" to="." method="On_EpisodeTable_ItemEdited"]
+[connection signal="item_activated" from="EpisodeTable" to="." method="On_EpisodeTable_ItemActivated"]
+[connection signal="pressed" from="AddRow/AddEpisodesButton" to="." method="On_AddEpisodesButton_Pressed"]
+[connection signal="Edited" from="Artwork" to="." method="On_Section_Edited"]
+[connection signal="StatusChanged" from="Artwork" to="." method="On_Section_StatusChanged"]

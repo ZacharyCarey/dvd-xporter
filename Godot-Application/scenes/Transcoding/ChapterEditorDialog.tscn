@@ -1,0 +1,69 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://4lxxinmourfl" path="res://scenes/Transcoding/ChapterEditorDialog.cs" id="1_chapters"]
+[ext_resource type="Texture2D" uid="uid://cfwmvq5c1i2pt" path="res://icons/add.svg" id="2_add"]
+[ext_resource type="Texture2D" uid="uid://b8yre2xufa736" path="res://icons/remove.svg" id="3_remove"]
+
+[node name="ChapterEditorDialog" type="ConfirmationDialog"]
+title = "Chapters"
+ok_button_text = "Save"
+script = ExtResource("1_chapters")
+
+[node name="Box" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 552.0
+offset_bottom = 431.0
+theme_override_constants/separation = 8
+
+[node name="Tree" type="Tree" parent="Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(480, 360)
+layout_mode = 2
+size_flags_vertical = 3
+columns = 3
+column_titles_visible = true
+hide_root = true
+select_mode = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Box"]
+layout_mode = 2
+
+[node name="AddButton" type="Button" parent="Box/Buttons"]
+layout_mode = 2
+tooltip_text = "Add a chapter after the selected one"
+text = "Add"
+icon = ExtResource("2_add")
+
+[node name="RemoveButton" type="Button" parent="Box/Buttons"]
+layout_mode = 2
+text = "Remove"
+icon = ExtResource("3_remove")
+
+[node name="NumberNamesButton" type="Button" parent="Box/Buttons"]
+layout_mode = 2
+tooltip_text = "Name every chapter \"Chapter 01\", \"Chapter 02\", ... in order"
+text = "Number Names"
+
+[node name="Spacer" type="Control" parent="Box/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ResetButton" type="Button" parent="Box/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Forget the edits and follow the chapters wired into the node again"
+text = "Reset to Disc Chapters"
+
+[node name="Hint" type="Label" parent="Box"]
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = "Double-click a time or name to change it. Times are h:mm:ss.fff from the start of the video."
+autowrap_mode = 3
+
+[connection signal="confirmed" from="." to="." method="On_Confirmed"]
+[connection signal="item_edited" from="Box/Tree" to="." method="On_Tree_ItemEdited"]
+[connection signal="pressed" from="Box/Buttons/AddButton" to="." method="On_AddButton_Pressed"]
+[connection signal="pressed" from="Box/Buttons/RemoveButton" to="." method="On_RemoveButton_Pressed"]
+[connection signal="pressed" from="Box/Buttons/NumberNamesButton" to="." method="On_NumberNamesButton_Pressed"]
+[connection signal="pressed" from="Box/Buttons/ResetButton" to="." method="On_ResetButton_Pressed"]

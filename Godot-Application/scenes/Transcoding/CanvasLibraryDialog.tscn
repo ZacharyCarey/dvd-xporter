@@ -1,0 +1,40 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/Transcoding/CanvasLibraryDialog.cs" id="1_script"]
+
+[node name="LibraryDialog" type="AcceptDialog"]
+title = "Library"
+ok_button_text = "Close"
+script = ExtResource("1_script")
+
+[node name="Box" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 468.0
+offset_bottom = 360.0
+
+[node name="Hint" type="Label" parent="Box"]
+custom_minimum_size = Vector2(460, 0)
+layout_mode = 2
+text = "Your own templates and custom nodes. Adding one puts a copy in this project (with the custom nodes it uses), replacing any older copy."
+autowrap_mode = 3
+
+[node name="LibraryList" type="ItemList" parent="Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(460, 260)
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="Box"]
+layout_mode = 2
+
+[node name="AddToProjectButton" type="Button" parent="Box/Buttons"]
+layout_mode = 2
+text = "Add to Project"
+
+[node name="RemoveFromLibraryButton" type="Button" parent="Box/Buttons"]
+layout_mode = 2
+text = "Remove from Library"
+
+[connection signal="item_activated" from="Box/LibraryList" to="." method="On_LibraryList_ItemActivated"]
+[connection signal="pressed" from="Box/Buttons/AddToProjectButton" to="." method="On_AddToProjectButton_Pressed"]
+[connection signal="pressed" from="Box/Buttons/RemoveFromLibraryButton" to="." method="On_RemoveFromLibraryButton_Pressed"]

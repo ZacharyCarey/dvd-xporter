@@ -1,0 +1,12 @@
+<Solution>
+  <Project Path="Godot-Application/dvd-xporter.csproj" />
+  <Folder Name="/DiscDecoders/">
+    <Project Path="DiscDecoders/BlurayDecoder/BlurayDecoder.csproj" />
+    <Project Path="DiscDecoders/Common/Common.csproj" />
+    <Project Path="DiscDecoders/DiscDecoders/DiscDecoders.csproj" />
+    <Project Path="DiscDecoders/DvdDecoder/DvdDecoder.csproj" />
+  </Folder>
+  <Project Path="Dvd-Xporter-Core/Dvd-Xporter-Core.csproj" />
+  <Project Path="FFmpeg/FFmpeg.csproj" />
+  <Project Path="Render-Server/Render-Server.csproj" />
+</Solution>

@@ -1,0 +1,86 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://dy005her2c1pw" path="res://scenes/Transcoding/NodeViews/SettingsNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/PortPairRow.tscn" id="PortPairRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ActionRow.tscn" id="ActionRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/TextControl.tscn" id="TextControl"]
+
+[node name="CropNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(300, 0)
+title = "Crop"
+script = ExtResource("script")
+
+[node name="InPorts" parent="." instance=ExtResource("PortPairRow")]
+unique_name_in_owner = true
+layout_mode = 2
+InputKey = "in"
+OutputKey = "out"
+
+[node name="InputLabel" parent="InPorts" index="0"]
+text = "Video"
+
+[node name="OutputLabel" parent="InPorts" index="1"]
+text = "Video"
+
+[node name="DetectButton" parent="." instance=ExtResource("ActionRow")]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Measures the black bars in samples across the video connected here, and sets the crop to remove them."
+text = "Detect Black Bars"
+ActionKey = "detect"
+
+[node name="WidthRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "width"
+
+[node name="Label" parent="WidthRow" index="0"]
+text = "Width"
+
+[node name="Width" parent="WidthRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HeightRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "height"
+
+[node name="Label" parent="HeightRow" index="0"]
+text = "Height"
+
+[node name="Height" parent="HeightRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="XRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "x"
+
+[node name="Label" parent="XRow" index="0"]
+text = "Left"
+
+[node name="X" parent="XRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="YRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "y"
+
+[node name="Label" parent="YRow" index="0"]
+text = "Top"
+
+[node name="Y" parent="YRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="InPorts"]
+[editable path="WidthRow"]
+[editable path="HeightRow"]
+[editable path="XRow"]
+[editable path="YRow"]

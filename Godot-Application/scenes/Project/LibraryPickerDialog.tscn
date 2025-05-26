@@ -1,0 +1,94 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://bxa1s3jcur06t" path="res://scenes/Project/LibraryPickerDialog.cs" id="1_picker"]
+[ext_resource type="Texture2D" uid="uid://choom6uadec1" path="res://icons/rescan.svg" id="2_rescan"]
+[ext_resource type="Texture2D" uid="uid://cijeohktv3tvf" path="res://icons/disc.svg" id="3_disc"]
+[ext_resource type="Texture2D" uid="uid://bhdwron3gpihh" path="res://icons/status_found.svg" id="4_found"]
+[ext_resource type="Texture2D" uid="uid://bapwclbnfwp0q" path="res://icons/server.svg" id="5_server"]
+
+[node name="LibraryPickerDialog" type="ConfirmationDialog"]
+title = "Add from Disc Library"
+size = Vector2i(780, 500)
+ok_button_text = "Add Disc"
+script = ExtResource("1_picker")
+DiscIcon = ExtResource("3_disc")
+InProjectIcon = ExtResource("4_found")
+ServerIcon = ExtResource("5_server")
+
+[node name="Content" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 772.0
+offset_bottom = 451.0
+theme_override_constants/separation = 8
+
+[node name="Toolbar" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SearchEdit" type="LineEdit" parent="Content/Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search by disc or folder name"
+clear_button_enabled = true
+
+[node name="RescanButton" type="Button" parent="Content/Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Rescan the Disc Library, and the render server's"
+text = "Rescan"
+icon = ExtResource("2_rescan")
+
+[node name="DiscTree" type="Tree" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+columns = 3
+column_titles_visible = true
+hide_root = true
+select_mode = 2
+
+[node name="EmptyLabel" type="Label" parent="Content"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EveryFrameRow" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+tooltip_text = "Decodes every frame of the disc when it's read, to tell whether its video is interlaced, telecined or progressive, and where. Takes about as long as playing the disc at several times speed. Without it, the video's picture type is Unknown.\n\nDVDs are often interlaced or telecined; Blu-rays seldom are, and take far longer to check."
+theme_override_constants/separation = 8
+
+[node name="EveryFrameLabel" type="Label" parent="Content/EveryFrameRow"]
+layout_mode = 2
+mouse_filter = 1
+text = "Check every frame for interlacing:"
+
+[node name="EveryFrameOption" type="OptionButton" parent="Content/EveryFrameRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Decodes every frame of the disc when it's read, to tell whether its video is interlaced, telecined or progressive, and where. Takes about as long as playing the disc at several times speed. Without it, the video's picture type is Unknown.\n\nDVDs are often interlaced or telecined; Blu-rays seldom are, and take far longer to check."
+selected = 0
+item_count = 3
+popup/item_0/text = "On DVDs"
+popup/item_0/id = 0
+popup/item_1/text = "On all discs"
+popup/item_1/id = 1
+popup/item_2/text = "Off"
+popup/item_2/id = 2
+
+[node name="CountLabel" type="Label" parent="Content"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+
+[connection signal="confirmed" from="." to="." method="On_Confirmed"]
+[connection signal="text_changed" from="Content/Toolbar/SearchEdit" to="." method="On_SearchEdit_TextChanged"]
+[connection signal="pressed" from="Content/Toolbar/RescanButton" to="." method="On_RescanButton_Pressed"]
+[connection signal="multi_selected" from="Content/DiscTree" to="." method="On_DiscTree_MultiSelected"]
+[connection signal="item_activated" from="Content/DiscTree" to="." method="On_DiscTree_ItemActivated"]

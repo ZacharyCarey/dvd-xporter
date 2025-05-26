@@ -1,0 +1,89 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/Transcoding/CanvasPanel.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cfwmvq5c1i2pt" path="res://icons/add.svg" id="2_add"]
+[ext_resource type="Texture2D" uid="uid://b8yre2xufa736" path="res://icons/remove.svg" id="3_remove"]
+
+[node name="CanvasPanel" type="VBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_script")
+
+[node name="CanvasHeader" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="CanvasLabel" type="Label" parent="CanvasHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Canvases"
+
+[node name="NewCanvasButton" type="Button" parent="CanvasHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Add a canvas, template or custom node"
+text = "New"
+icon = ExtResource("2_add")
+
+[node name="CanvasList" type="Tree" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 170)
+layout_mode = 2
+hide_root = true
+
+[node name="CanvasNameRow" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="CanvasNameEdit" type="LineEdit" parent="CanvasNameRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "The canvas's name"
+placeholder_text = "Canvas name"
+
+[node name="RemoveCanvasButton" type="Button" parent="CanvasNameRow"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Remove this canvas"
+icon = ExtResource("3_remove")
+
+[node name="LibraryRow" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="SaveToLibraryButton" type="Button" parent="LibraryRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Save this template or custom node to your personal library, to add to other projects"
+text = "Save to Library"
+
+[node name="LibraryButton" type="Button" parent="LibraryRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Add templates and custom nodes from your personal library"
+text = "Library..."
+
+[node name="RemoveCanvasDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Remove Canvas"
+ok_button_text = "Remove"
+dialog_autowrap = true
+
+[node name="NewCanvasMenu" type="PopupMenu" parent="."]
+unique_name_in_owner = true
+item_count = 3
+item_0/text = "Canvas"
+item_0/id = 0
+item_1/text = "Template"
+item_1/id = 1
+item_2/text = "Custom Node"
+item_2/id = 2
+
+[connection signal="pressed" from="CanvasHeader/NewCanvasButton" to="." method="On_NewCanvasButton_Pressed"]
+[connection signal="item_selected" from="CanvasList" to="." method="On_CanvasList_ItemSelected"]
+[connection signal="text_submitted" from="CanvasNameRow/CanvasNameEdit" to="." method="On_CanvasNameEdit_TextSubmitted"]
+[connection signal="focus_exited" from="CanvasNameRow/CanvasNameEdit" to="." method="On_CanvasNameEdit_FocusExited"]
+[connection signal="pressed" from="CanvasNameRow/RemoveCanvasButton" to="." method="On_RemoveCanvasButton_Pressed"]
+[connection signal="pressed" from="LibraryRow/SaveToLibraryButton" to="." method="On_SaveToLibraryButton_Pressed"]
+[connection signal="pressed" from="LibraryRow/LibraryButton" to="." method="On_LibraryButton_Pressed"]
+[connection signal="confirmed" from="RemoveCanvasDialog" to="." method="On_RemoveCanvasDialog_Confirmed"]
+[connection signal="id_pressed" from="NewCanvasMenu" to="." method="On_NewCanvasMenu_IdPressed"]

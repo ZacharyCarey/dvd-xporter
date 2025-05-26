@@ -1,0 +1,113 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://dsdhkgswlwvwu" path="res://scenes/Info/Editors/EpisodeEditor.cs" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/Info/Editors/ArtworkSection.tscn" id="2_art"]
+
+[node name="EpisodeEditor" type="VBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_script")
+
+[node name="Heading" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Episode"
+
+[node name="Grid" type="GridContainer" parent="."]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="SeasonLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Season"
+
+[node name="Season" type="Label" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NumberLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Episode number"
+
+[node name="Number" type="SpinBox" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 0.0
+max_value = 9999.0
+rounded = true
+
+[node name="TitleLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Title"
+
+[node name="TitleEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AirDateLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Air date"
+
+[node name="AirDateEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "A date like 2002-09-20, or blank."
+placeholder_text = "YYYY-MM-DD"
+
+[node name="DirectorsLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Directors"
+
+[node name="DirectorsEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Separate multiple entries with commas."
+
+[node name="WritersLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Writers"
+
+[node name="WritersEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Separate multiple entries with commas."
+
+[node name="OverviewLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 0
+text = "Overview"
+
+[node name="OverviewEdit" type="TextEdit" parent="Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "What happens in this episode"
+wrap_mode = 1
+
+[node name="Artwork" parent="." instance=ExtResource("2_art")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="value_changed" from="Grid/Number" to="." method="On_Number_ValueChanged"]
+[connection signal="text_changed" from="Grid/TitleEdit" to="." method="On_TitleEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/AirDateEdit" to="." method="On_AirDateEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/DirectorsEdit" to="." method="On_DirectorsEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/WritersEdit" to="." method="On_WritersEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/OverviewEdit" to="." method="On_OverviewEdit_TextChanged"]
+[connection signal="Edited" from="Artwork" to="." method="On_Section_Edited"]
+[connection signal="StatusChanged" from="Artwork" to="." method="On_Section_StatusChanged"]

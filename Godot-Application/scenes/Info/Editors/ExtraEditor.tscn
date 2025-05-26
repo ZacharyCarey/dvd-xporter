@@ -1,0 +1,109 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/Info/Editors/ExtraEditor.cs" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/Info/Editors/ArtworkSection.tscn" id="2_art"]
+
+[node name="ExtraEditor" type="VBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_script")
+
+[node name="Heading" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Extra"
+
+[node name="Grid" type="GridContainer" parent="."]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="TitleLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Title"
+
+[node name="TitleEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Its name in the library, and the title Emby shows."
+
+[node name="TypeLabel" type="Label" parent="Grid"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Type"
+
+[node name="TypeChoice" type="OptionButton" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Which of Emby's extras folders it goes in, e.g. Featurettes or Deleted Scenes."
+
+[node name="BelongsLabel" type="Label" parent="Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Belongs to"
+
+[node name="BelongsChoice" type="OptionButton" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Where Emby shows it: on the show's page, a season's, or an episode's (a gallery's folder goes there too). An episode with extras gets a folder of its own, with them in it."
+
+[node name="SortOrderLabel" type="Label" parent="Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Sort order"
+
+[node name="SortOrder" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Where Emby lists it among the extras, lowest first: a number from 0 to 999, or blank. Blank ones come after, by name."
+placeholder_text = "None (listed by name)"
+
+[node name="ReleasedLabel" type="Label" parent="Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+text = "Release date"
+
+[node name="ReleasedEdit" type="LineEdit" parent="Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "A date like 2002-09-20, or blank."
+placeholder_text = "YYYY-MM-DD"
+
+[node name="OverviewLabel" type="Label" parent="Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 0
+text = "Overview"
+
+[node name="OverviewEdit" type="TextEdit" parent="Grid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "What this extra is"
+wrap_mode = 1
+
+[node name="Artwork" parent="." instance=ExtResource("2_art")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="text_changed" from="Grid/TitleEdit" to="." method="On_TitleEdit_TextChanged"]
+[connection signal="focus_exited" from="Grid/TitleEdit" to="." method="On_TitleEdit_FocusExited"]
+[connection signal="item_selected" from="Grid/TypeChoice" to="." method="On_TypeChoice_ItemSelected"]
+[connection signal="item_selected" from="Grid/BelongsChoice" to="." method="On_BelongsChoice_ItemSelected"]
+[connection signal="text_changed" from="Grid/SortOrder" to="." method="On_SortOrder_TextChanged"]
+[connection signal="text_changed" from="Grid/ReleasedEdit" to="." method="On_ReleasedEdit_TextChanged"]
+[connection signal="text_changed" from="Grid/OverviewEdit" to="." method="On_OverviewEdit_TextChanged"]
+[connection signal="Edited" from="Artwork" to="." method="On_Section_Edited"]
+[connection signal="StatusChanged" from="Artwork" to="." method="On_Section_StatusChanged"]
