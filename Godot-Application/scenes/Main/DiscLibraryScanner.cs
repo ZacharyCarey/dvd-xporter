@@ -26,6 +26,10 @@ public partial class DiscLibraryScanner : Node
     [Signal]
     public delegate void SettingsChangedEventHandler();
 
+    /// <summary>Asking where the library is is over: a folder was chosen, or the user put it off.</summary>
+    [Signal]
+    public delegate void PromptFinishedEventHandler();
+
     public DiscServices Services { get; set; } = null!;
 
     public RenderServerLink? Server { get; set; }
@@ -80,8 +84,12 @@ public partial class DiscLibraryScanner : Node
     {
         AppSettings.Current.DiscLibraryPath = path;
         EmitSignal(SignalName.SettingsChanged);
+        EmitSignal(SignalName.PromptFinished);
         Scan();
     }
+
+    /// <summary>"Later", or the folder picker closed without a folder.</summary>
+    private void On_Prompt_Canceled() => EmitSignal(SignalName.PromptFinished);
 
     // Discs renamed or added on the server are only seen once it looks again, which it otherwise does when it starts
     private async void RescanServer()

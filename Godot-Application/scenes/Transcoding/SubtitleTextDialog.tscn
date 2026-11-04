@@ -1,0 +1,143 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://ckg3b5771ab2n" path="res://scenes/Transcoding/SubtitleTextDialog.cs" id="1_text"]
+
+[sub_resource type="StyleBoxFlat" id="PictureBackground"]
+bg_color = Color(0.32, 0.34, 0.4, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="SubtitleTextDialog" type="ConfirmationDialog"]
+title = "Subtitle Text"
+size = Vector2i(1100, 680)
+ok_button_text = "Save"
+script = ExtResource("1_text")
+
+[node name="Box" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 1092.0
+offset_bottom = 631.0
+theme_override_constants/separation = 8
+
+[node name="Toolbar" type="HBoxContainer" parent="Box"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LanguageLabel" type="Label" parent="Box/Toolbar"]
+layout_mode = 2
+text = "Language"
+
+[node name="LanguageOption" type="OptionButton" parent="Box/Toolbar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+tooltip_text = "The language Tesseract reads the captions in. Each needs its Tesseract data installed (e.g. the tesseract-ocr-fra package)."
+
+[node name="ReadButton" type="Button" parent="Box/Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Reads every caption off the disc and reads its text with Tesseract. Takes as long as reading the video from the disc, and then a moment per caption."
+text = "Read Text"
+
+[node name="StatusLabel" type="Label" parent="Box/Toolbar"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+size_flags_horizontal = 3
+text_overrun_behavior = 3
+
+[node name="Split" type="HSplitContainer" parent="Box"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 80
+
+[node name="Lines" type="Tree" parent="Box/Split"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+columns = 3
+column_titles_visible = true
+hide_root = true
+select_mode = 1
+
+[node name="Editor" type="VBoxContainer" parent="Box/Split"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="PictureFrame" type="PanelContainer" parent="Box/Split/Editor"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("PictureBackground")
+
+[node name="Picture" type="TextureRect" parent="Box/Split/Editor/PictureFrame"]
+unique_name_in_owner = true
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PictureMessage" type="Label" parent="Box/Split/Editor/PictureFrame"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+modulate = Color(1, 1, 1, 0.7)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="LineInfo" type="Label" parent="Box/Split/Editor"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+text_overrun_behavior = 3
+
+[node name="LineText" type="TextEdit" parent="Box/Split/Editor"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+placeholder_text = "No text: this caption is left out"
+editable = false
+wrap_mode = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Box/Split/Editor"]
+layout_mode = 2
+
+[node name="PreviousButton" type="Button" parent="Box/Split/Editor/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "The caption before (Alt+Up)"
+text = "Previous"
+
+[node name="NextButton" type="Button" parent="Box/Split/Editor/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "The caption after (Alt+Down)"
+text = "Next"
+
+[node name="Hint" type="Label" parent="Box"]
+custom_minimum_size = Vector2(600, 0)
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = "Check each line against its picture and correct what was misread. A line with no text is left out. The text is kept in the project, and Save keeps your corrections."
+autowrap_mode = 3
+
+[node name="ReadAgainDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Read Text Again"
+ok_button_text = "Read Again"
+dialog_text = "Reading the text again replaces it, corrections and all."
+dialog_autowrap = true
+
+[connection signal="confirmed" from="." to="." method="On_Confirmed"]
+[connection signal="visibility_changed" from="." to="." method="On_VisibilityChanged"]
+[connection signal="pressed" from="Box/Toolbar/ReadButton" to="." method="On_ReadButton_Pressed"]
+[connection signal="item_selected" from="Box/Split/Lines" to="." method="On_Lines_ItemSelected"]
+[connection signal="text_changed" from="Box/Split/Editor/LineText" to="." method="On_LineText_TextChanged"]
+[connection signal="gui_input" from="Box/Split/Editor/LineText" to="." method="On_LineText_GuiInput"]
+[connection signal="pressed" from="Box/Split/Editor/Buttons/PreviousButton" to="." method="On_PreviousButton_Pressed"]
+[connection signal="pressed" from="Box/Split/Editor/Buttons/NextButton" to="." method="On_NextButton_Pressed"]
+[connection signal="confirmed" from="ReadAgainDialog" to="." method="On_ReadAgainDialog_Confirmed"]

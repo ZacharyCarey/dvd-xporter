@@ -228,8 +228,11 @@ public static partial class TranscodeCompiler
             {
                 _job.Command.OutputOptions.AddRange([$"-pix_fmt:{i}", "yuv420p10le"]);
             }
-            if (codec == "copy")
-                _job.Command.OutputOptions.AddRange([$"-c:{i}", "copy"]);
+            // Text subtitles go into MP4 as its own kind of text; Matroska takes them as they are
+            if (codec == "copy" && stream.Kind == PortKind.Subtitle && !stream.IsBitmapSubtitle && _job.Extension == "mp4")
+                codec = "mov_text";
+            if (codec is "copy" or "mov_text")
+                _job.Command.OutputOptions.AddRange([$"-c:{i}", codec]);
             // Its frames are kept as they come: ffmpeg mustn't repeat or drop any to make the rate steady
             if (stream.VariableRate)
                 _job.Command.OutputOptions.AddRange([$"-fps_mode:{i}", "vfr"]);

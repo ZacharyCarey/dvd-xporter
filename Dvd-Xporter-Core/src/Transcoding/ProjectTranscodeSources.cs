@@ -15,6 +15,7 @@ namespace DvdXporter.Core.Transcoding;
 /// <item><see cref="Pictures"/>: what the clips' pictures (checked when their disc was read) tell.</item>
 /// <item><see cref="Media"/>: how ffmpeg reads a source's clips.</item>
 /// <item><see cref="ForcedSubtitles"/>: forced-only subtitle files.</item>
+/// <item><see cref="SubtitleText"/>: text subtitle files, from subtitles' text.</item>
 /// </list>
 /// </summary>
 public sealed class ProjectTranscodeSources : ICanvasContext, IClipFiles
@@ -28,6 +29,7 @@ public sealed class ProjectTranscodeSources : ICanvasContext, IClipFiles
         Pictures = new PictureAnalyses(this);
         Media = new SourceMediaReader(Discs, Scans);
         ForcedSubtitles = new ForcedSubtitleFiles(Discs, Scans);
+        SubtitleText = new SubtitleTextFiles(folder, Discs, Scans);
     }
 
     public ProjectFolder Folder { get; }
@@ -41,6 +43,8 @@ public sealed class ProjectTranscodeSources : ICanvasContext, IClipFiles
     public SourceMediaReader Media { get; }
 
     public ForcedSubtitleFiles ForcedSubtitles { get; }
+
+    public SubtitleTextFiles SubtitleText { get; }
 
     public Project Project => Folder.Project;
 
@@ -74,6 +78,9 @@ public sealed class ProjectTranscodeSources : ICanvasContext, IClipFiles
 
     public string? GetForcedSubtitles(ProjectDisc disc, IReadOnlyList<PlaylistEntry> entries, ClipTrack track) =>
         ForcedSubtitles.Get(disc, entries, track);
+
+    public SubtitleTextFile GetSubtitleText(ProjectDisc disc, IReadOnlyList<PlaylistEntry> entries, ClipTrack track, bool forcedOnly) =>
+        SubtitleText.Get(disc, entries, track, forcedOnly);
 
     /// <summary>The sources seen from another canvas: the same in all but <see cref="Canvas"/>.</summary>
     private sealed class CanvasView(ProjectTranscodeSources sources, TranscodeCanvas canvas) : ICanvasContext

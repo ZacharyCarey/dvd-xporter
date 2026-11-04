@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://scenes/Export/ExportPage.tscn" id="7_vup2a"]
 [ext_resource type="PackedScene" path="res://scenes/Settings/SettingsDialog.tscn" id="8_p7wog"]
 [ext_resource type="PackedScene" path="res://scenes/Main/DependenciesDialog.tscn" id="9_deps"]
+[ext_resource type="PackedScene" path="res://scenes/Main/TesseractDialog.tscn" id="tesseract"]
 [ext_resource type="PackedScene" path="res://scenes/Main/DiscLibraryScanner.tscn" id="10_scanner"]
 [ext_resource type="PackedScene" path="res://scenes/Main/ProjectPackages.tscn" id="11_packages"]
 [ext_resource type="PackedScene" path="res://scenes/Main/ServerJobsDialog.tscn" id="12_jobs"]
@@ -215,6 +216,9 @@ unique_name_in_owner = true
 [node name="DependenciesDialog" parent="." unique_id=648340369 instance=ExtResource("9_deps")]
 unique_name_in_owner = true
 
+[node name="TesseractDialog" parent="." instance=ExtResource("tesseract")]
+unique_name_in_owner = true
+
 [node name="ServerJobsDialog" parent="." instance=ExtResource("12_jobs")]
 unique_name_in_owner = true
 
@@ -249,6 +253,7 @@ Turn your legally obtained DVD and Blu-ray rips into Emby-ready libraries, with 
 [connection signal="confirmed" from="SettingsDialog" to="." method="ApplySettings"]
 [connection signal="LibraryChanged" from="DiscLibraryScanner" to="." method="On_DiscLibraryScanner_LibraryChanged"]
 [connection signal="SettingsChanged" from="DiscLibraryScanner" to="." method="SaveSettings"]
+[connection signal="PromptFinished" from="DiscLibraryScanner" to="TesseractDialog" method="SuggestOnce"]
 [connection signal="StatusChanged" from="DiscLibraryScanner" to="." method="SetStatus"]
 [connection signal="confirmed" from="StopReadingDialog" to="." method="On_StopReadingDialog_Confirmed"]
 [connection signal="ErrorOccurred" from="ProjectPackages" to="." method="ShowError"]
@@ -256,3 +261,4 @@ Turn your legally obtained DVD and Blu-ray rips into Emby-ready libraries, with 
 [connection signal="QuitRequested" from="DependenciesDialog" to="." method="Quit"]
 [connection signal="Satisfied" from="DependenciesDialog" to="." method="FinishStartUp"]
 [connection signal="StatusChanged" from="DependenciesDialog" to="." method="SetStatus"]
+[connection signal="Suggested" from="TesseractDialog" to="." method="SaveSettings"]

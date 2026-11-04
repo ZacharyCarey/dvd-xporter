@@ -52,6 +52,7 @@ public static partial class NodeTypes
 
         // ---- Subtitles ----
         ForcedSubtitlesNode.Type,
+        SubtitleTextNode.Type,
         BurnSubtitlesNode.Type,
 
         // ---- Codecs ----

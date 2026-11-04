@@ -195,6 +195,20 @@ public abstract class Disc
         format == DiscFormat.Dvd ? DvdDisc.GroupCells(clips, scans) : clips.Select((_, i) => new List<int> { i }).ToList();
 
     /// <summary>
+    /// Every caption of a picture-based subtitle stream (DVD or Blu-ray PGS), drawn, from a clip's data as
+    /// <see cref="OpenClip"/> gives it, so the disc itself needn't be here. Reads the whole clip.
+    /// </summary>
+    /// <param name="streamId">The subtitle stream's ID (see <see cref="StreamInfo.StreamId"/>).</param>
+    /// <param name="palette">A DVD clip's subtitle colours (see <see cref="ClipInfo.SubtitlePalette"/>); Blu-ray
+    /// subtitles carry their own.</param>
+    /// <exception cref="IOException">The clip couldn't be read.</exception>
+    public static List<CaptionPicture> ReadCaptions(DiscFormat format, Stream clip, int streamId, IReadOnlyList<Rgb>? palette,
+        CancellationToken cancellation = default) =>
+        format == DiscFormat.Dvd
+            ? DvdCaptions.Read(clip, streamId, palette, cancellation)
+            : PgsCaptions.Read(clip, streamId, cancellation);
+
+    /// <summary>
     /// A run of clips (see <see cref="GroupSeamless"/>) read one after another as one stream, in <see cref="Container"/>.
     /// The caller owns it.
     /// </summary>

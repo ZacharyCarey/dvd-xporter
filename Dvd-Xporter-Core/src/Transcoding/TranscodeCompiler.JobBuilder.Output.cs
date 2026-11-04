@@ -100,6 +100,7 @@ public static partial class TranscodeCompiler
             "eac3" => "E-AC-3",
             "flac" => "FLAC",
             "libmp3lame" => "MP3",
+            "mov_text" => "MP4 text",
             _ => codec,
         };
     }

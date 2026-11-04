@@ -7,8 +7,8 @@ using Godot;
 
 namespace DvdXporter.UI;
 
-// What nodes ask for besides their own settings: track options, chapters, detecting a crop, a template's videos, and
-// which of a custom node's settings show on it.
+// What nodes ask for besides their own settings: track options, chapters, detecting a crop, subtitle text, a
+// template's videos, and which of a custom node's settings show on it.
 public partial class TranscodingPage
 {
     // ---- Track options ----
@@ -28,6 +28,28 @@ public partial class TranscodingPage
     {
         if (view.Model.Type == NodeTypes.Crop && key == CropNode.DetectAction)
             DetectCrop(view);
+        else if (view.Model.Type == NodeTypes.SubtitleText && key == SubtitleTextNode.EditAction)
+            EditSubtitleText(view);
+    }
+
+    /// <summary>Opens the text of the subtitle track wired into a Subtitle Text node, to read and correct.</summary>
+    private void EditSubtitleText(TranscodeNodeView view)
+    {
+        var canvas = _canvas;
+        var sources = _sources;
+        var folder = _folder;
+        if (canvas is null || sources is null || folder is null)
+            return;
+
+        sources.Canvas = canvas;
+        var source = SubtitleTextNode.FindSource(canvas, sources, view.Model);
+        if (source is null)
+        {
+            ShowError("Connect a subtitle track from a Disc Video (or a Forced Subtitles node) to the Subtitle Text node first.");
+            return;
+        }
+
+        _subtitleTextDialog.Edit(folder, sources, source);
     }
 
     /// <summary>

@@ -26,6 +26,16 @@ internal static class PgsScanner
     public static Dictionary<int, PgsStreamScan> Scan(Stream m2ts, IReadOnlyCollection<int> pids, CancellationToken cancellation = default)
     {
         var streams = pids.ToDictionary(p => p, p => new StreamState());
+        Read(m2ts, streams, cancellation);
+        return streams.ToDictionary(s => s.Key, s => new PgsStreamScan(s.Key, s.Value.Total, s.Value.Forced, s.Value.ForcedSets));
+    }
+
+    /// <summary>Reads a whole .m2ts for every segment of one subtitle stream, in order.</summary>
+    public static void ReadSegments(Stream m2ts, int pid, Action<PgsSegment> onSegment, CancellationToken cancellation = default) =>
+        Read(m2ts, new Dictionary<int, StreamState> { [pid] = new StreamState { OnSegment = onSegment } }, cancellation);
+
+    private static void Read(Stream m2ts, Dictionary<int, StreamState> streams, CancellationToken cancellation)
+    {
         var buffer = new byte[PacketSize * 8192];
         int filled = 0;
         while (true)
@@ -46,7 +56,6 @@ internal static class PgsScanner
 
         foreach (var state in streams.Values)
             state.EndPes();
-        return streams.ToDictionary(s => s.Key, s => new PgsStreamScan(s.Key, s.Value.Total, s.Value.Forced, s.Value.ForcedSets));
     }
 
     private static void ReadPacket(ReadOnlySpan<byte> packet, Dictionary<int, StreamState> streams)
@@ -79,6 +88,9 @@ internal static class PgsScanner
         public int Total;
         public int Forced;
 
+        /// <summary>Given every segment instead of counting captions, when set.</summary>
+        public Action<PgsSegment>? OnSegment;
+
         private List<PgsSegment>? _set;
         private bool _showingForced;
 
@@ -105,6 +117,11 @@ internal static class PgsScanner
                     break;
                 var segment = new PgsSegment(type, pts, dts, pes[(p + 3)..(p + 3 + size)]);
                 p += 3 + size;
+                if (OnSegment is not null)
+                {
+                    OnSegment(segment);
+                    continue;
+                }
 
                 if (type == CompositionSegment)
                     _set = [];

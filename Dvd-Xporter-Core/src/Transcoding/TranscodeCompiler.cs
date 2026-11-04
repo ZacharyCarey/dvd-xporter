@@ -350,6 +350,9 @@ public static partial class TranscodeCompiler
                 case NodeTypes.BurnSubtitles:
                     CompileBurnSubtitles(node);
                     break;
+                case NodeTypes.SubtitleText:
+                    CompileSubtitleText(node);
+                    break;
                 default:
                     CompileFilter(node);
                     break;

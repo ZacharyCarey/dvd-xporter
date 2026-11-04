@@ -50,6 +50,8 @@ public partial class TranscodingPage : MarginContainer, IStepPage
     private List<NodeType> _menuTypes = [];
     private ChapterEditorDialog _chapterEditor = null!;
 
+    private SubtitleTextDialog _subtitleTextDialog = null!;
+
     private ProjectFolder? _folder;
     private DiscServices? _discServices;
     private RenderServerLink? _server;
@@ -81,6 +83,7 @@ public partial class TranscodingPage : MarginContainer, IStepPage
         _nodeMenu = GetNode<PopupMenu>("%NodeMenu");
         _chapterEditor = GetNode<ChapterEditorDialog>("%ChapterEditorDialog");
         _trackOptionsDialog = GetNode<TrackOptionsDialog>("%TrackOptionsDialog");
+        _subtitleTextDialog = GetNode<SubtitleTextDialog>("%SubtitleTextDialog");
         _templateRowsDialog = GetNode<TemplateRowsDialog>("%TemplateRowsDialog");
         _libraryDialog = GetNode<CanvasLibraryDialog>("%LibraryDialog");
 

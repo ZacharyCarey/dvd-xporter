@@ -25,6 +25,12 @@ public sealed partial class ProjectFolder
     /// </summary>
     public const string DiscInfoFolderName = "Disc Info";
 
+    /// <summary>
+    /// The folder of text read off the discs' picture subtitles and corrected (see <see cref="Subtitles.SubtitleTexts"/>).
+    /// Part of the project, so the corrections are shared with it.
+    /// </summary>
+    public const string SubtitleTextFolderName = "Subtitle Text";
+
     private readonly Dictionary<ProjectDisc, DiscCache> _discCaches = [];
 
     private ProjectFolder(string projectFilePath, Project project, ProjectCache cache)

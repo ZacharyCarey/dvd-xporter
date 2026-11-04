@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" path="res://scenes/Transcoding/FrameView.tscn" id="5_frame"]
 [ext_resource type="PackedScene" path="res://scenes/Transcoding/ChapterEditorDialog.tscn" id="6_chapters"]
 [ext_resource type="PackedScene" path="res://scenes/Transcoding/TrackOptionsDialog.tscn" id="7_track"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/SubtitleTextDialog.tscn" id="subtitle_text"]
 [ext_resource type="PackedScene" path="res://scenes/Transcoding/TemplateRowsDialog.tscn" id="8_rows"]
 [ext_resource type="PackedScene" path="res://scenes/Transcoding/FrameDialog.tscn" id="9_frame_dialog"]
 [ext_resource type="PackedScene" path="res://scenes/Transcoding/QuickAddPopup.tscn" id="10_quick"]
@@ -145,6 +146,9 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="TrackOptionsDialog" parent="." instance=ExtResource("7_track")]
+unique_name_in_owner = true
+
+[node name="SubtitleTextDialog" parent="." instance=ExtResource("subtitle_text")]
 unique_name_in_owner = true
 
 [node name="TemplateRowsDialog" parent="." instance=ExtResource("8_rows")]
@@ -390,6 +394,8 @@ text = "Show these shortcuts"
 [connection signal="Applied" from="ChapterEditorDialog" to="." method="On_Dialog_Applied"]
 
 [connection signal="Applied" from="TrackOptionsDialog" to="." method="On_Dialog_Applied"]
+
+[connection signal="Applied" from="SubtitleTextDialog" to="." method="On_Dialog_Applied"]
 
 [connection signal="Applied" from="TemplateRowsDialog" to="." method="On_Dialog_Applied"]
 

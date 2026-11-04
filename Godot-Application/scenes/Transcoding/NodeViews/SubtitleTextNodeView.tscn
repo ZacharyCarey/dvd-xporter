@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://dy005her2c1pw" path="res://scenes/Transcoding/NodeViews/SettingsNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/PortPairRow.tscn" id="PortPairRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ActionRow.tscn" id="ActionRow"]
+
+[node name="SubtitleTextNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(300, 0)
+title = "Subtitle Text"
+script = ExtResource("script")
+
+[node name="InPorts" parent="." instance=ExtResource("PortPairRow")]
+unique_name_in_owner = true
+layout_mode = 2
+InputKey = "in"
+OutputKey = "out"
+
+[node name="InputLabel" parent="InPorts" index="0"]
+text = "Subtitles"
+
+[node name="OutputLabel" parent="InPorts" index="1"]
+text = "Text"
+
+[node name="EditButton" parent="." instance=ExtResource("ActionRow")]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Reads the text off the subtitles' pictures, and shows it beside them to correct."
+text = "Read & Correct Text..."
+ActionKey = "edit"
+
+[editable path="InPorts"]

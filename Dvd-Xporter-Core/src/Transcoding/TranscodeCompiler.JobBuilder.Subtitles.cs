@@ -5,7 +5,7 @@ namespace DvdXporter.Core.Transcoding;
 
 public static partial class TranscodeCompiler
 {
-    // Forced-only subtitle tracks, and subtitles burned into the picture.
+    // Forced-only subtitle tracks, subtitles as text, and subtitles burned into the picture.
     private sealed partial class JobBuilder
     {
         /// <summary>
@@ -55,6 +55,44 @@ public static partial class TranscodeCompiler
                 _compiled[(node.Id, "out")] = forced;
         }
 
+
+        /// <summary>
+        /// A disc subtitle track (or its forced captions) as text subtitles: an SRT made from its saved text, as an input
+        /// of its own, timed like the source.
+        /// </summary>
+        private void CompileSubtitleText(CanvasNode node)
+        {
+            var subtitles = Input(node, "in", "");
+            if (subtitles is null)
+                return;
+            var origin = subtitles.Origin;
+            if (subtitles.Kind != PortKind.Subtitle || origin is null || !subtitles.IsBitmapSubtitle)
+            {
+                Issue(IssueLevel.Error, node, "Connect a subtitle track straight from a Disc Video, or a Forced Subtitles node.");
+                return;
+            }
+
+            var file = files.GetSubtitleText(origin.Disc, origin.Entries, origin.Track, subtitles.ForcedOnly);
+            if (file.Path is null)
+            {
+                Issue(IssueLevel.Error, node, file.Unread.Count > 0
+                    ? $"The text of \"{origin.Track.Label}\" hasn't been read yet: choose Read & Correct Text."
+                    : $"\"{origin.Track.Label}\" has no {(subtitles.ForcedOnly ? "forced captions with " : "")}text.");
+                return;
+            }
+
+            int index = _job.Command.Inputs.Count;
+            _job.Command.Inputs.Add(new FileInput(FFmpegSource.FromFile(file.Path), origin.Start.ToFFmpegTime(), origin.End.ToFFmpegTime(), []));
+            _compiled[(node.Id, "out")] = subtitles with
+            {
+                Ref = $"{index}:s:0",
+                IsLabel = false,
+                Input = index,
+                IsBitmapSubtitle = false,
+                Description = subtitles.Description + " as text",
+            };
+        }
+
         /// <summary>Draws subtitles (by default only forced ones) into the video.</summary>
         private void CompileBurnSubtitles(CanvasNode node)
         {
@@ -65,6 +103,12 @@ public static partial class TranscodeCompiler
             if (subtitles.Kind != PortKind.Subtitle)
             {
                 Issue(IssueLevel.Error, node, "Connect a subtitle track to its subtitles input.");
+                return;
+            }
+
+            if (!subtitles.IsBitmapSubtitle)
+            {
+                Issue(IssueLevel.Error, node, "Only the disc's own (picture) subtitles can be burned in: connect them before the Subtitle Text node.");
                 return;
             }
 

@@ -59,6 +59,12 @@ public sealed class AppSettings
 
     public const int DefaultShortClipSeconds = 12;
 
+    /// <summary>
+    /// Whether the user has been told Tesseract isn't installed. It's optional (only the Subtitle Text node needs it), so
+    /// it's suggested once.
+    /// </summary>
+    public bool TesseractSuggested { get; set; }
+
     /// <summary>The Emby library that projects of a kind export into, or null if it isn't set.</summary>
     public string? LibraryPath(ProjectKind kind) => kind == ProjectKind.Movie ? MoviesLibraryPath : ShowsLibraryPath;
 

@@ -14,6 +14,13 @@ public interface IClipFiles
     /// trim), or null if it has none (or a clip couldn't be read through, so it isn't known).
     /// </summary>
     string? GetForcedSubtitles(ProjectDisc disc, IReadOnlyList<PlaylistEntry> entries, Clips.ClipTrack track);
+
+    /// <summary>
+    /// Text subtitles (an SRT) from a subtitle track's text, read off its pictures and corrected (see
+    /// <see cref="Subtitles.SubtitleTexts"/>), timed from the source's start; just its forced captions if
+    /// <paramref name="forcedOnly"/>.
+    /// </summary>
+    SubtitleTextFile GetSubtitleText(ProjectDisc disc, IReadOnlyList<PlaylistEntry> entries, Clips.ClipTrack track, bool forcedOnly);
 }
 
 /// <summary>How ffmpeg reads one Disc Video source.</summary>

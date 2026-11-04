@@ -16,12 +16,15 @@ public sealed record MissingDependency(string Name, string Use, string Problem, 
 
 /// <summary>
 /// The programs the app can't work without, which aren't part of it: FFmpeg (ffmpeg and ffprobe, run from PATH) to
-/// encode, and VLC (the system's libvlc) to preview. Checked at start-up.
+/// encode, and VLC (the system's libvlc) to preview. Checked at start-up. Tesseract, which is optional, is only
+/// suggested (see <see cref="TesseractDialog"/>).
 /// </summary>
 public static class Dependencies
 {
     public const string FFmpegUrl = "https://ffmpeg.org/download.html";
     public const string VlcUrl = "https://www.videolan.org/vlc/";
+    public const string TesseractUrl = "https://tesseract-ocr.github.io/tessdoc/Installation.html";
+
 
     /// <summary>Those that weren't found. Takes up to a second or so (it runs ffmpeg and starts VLC).</summary>
     public static List<MissingDependency> FindMissing()
@@ -72,5 +75,36 @@ public static class Dependencies
         }
 
         return $"Download {them} from the links below.";
+    }
+
+
+    /// <summary>
+    /// How to install Tesseract (optional: see <see cref="DvdXporter.Core.Subtitles.Tesseract"/>) on this system, with
+    /// English; other languages are packages of their own.
+    /// </summary>
+    public static string TesseractInstallHint()
+    {
+        if (OperatingSystem.IsLinux())
+        {
+            var (command, language) = File.Exists("/usr/bin/apt") ? ("sudo apt install tesseract-ocr", "tesseract-ocr-fra")
+                : File.Exists("/usr/bin/dnf") ? ("sudo dnf install tesseract", "tesseract-langpack-fra")
+                : File.Exists("/usr/bin/pacman") ? ("sudo pacman -S tesseract tesseract-data-eng", "tesseract-data-fra")
+                : File.Exists("/usr/bin/zypper") ? ("sudo zypper install tesseract-ocr tesseract-ocr-traineddata-english", "tesseract-ocr-traineddata-french")
+                : ((string?)null, (string?)null);
+            return command is null
+                ? "Install it with your system's package manager, with the languages your discs' subtitles are in."
+                : $"To install it, run:\n    {command}\nOther languages are packages of their own, e.g. {language} for French.";
+        }
+
+        if (OperatingSystem.IsWindows())
+        {
+            return "To install it, run:\n    winget install UB-Mannheim.TesseractOCR\nticking the languages you need, then add its folder "
+                + "(C:\\Program Files\\Tesseract-OCR) to PATH and open the app again.";
+        }
+
+        if (OperatingSystem.IsMacOS())
+            return "To install it with every language, run:\n    brew install tesseract tesseract-lang";
+
+        return "Download it from the link below.";
     }
 }

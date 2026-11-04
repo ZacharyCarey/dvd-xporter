@@ -51,6 +51,8 @@ public static partial class NodeTypes
 
     public const string BurnSubtitles = "burn-subtitles";
 
+    public const string SubtitleText = "subtitle-text";
+
     public const string Chapters = "chapters";
 
     public const string TemplateInput = "template-input";

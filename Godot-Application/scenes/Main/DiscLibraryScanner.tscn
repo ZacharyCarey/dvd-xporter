@@ -26,3 +26,5 @@ use_native_dialog = true
 
 [connection signal="confirmed" from="DiscLibraryPrompt" to="DiscLibraryDialog" method="popup_centered"]
 [connection signal="dir_selected" from="DiscLibraryDialog" to="." method="On_DiscLibraryDialog_DirSelected"]
+[connection signal="canceled" from="DiscLibraryPrompt" to="." method="On_Prompt_Canceled"]
+[connection signal="canceled" from="DiscLibraryDialog" to="." method="On_Prompt_Canceled"]

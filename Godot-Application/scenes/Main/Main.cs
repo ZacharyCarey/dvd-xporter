@@ -70,6 +70,7 @@ public partial class Main : Control
     private AcceptDialog _aboutDialog = null!;
     // Shown at start-up if programs the app needs are missing
     private DependenciesDialog _dependenciesDialog = null!;
+    private TesseractDialog _tesseractDialog = null!;
     private ServerJobsDialog _serverJobsDialog = null!;
 
     private RecentProjectList _recentProjects = null!;
@@ -101,6 +102,7 @@ public partial class Main : Control
         _errorDialog = GetNode<AcceptDialog>("%ErrorDialog");
         _aboutDialog = GetNode<AcceptDialog>("%AboutDialog");
         _dependenciesDialog = GetNode<DependenciesDialog>("%DependenciesDialog");
+        _tesseractDialog = GetNode<TesseractDialog>("%TesseractDialog");
         _serverJobsDialog = GetNode<ServerJobsDialog>("%ServerJobsDialog");
 
         AppSettings.Load(AppPaths.Settings);
@@ -151,11 +153,17 @@ public partial class Main : Control
     private void FinishStartUp()
     {
         SetStatus("Ready.");
-        // Asks where the Disc Library is, if that isn't set, once the window's up
+        // Asks where the Disc Library is, if that isn't set, once the window's up; the optional programs are suggested
+        // after that (the Disc Library scanner's PromptFinished, connected in the scene), so it's one question at a time
         if (string.IsNullOrEmpty(AppSettings.Current.DiscLibraryPath))
+        {
             Callable.From(_discLibrary.ScanThisComputer).CallDeferred();
+        }
         else
+        {
             _discLibrary.ScanThisComputer();
+            _tesseractDialog.SuggestOnce();
+        }
     }
 
     public override void _ExitTree()
