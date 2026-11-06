@@ -55,6 +55,9 @@ public static partial class NodeTypes
         SubtitleTextNode.Type,
         BurnSubtitlesNode.Type,
 
+        // ---- Presets ----
+        PresetNode.Type,
+
         // ---- Codecs ----
         VideoCodecNode.Type,
         AudioCodecNode.Type,

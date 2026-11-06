@@ -42,9 +42,23 @@ public static partial class TranscodeCompiler
             _compiled[(node.Id, "out")] = stream with { Codec = node };
         }
 
-        /// <summary>Adds a track's encoder options and returns the encoder's name.</summary>
-        private string AddCodecOptions(CanvasNode codec, int i)
+        /// <summary>Adds the options that encode a track (its <see cref="Compiled.Codec"/>'s), and returns the encoder's name.</summary>
+        private string AddCodecOptions(Compiled stream, int i)
         {
+            var codec = stream.Codec!;
+            if (codec.Type == NodeTypes.Preset)
+            {
+                var preset = new PresetNode(codec);
+                if (stream.Kind == PortKind.Video)
+                {
+                    _job.Command.OutputOptions.AddRange(preset.VideoOptions(i));
+                    return preset.VideoCodec;
+                }
+
+                _job.Command.OutputOptions.AddRange(preset.AudioOptions(i, stream.Origin?.Track));
+                return preset.AudioCodec;
+            }
+
             if (codec.Type == NodeTypes.VideoCodec)
             {
                 var video = new VideoCodecNode(codec);

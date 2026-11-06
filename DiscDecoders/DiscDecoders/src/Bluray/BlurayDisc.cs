@@ -264,22 +264,37 @@ public sealed partial class BlurayDisc : Disc
     }
 
     /// <summary>The PIDs of the clip's presentation graphics subtitles (PGS), as its clip info lists them.</summary>
-    private IReadOnlyList<int> GetSubtitlePids(string clip) =>
+    private IReadOnlyList<int> GetSubtitlePids(string clip) => GetPids(clip, t => t == StreamCodingType.PresentationGraphics);
+
+    /// <summary>The PIDs of the clip's audio, as its clip info lists them.</summary>
+    private IReadOnlyList<int> GetAudioPids(string clip) => GetPids(clip, t => t is StreamCodingType.Mpeg1Audio or StreamCodingType.Mpeg2Audio
+        or (>= StreamCodingType.Lpcm and <= StreamCodingType.DtsHdMaster) or StreamCodingType.Ac3PlusSecondary or StreamCodingType.DtsHdSecondary);
+
+    private IReadOnlyList<int> GetPids(string clip, Func<StreamCodingType, bool> kind) =>
         GetClipInfo(clip)?.Programs.SelectMany(p => p.Streams)
-            .Where(s => s.CodingType == StreamCodingType.PresentationGraphics)
+            .Where(s => kind(s.CodingType))
             .Select(s => (int)s.Pid).Distinct().ToList() ?? [];
 
     /// <inheritdoc/>
     /// <remarks>
     /// The clip's presentation graphics subtitles (PGS, as its clip info lists them): their captions, and the forced ones
-    /// as display sets. Reads the whole clip: about half a minute for a film.
+    /// as display sets, which reads the whole clip (about half a minute for a film); and its audio's bitrates, from its
+    /// first few seconds.
     /// </remarks>
     protected override ClipScan ScanClip(string clip, CancellationToken cancellation)
     {
         var pids = GetSubtitlePids(clip);
-        // The clip info says the rest; only subtitles need the clip read
+        var audioPids = GetAudioPids(clip);
+        IReadOnlyList<AudioBitrate>? audio = null;
+        if (audioPids.Count > 0)
+        {
+            using var stream = OpenClip(clip);
+            audio = TsBitrates.Measure(stream, audioPids, cancellation);
+        }
+
+        // The clip info says the rest
         if (pids.Count == 0)
-            return new ClipScan(null, null, null, null, [], []);
+            return new ClipScan(null, null, null, null, [], [], Audio: audio);
         Dictionary<int, PgsStreamScan> scans;
         using (var stream = OpenClip(clip))
             scans = PgsScanner.Scan(stream, pids, cancellation);
@@ -288,6 +303,6 @@ public sealed partial class BlurayDisc : Disc
             .Select(s => new SubtitleScan(s.Pid, s.Total, s.Forced,
                 s.ForcedSets.Select(set => new ForcedCaption(new DiscTime((long)set[0].Pts), PgsScanner.ToSup(set))).ToList()))
             .ToList();
-        return new ClipScan(null, null, null, null, [], subtitles);
+        return new ClipScan(null, null, null, null, [], subtitles, Audio: audio);
     }
 }

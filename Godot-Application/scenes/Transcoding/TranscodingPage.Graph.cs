@@ -85,8 +85,17 @@ public partial class TranscodingPage
         view.TemplateRowsEditRequested += EditTemplateRows;
         view.ActionRequested += OnNodeAction;
         view.TemplateRowTestRequested += TestTemplateRow;
-        view.SettingChanged += _ =>
+        view.SettingChanged += changed =>
         {
+            // Some types bring their other settings in line, e.g. a Preset writing in its preset's values, which its rows then
+            // show (once the control that changed is done with its signal)
+            var sources = _sources;
+            if (changed.Type.Settle?.Invoke(changed.Model) == true && sources is not null)
+                Callable.From(() =>
+                {
+                    if (IsInstanceValid(changed))
+                        changed.Rebuild(sources, force: true);
+                }).CallDeferred();
             ScheduleSave();
             Refresh();
         };

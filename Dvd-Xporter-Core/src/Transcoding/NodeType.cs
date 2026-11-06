@@ -21,6 +21,8 @@ public enum NodeCategory
     AudioFilters,
     Combine,
     Subtitles,
+    /// <summary>Ready-made sets of encoding settings (see <see cref="Nodes.PresetNode"/>).</summary>
+    Presets,
     Codecs,
     Outputs,
     /// <summary>Templates, custom nodes, and the nodes that build them.</summary>
@@ -92,6 +94,12 @@ public sealed class NodeType
 
     /// <summary>The node's ports, given its settings and what it plays; when null, an "in" and an "out" of <see cref="PassKind"/>.</summary>
     public Func<CanvasNode, ITranscodeContext, NodePorts>? Ports { get; init; }
+
+    /// <summary>
+    /// Brings the node's settings in line with each other when it's made and after one changes, e.g. a Preset node
+    /// writing in its preset's values; returns whether it changed any. Null for types whose settings stand alone.
+    /// </summary>
+    public Func<CanvasNode, bool>? Settle { get; init; }
 
     /// <summary>For a one-in, one-out filter or codec: what it takes and gives.</summary>
     public PortKind? PassKind { get; init; }

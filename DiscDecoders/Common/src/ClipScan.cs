@@ -14,12 +14,18 @@ namespace DiscDecoders.Common;
 /// <param name="Subtitles">Each subtitle stream's captions.</param>
 /// <param name="Interlaced">Whether its video is stored interlaced (see <see cref="VideoStreamInfo.Interlaced"/>, which
 /// it decides where the navigation files don't say), or null if not checked.</param>
+/// <param name="Audio">The audio streams' bitrates, measured at the clip's start (see <see cref="BitrateMeter"/>), which
+/// navigation files don't give; null if not measured.</param>
 public sealed record ClipScan(IReadOnlyList<int>? StreamIds, DiscTime? Start, DiscTime? End, int? Pictures,
-    IReadOnlyList<ByteRange> LeadIn, IReadOnlyList<SubtitleScan> Subtitles, bool? Interlaced = null)
+    IReadOnlyList<ByteRange> LeadIn, IReadOnlyList<SubtitleScan> Subtitles, bool? Interlaced = null,
+    IReadOnlyList<AudioBitrate>? Audio = null)
 {
     /// <summary>How long its data plays, if measured.</summary>
     public DiscTime? Duration => (Start is not null) && (End is not null) && End > Start ? End - Start : null;
 }
+
+/// <summary>An audio stream's bitrate in kbps, as measured (see <see cref="BitrateMeter"/>).</summary>
+public sealed record AudioBitrate(int StreamId, int Kbps);
 
 /// <summary>A run of bytes in a clip's stream.</summary>
 public sealed record ByteRange(long Offset, int Length);

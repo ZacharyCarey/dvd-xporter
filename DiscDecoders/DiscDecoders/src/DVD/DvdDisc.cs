@@ -126,7 +126,7 @@ public sealed class DvdDisc : Disc
                 captions[s.StreamId].Select(c => new ForcedCaption(new DiscTime((long)c.Pts), c.Data)).ToList()))
             .ToList();
         return new ClipScan(scan.StreamIds, ToTime(scan.StartPtm), ToTime(scan.EndPtm), scan.Pictures,
-            scan.LeadIn.Select(p => new ByteRange(p.Offset, p.Length)).ToList(), subtitles, scan.Interlaced);
+            scan.LeadIn.Select(p => new ByteRange(p.Offset, p.Length)).ToList(), subtitles, scan.Interlaced, scan.AudioBitrates);
 
         static DiscTime? ToTime(uint? ptm) => ptm is not null ? new DiscTime((long)ptm) : null;
     }

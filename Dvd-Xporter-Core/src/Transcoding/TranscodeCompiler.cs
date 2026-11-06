@@ -276,7 +276,7 @@ public static partial class TranscodeCompiler
 
             try
             {
-                CompileNode(node);
+                CompileNode(node, port);
             }
             finally
             {
@@ -322,10 +322,14 @@ public static partial class TranscodeCompiler
             return stream;
         }
 
-        private void CompileNode(CanvasNode node)
+        /// <summary>Compiles a node's outputs; a Preset's only <paramref name="port"/>, the one asked for.</summary>
+        private void CompileNode(CanvasNode node, string port)
         {
             switch (node.Type)
             {
+                case NodeTypes.Preset:
+                    CompilePreset(node, port);
+                    break;
                 case NodeTypes.Source or NodeTypes.TemplateInput:
                     CompileSource(node);
                     break;

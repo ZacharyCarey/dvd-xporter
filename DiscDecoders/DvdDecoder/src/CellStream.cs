@@ -250,6 +250,7 @@ public sealed class CellStream : Stream
         private readonly Dictionary<int, (List<byte> Data, uint? Pts)> _units = [];
         private readonly Dictionary<int, (int Total, int Forced)> _subtitleCounts = [];
         private readonly List<CellScan.ForcedCaption> _forced = [];
+        private readonly BitrateMeter _bitrates = new();
 
         public void ScanSector(ReadOnlySpan<byte> sector, long index)
         {
@@ -287,6 +288,9 @@ public sealed class CellStream : Stream
                     {
                         if (!_streams.Contains(stream))
                             _streams.Add(stream);
+                        // MPEG audio, and private stream 1's AC-3, DTS and LPCM (0x80-0xAF)
+                        if (isAudio || (id == 0xBD && stream is >= 0x80 and <= 0xAF))
+                            _bitrates.Add(stream, next - Math.Min(headerEnd, next), pts);
                         if (isVideo)
                             CountPictures(sector[Math.Min(headerEnd, next)..next]);
                         else if (id == 0xBD && stream is >= 0x20 and <= 0x3F && headerEnd + 1 <= next)
@@ -460,6 +464,7 @@ public sealed class CellStream : Stream
                 Interlaced = _pictures > 0 ? _codedPictures > 0 && !_progressiveSequence && _progressiveFrames < _codedPictures : null,
                 Subtitles = _subtitleCounts.Select(c => new CellScan.SubtitleCount(c.Key, c.Value.Total, c.Value.Forced)).ToList(),
                 ForcedCaptions = _forced,
+                AudioBitrates = _bitrates.Measured,
             };
         }
 
@@ -545,6 +550,9 @@ public sealed record CellScan(IReadOnlyList<int> StreamIds, uint? StartPtm, uint
 
     /// <summary>The forced captions, in order.</summary>
     public IReadOnlyList<ForcedCaption> ForcedCaptions { get; init; } = [];
+
+    /// <summary>The audio streams' bitrates, from their first few seconds.</summary>
+    public IReadOnlyList<AudioBitrate> AudioBitrates { get; init; } = [];
 
     /// <summary>How long the cell plays, from its navigation packs.</summary>
     public TimeSpan? Duration => StartPtm is not null && EndPtm is not null && EndPtm.Value > StartPtm.Value

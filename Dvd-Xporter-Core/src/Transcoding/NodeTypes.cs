@@ -53,6 +53,8 @@ public static partial class NodeTypes
 
     public const string SubtitleText = "subtitle-text";
 
+    public const string Preset = "preset";
+
     public const string Chapters = "chapters";
 
     public const string TemplateInput = "template-input";
@@ -119,6 +121,7 @@ public static partial class NodeTypes
         NodeCategory.AudioFilters => "Audio Filters",
         NodeCategory.Combine => "Combine",
         NodeCategory.Subtitles => "Subtitles",
+        NodeCategory.Presets => "Presets",
         NodeCategory.Codecs => "Codecs",
         NodeCategory.Outputs => "Outputs",
         NodeCategory.Custom => "Templates & Custom Nodes",
@@ -126,8 +129,12 @@ public static partial class NodeTypes
     };
 
     /// <summary>A new node of a type, with any defaults that depend on the project filled in.</summary>
-    public static CanvasNode Create(TranscodeCanvas canvas, NodeType type, double x, double y) =>
-        new() { Id = canvas.NextNodeId(), Type = type.Id, X = x, Y = y };
+    public static CanvasNode Create(TranscodeCanvas canvas, NodeType type, double x, double y)
+    {
+        var node = new CanvasNode { Id = canvas.NextNodeId(), Type = type.Id, X = x, Y = y };
+        type.Settle?.Invoke(node);
+        return node;
+    }
 
     /// <summary>How many track inputs an output file shows: every linked one, plus an empty one to add another.</summary>
     public static int OutputTrackCount(CanvasNode node, TranscodeCanvas canvas)

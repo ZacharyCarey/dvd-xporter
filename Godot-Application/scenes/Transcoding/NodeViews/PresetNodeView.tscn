@@ -1,0 +1,150 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/TranscodeNodeView.tscn" id="base"]
+[ext_resource type="Script" uid="uid://d50cittwtgsm" path="res://scenes/Transcoding/NodeViews/PresetNodeView.cs" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/PortPairRow.tscn" id="PortPairRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/SettingRow.tscn" id="SettingRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/HintRow.tscn" id="HintRow"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/TextControl.tscn" id="TextControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ChoiceControl.tscn" id="ChoiceControl"]
+[ext_resource type="PackedScene" path="res://scenes/Transcoding/NodeRows/ToggleControl.tscn" id="ToggleControl"]
+
+[node name="PresetNodeView" instance=ExtResource("base")]
+custom_minimum_size = Vector2(320, 0)
+title = "Preset"
+script = ExtResource("script")
+
+[node name="InPorts" parent="." instance=ExtResource("PortPairRow")]
+unique_name_in_owner = true
+layout_mode = 2
+InputKey = "in"
+OutputKey = "out"
+
+[node name="InputLabel" parent="InPorts" index="0"]
+text = "Video"
+
+[node name="OutputLabel" parent="InPorts" index="1"]
+text = "Video"
+
+[node name="PresetRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "preset"
+
+[node name="Label" parent="PresetRow" index="0"]
+text = "Preset"
+
+[node name="Preset" parent="PresetRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ContainerHint" parent="." instance=ExtResource("HintRow")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PictureRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "picture"
+
+[node name="Label" parent="PictureRow" index="0"]
+text = "Picture"
+
+[node name="Picture" parent="PictureRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DoubleRateRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "double-rate"
+
+[node name="Label" parent="DoubleRateRow" index="0"]
+text = "Double rate"
+
+[node name="DoubleRate" parent="DoubleRateRow" instance=ExtResource("ToggleControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="QualityRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "crf"
+
+[node name="Label" parent="QualityRow" index="0"]
+text = "Quality (CRF)"
+
+[node name="Quality" parent="QualityRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MaxBitrateRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "max-bitrate"
+
+[node name="Label" parent="MaxBitrateRow" index="0"]
+text = "Max bitrate (kbps)"
+
+[node name="MaxBitrate" parent="MaxBitrateRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SpeedRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "speed"
+
+[node name="Label" parent="SpeedRow" index="0"]
+text = "Speed"
+
+[node name="Speed" parent="SpeedRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SvtSpeedRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "svt-preset"
+
+[node name="Label" parent="SvtSpeedRow" index="0"]
+text = "Speed"
+
+[node name="SvtSpeed" parent="SvtSpeedRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AudioModeRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "audio-mode"
+
+[node name="Label" parent="AudioModeRow" index="0"]
+text = "Audio"
+
+[node name="AudioMode" parent="AudioModeRow" instance=ExtResource("ChoiceControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AudioBitrateRow" parent="." instance=ExtResource("SettingRow")]
+unique_name_in_owner = true
+layout_mode = 2
+SettingKey = "audio-bitrate"
+
+[node name="Label" parent="AudioBitrateRow" index="0"]
+text = "Audio bitrate (kbps)"
+
+[node name="AudioBitrate" parent="AudioBitrateRow" instance=ExtResource("TextControl")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[editable path="InPorts"]
+[editable path="PresetRow"]
+[editable path="PictureRow"]
+[editable path="DoubleRateRow"]
+[editable path="QualityRow"]
+[editable path="MaxBitrateRow"]
+[editable path="SpeedRow"]
+[editable path="SvtSpeedRow"]
+[editable path="AudioModeRow"]
+[editable path="AudioBitrateRow"]

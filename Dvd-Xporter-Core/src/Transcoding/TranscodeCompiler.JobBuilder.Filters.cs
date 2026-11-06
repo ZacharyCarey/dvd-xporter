@@ -20,7 +20,7 @@ public static partial class TranscodeCompiler
                 return;
 
             var duration = input.Duration;
-            WarnAboutScan(node, input.Picture);
+            WarnAboutScan(node, input.Picture, node.Type);
             string? filter = node.Type switch
             {
                 NodeTypes.Deinterlace => new DeinterlaceNode(node).Filter,
@@ -104,12 +104,15 @@ public static partial class TranscodeCompiler
             return range.Filter;
         }
 
-        /// <summary>Warns when a Deinterlace or Inverse Telecine doesn't suit the video it's given.</summary>
-        private void WarnAboutScan(CanvasNode node, PictureAnalysis? picture)
+        /// <summary>
+        /// Warns when deinterlacing or inverse telecine (<paramref name="filter"/>: a Deinterlace or Inverse Telecine node's
+        /// type) doesn't suit the video it's given.
+        /// </summary>
+        private void WarnAboutScan(CanvasNode node, PictureAnalysis? picture, string filter)
         {
             if (picture is null)
                 return;
-            var message = (node.Type, picture.Type) switch
+            var message = (filter, picture.Type) switch
             {
                 // Some frames that looked interlaced may be worth deinterlacing on their own
                 (NodeTypes.Deinterlace, PictureType.Progressive or PictureType.Film) when !picture.ContainsInterlaced =>

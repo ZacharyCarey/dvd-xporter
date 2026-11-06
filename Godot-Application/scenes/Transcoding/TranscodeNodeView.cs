@@ -221,6 +221,7 @@ public partial class TranscodeNodeView : GraphNode
             NodeCategory.VideoFilters => new Color("2f6fcf"),
             NodeCategory.AudioFilters => new Color("2a8fa8"),
             NodeCategory.Combine => new Color("5b55c9"),
+            NodeCategory.Presets => new Color("1f8a78"),
             NodeCategory.Codecs => new Color("23924a"),
             NodeCategory.Custom => new Color("a8417a"),
             _ => new Color("b86a1c"),

@@ -49,7 +49,7 @@ public sealed class DiscContents
         {
             Clips = info.Clips
                 .OrderBy(c => c.Filename, StringComparer.OrdinalIgnoreCase)
-                .Select(c => new ClipSummary(c.Filename, c.Duration, Describe(c.Streams), GetTracks(c.Streams),
+                .Select(c => new ClipSummary(c.Filename, c.Duration, Describe(c.Streams), GetTracks(c.Streams, c.Scan),
                     c.Chapters.Count > 0 ? c.Chapters : null, c.Start,
                     c.SubtitlePalette?.Select(rgb => $"{rgb.R:x2}{rgb.G:x2}{rgb.B:x2}").ToList(), c.Scan))
                 .ToList(),
@@ -101,8 +101,11 @@ public sealed class DiscContents
         return string.Join(" · ", parts);
     }
 
-    /// <summary>The clip's video, audio and subtitle tracks in the order they should be offered, with display names.</summary>
-    private static List<ClipTrack> GetTracks(List<StreamInfo> streams)
+    /// <summary>
+    /// The clip's video, audio and subtitle tracks in the order they should be offered, with display names, and what its
+    /// scan measured of them.
+    /// </summary>
+    private static List<ClipTrack> GetTracks(List<StreamInfo> streams, ClipScan? scan)
     {
         var tracks = new List<ClipTrack>();
         foreach (var stream in streams.OfType<VideoStreamInfo>())
@@ -127,7 +130,7 @@ public sealed class DiscContents
             // A Blu-ray gives it in kHz, a DVD in Hz
             var rate = stream.Rate is > 0 and < 1000 ? stream.Rate * 1000 : stream.Rate;
             tracks.Add(new ClipTrack(ClipTrackKind.Audio, stream.StreamId, string.Join(" · ", label), LanguageCode(stream.Language), stream.Codec.ToString(),
-                rate > 0 ? (int)Math.Round(rate) : null));
+                rate > 0 ? (int)Math.Round(rate) : null, Bitrate: scan?.Audio?.FirstOrDefault(a => a.StreamId == stream.StreamId)?.Kbps));
         }
 
         foreach (var stream in streams.OfType<SubtitleStreamInfo>())
@@ -177,8 +180,10 @@ public enum ClipTrackKind
 /// <see cref="SubtitleCodec"/>), e.g. "H264", "VC1", "TruHD", "AC3", "dvd_subtitle"; null if unknown.</param>
 /// <param name="SampleRate">Audio: its sample rate in Hz, e.g. 48000, as the disc gives it.</param>
 /// <param name="FrameRate">Video: its frames per second, e.g. 29.97, as the disc gives it.</param>
+/// <param name="Bitrate">Audio: its bitrate in kbps, measured from its first few seconds when the disc was read (see
+/// <see cref="DiscDecoders.Common.BitrateMeter"/>); null if it wasn't.</param>
 public sealed record ClipTrack(ClipTrackKind Kind, int StreamId, string Label, string? Language = null, string? Codec = null,
-    int? SampleRate = null, double? FrameRate = null)
+    int? SampleRate = null, double? FrameRate = null, int? Bitrate = null)
 {
     /// <summary>All that's known about it, a line each, e.g. for a tooltip.</summary>
     [JsonIgnore]
@@ -192,6 +197,9 @@ public sealed record ClipTrack(ClipTrackKind Kind, int StreamId, string Label, s
                 lines.Add(SampleRate is not null
                     ? $"Sample rate: {(SampleRate.Value / 1000.0).ToString("0.#", CultureInfo.InvariantCulture)} kHz"
                     : "Sample rate: not known (the disc was read before it was noted; add it again to read it)");
+                lines.Add(Bitrate is not null
+                    ? $"Bitrate: {Bitrate.Value} kbps"
+                    : "Bitrate: not known (the disc was read before it was measured; add it again to read it)");
             }
 
             if (FrameRate is not null)

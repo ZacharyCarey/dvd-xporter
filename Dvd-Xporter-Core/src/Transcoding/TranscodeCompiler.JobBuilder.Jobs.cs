@@ -213,8 +213,11 @@ public static partial class TranscodeCompiler
             }
 
             _job.Command.OutputOptions.AddRange(["-map", stream.IsLabel ? $"[{Use(stream.Ref)}]" : stream.Ref]);
-            var codec = stream.Codec is not null ? AddCodecOptions(stream.Codec, i) : "copy";
-            if (stream.Kind == PortKind.Video && stream.Codec is not null && _job.QualityReference is null)
+            var codec = stream.Codec is not null ? AddCodecOptions(stream, i) : "copy";
+            HintPresetContainer(stream);
+            // A preset's video can only be compared with what goes in when it doesn't filter it (e.g. scale it)
+            if (stream.Kind == PortKind.Video && stream.Codec is not null && _job.QualityReference is null
+                && (stream.Codec.Type != NodeTypes.Preset || _unfilteredPresets.Contains(stream.Codec.Id)))
             {
                 var encoded = canvas.LinkInto(stream.Codec.Id, "in");
                 if (encoded is not null)
