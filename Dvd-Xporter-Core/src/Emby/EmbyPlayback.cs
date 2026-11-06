@@ -101,8 +101,9 @@ public static class EmbyPlayback
                         + "for them. TVs, boxes and phone apps generally play it.");
                 }
 
-                // (H.264 doesn't keep HDR, which the codec warns about)
-                if (track.Picture is { IsHdr: true } hdr && codec != "h264")
+                // (H.264 doesn't keep HDR, which the codec warns about). TVs and boxes chosen for an HDR source are taken to
+                // be HDR ones; on every device, browsers and many phones show SDR.
+                if (all && track.Picture is { IsHdr: true } hdr && codec != "h264")
                 {
                     yield return (IssueLevel.Hint, $"{n} is {(hdr.Range == DynamicRange.Hlg ? "HLG" : "HDR10")}: on SDR screens Emby tone "
                         + "maps it, which means transcoding. Add a Dynamic Range node set to SDR if it's mostly watched on SDR screens.");
