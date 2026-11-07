@@ -101,6 +101,35 @@ custom_minimum_size = Vector2(320, 240)
 layout_mode = 2
 size_flags_vertical = 3
 
+[node name="TrackNameRow" type="HBoxContainer" parent="Columns/Inner/PreviewPanel"]
+layout_mode = 2
+
+[node name="AudioNameLabel" type="Label" parent="Columns/Inner/PreviewPanel/TrackNameRow"]
+layout_mode = 2
+text = "Audio Name:"
+
+[node name="AudioNameEdit" type="LineEdit" parent="Columns/Inner/PreviewPanel/TrackNameRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Name for the audio track picked in the preview, so it's easy to tell apart when transcoding. It's also the track's title in the exported file, unless the Output File gives it another."
+placeholder_text = "No audio track"
+editable = false
+clear_button_enabled = true
+
+[node name="SubtitleNameLabel" type="Label" parent="Columns/Inner/PreviewPanel/TrackNameRow"]
+layout_mode = 2
+text = "Subtitle Name:"
+
+[node name="SubtitleNameEdit" type="LineEdit" parent="Columns/Inner/PreviewPanel/TrackNameRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Name for the subtitle track picked in the preview, so it's easy to tell apart when transcoding. It's also the track's title in the exported file, unless the Output File gives it another."
+placeholder_text = "Pick subtitles to name them"
+editable = false
+clear_button_enabled = true
+
 [node name="NameRow" type="HBoxContainer" parent="Columns/Inner/PreviewPanel"]
 layout_mode = 2
 
@@ -199,6 +228,11 @@ size = Vector2i(480, 180)
 [connection signal="ClipActivated" from="Columns/ClipPanel/Margin/VBox/ClipTree" to="." method="On_ClipTree_ClipActivated"]
 [connection signal="toggled" from="Columns/ClipPanel/Margin/VBox/HideShortCheck" to="." method="On_HideShortCheck_Toggled"]
 [connection signal="toggled" from="Columns/ClipPanel/Margin/VBox/HideUnnamedCheck" to="." method="On_HideUnnamedCheck_Toggled"]
+[connection signal="TracksChanged" from="Columns/Inner/PreviewPanel/VlcPlayer" to="." method="On_VlcPlayer_TracksChanged"]
+[connection signal="text_submitted" from="Columns/Inner/PreviewPanel/TrackNameRow/AudioNameEdit" to="." method="On_AudioNameEdit_TextSubmitted"]
+[connection signal="focus_exited" from="Columns/Inner/PreviewPanel/TrackNameRow/AudioNameEdit" to="." method="On_AudioNameEdit_FocusExited"]
+[connection signal="text_submitted" from="Columns/Inner/PreviewPanel/TrackNameRow/SubtitleNameEdit" to="." method="On_SubtitleNameEdit_TextSubmitted"]
+[connection signal="focus_exited" from="Columns/Inner/PreviewPanel/TrackNameRow/SubtitleNameEdit" to="." method="On_SubtitleNameEdit_FocusExited"]
 [connection signal="text_submitted" from="Columns/Inner/PreviewPanel/NameRow/ClipNameEdit" to="." method="On_ClipNameEdit_TextSubmitted"]
 [connection signal="focus_exited" from="Columns/Inner/PreviewPanel/NameRow/ClipNameEdit" to="." method="On_ClipNameEdit_FocusExited"]
 [connection signal="pressed" from="Columns/Inner/PreviewPanel/InfoRow/AddToPlaylistButton" to="." method="On_AddToPlaylistButton_Pressed"]

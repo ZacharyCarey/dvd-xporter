@@ -227,7 +227,9 @@ public static partial class TranscodeCompiler
         bool VariableRate = false);
 
     /// <summary>The disc track a stream comes straight from, for working with its subtitles.</summary>
-    private sealed record SourceTrack(ProjectDisc Disc, IReadOnlyList<PlaylistEntry> Entries, Clips.ClipTrack Track, PreciseTime? Start, PreciseTime? End);
+    /// <param name="Name">The name the user gave the track, which is the output track's title unless it's given another.</param>
+    private sealed record SourceTrack(ProjectDisc Disc, IReadOnlyList<PlaylistEntry> Entries, Clips.ClipTrack Track, PreciseTime? Start, PreciseTime? End,
+        string? Name);
 
     private sealed partial class JobBuilder(TranscodeCanvas canvas, ICanvasContext context, IClipFiles files, CanvasNode output, List<GraphIssue> issues)
     {

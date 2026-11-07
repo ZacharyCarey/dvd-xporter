@@ -44,6 +44,8 @@ public partial class TrackOptionsDialog : ConfirmationDialog
         _sourceLabel.Text = track is null ? "Nothing is connected to this track yet." : track.Description;
 
         _titleEdit.Text = node.Get(Key(TranscodeCompiler.TitleOption));
+        // Without one, it's the name given to the disc's track
+        _titleEdit.PlaceholderText = track?.Title is not null && _titleEdit.Text.Length == 0 ? track.Title : "None";
         _languageEdit.Text = node.Get(Key(TranscodeCompiler.LanguageOption));
         _languageEdit.PlaceholderText = track?.Language is not null && _languageEdit.Text.Length == 0 ? track.Language : "From the source";
         _defaultOption.Select(node.Get(Key(TranscodeCompiler.DefaultOption), "auto") switch

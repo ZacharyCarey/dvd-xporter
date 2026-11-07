@@ -69,6 +69,12 @@ public sealed partial class ProjectFolder
         var disc = new ProjectDisc(data.Label, data.Format, data.Fingerprint) { CheckEveryFrame = data.CheckEveryFrame };
         foreach (var (clip, name) in data.ClipNames ?? [])
             disc.SetClipName(clip, name);
+        foreach (var (clip, names) in data.TrackNames ?? [])
+        {
+            foreach (var (streamId, name) in names)
+                disc.SetTrackName(clip, streamId, name);
+        }
+
         foreach (var playlistData in data.Playlists ?? [])
         {
             var playlist = new ClipPlaylist(playlistData.Name, playlistData.Id) { ImportedFrom = playlistData.ImportedFrom };
@@ -86,6 +92,10 @@ public sealed partial class ProjectFolder
         Fingerprint = disc.Fingerprint,
         CheckEveryFrame = disc.CheckEveryFrame,
         ClipNames = disc.ClipNames.Count > 0 ? new SortedDictionary<string, string>(disc.ClipNames, StringComparer.OrdinalIgnoreCase) : null,
+        TrackNames = disc.TrackNames.Count > 0
+            ? new SortedDictionary<string, SortedDictionary<int, string>>(
+                disc.TrackNames.ToDictionary(c => c.Key, c => new SortedDictionary<int, string>(c.Value)), StringComparer.OrdinalIgnoreCase)
+            : null,
         Playlists = disc.Playlists.Count > 0
             ? disc.Playlists.Select(p => new PlaylistData
             {
@@ -141,6 +151,9 @@ public sealed partial class ProjectFolder
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public SortedDictionary<string, string>? ClipNames { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public SortedDictionary<string, SortedDictionary<int, string>>? TrackNames { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public List<PlaylistData>? Playlists { get; set; }

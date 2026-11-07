@@ -80,7 +80,8 @@ public partial class SourceNodeView : TranscodeNodeView
         var trackLabels = (selection?.Tracks ?? []).Select(t =>
         {
             var count = t.Kind == ClipTrackKind.Subtitle ? counts?.GetValueOrDefault(t.StreamId) : null;
-            return count is not null ? t.Label + SubtitleHelp.Note(count, mostCaptions) : t.Label;
+            var label = selection!.TrackLabel(t);
+            return count is not null ? label + SubtitleHelp.Note(count, mostCaptions) : label;
         }).ToList();
         // Hovering a track's port shows all that's known about it, e.g. its sample rate to match a Silence node to
         var trackDetails = (selection?.Tracks ?? []).Select(t => t.Details).ToList();

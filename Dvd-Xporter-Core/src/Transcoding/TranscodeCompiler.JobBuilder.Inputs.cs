@@ -65,9 +65,9 @@ public static partial class TranscodeCompiler
                 var track = selection.Tracks[t];
                 _compiled[(node.Id, SourceNode.TrackPortKey(track))] = new Compiled(
                     specifiers[t], false, SourceNode.TrackPortKind(track.Kind), false, null, track.Language,
-                    track.Label, duration, track.Kind == ClipTrackKind.Subtitle, index,
+                    selection.TrackLabel(track), duration, track.Kind == ClipTrackKind.Subtitle, index,
                     track.Kind == ClipTrackKind.Video ? picture : null,
-                    Origin: new SourceTrack(disc, selection.Entries, track, start, end));
+                    Origin: new SourceTrack(disc, selection.Entries, track, start, end, selection.TrackName(track)));
             }
         }
 

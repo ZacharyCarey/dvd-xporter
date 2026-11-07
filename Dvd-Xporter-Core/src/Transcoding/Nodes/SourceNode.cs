@@ -8,7 +8,18 @@ namespace DvdXporter.Core.Transcoding.Nodes;
 
 /// <summary>What a source node plays: its disc, the clips in order, and the first clip's tracks.</summary>
 public sealed record SourceSelection(ProjectDisc Disc, string Name, IReadOnlyList<PlaylistEntry> Entries, IReadOnlyList<ClipTrack> Tracks,
-    PreciseTime? Duration);
+    PreciseTime? Duration)
+{
+    /// <summary>The name the user gave a track (see <see cref="ProjectDisc.GetTrackName(IEnumerable{PlaylistEntry}, int)"/>), if any.</summary>
+    public string? TrackName(ClipTrack track) => Disc.GetTrackName(Entries, track.StreamId);
+
+    /// <summary>What to call a track: its name with what it is, e.g. "Commentary (English · AC3 · 2 ch)", or just what it is.</summary>
+    public string TrackLabel(ClipTrack track)
+    {
+        var name = TrackName(track);
+        return name is not null ? $"{name} ({track.Label})" : track.Label;
+    }
+}
 
 /// <summary>
 /// A Disc Video, or a template's Template Input that stands in for one: a video file or playlist from one of the
@@ -228,7 +239,7 @@ public sealed class SourceNode(CanvasNode node)
         var selection = Resolve(context);
         if (selection is null)
             return new NodePorts([], []);
-        var outputs = selection.Tracks.Select(t => new NodePort(TrackPortKey(t), t.Label, TrackPortKind(t.Kind))).ToList();
+        var outputs = selection.Tracks.Select(t => new NodePort(TrackPortKey(t), selection.TrackLabel(t), TrackPortKind(t.Kind))).ToList();
         outputs.Add(new NodePort(NodeTypes.ChaptersPort, "Chapters", PortKind.Chapters));
         return new NodePorts([], outputs);
     }

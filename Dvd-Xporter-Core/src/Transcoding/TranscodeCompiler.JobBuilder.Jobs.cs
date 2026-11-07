@@ -254,7 +254,7 @@ public static partial class TranscodeCompiler
                 stream.Kind,
                 codec,
                 stream.Description + (codec == "copy" ? "" : $" → {CodecName(codec)}"),
-                file.TrackOption(key, TitleOption) is { Length: > 0 } trackTitle ? trackTitle : null,
+                file.TrackOption(key, TitleOption) is { Length: > 0 } trackTitle ? trackTitle : stream.Origin?.Name,
                 language,
                 isDefault,
                 Flag(ForcedOption) || stream.ForcedOnly,

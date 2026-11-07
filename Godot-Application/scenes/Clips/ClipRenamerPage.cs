@@ -47,6 +47,8 @@ public partial class ClipRenamerPage : MarginContainer, IStepPage
 
     private VlcPlayer _player = null!;
     private LineEdit _clipNameEdit = null!;
+    private LineEdit _audioNameEdit = null!;
+    private LineEdit _subtitleNameEdit = null!;
     private PlaylistPanel _playlistPanel = null!;
 
     private AcceptDialog _errorDialog = null!;
@@ -69,6 +71,10 @@ public partial class ClipRenamerPage : MarginContainer, IStepPage
     // The video file being previewed and named, picked from either the file list or a playlist
     private string? _currentClip;
     private string? _pendingPreview;
+    // The video file playing, whose tracks the player lists, and the tracks being named (picked in the player)
+    private string? _previewClip;
+    private ClipTrack? _audioNamed;
+    private ClipTrack? _subtitleNamed;
     // Counts previews asked for, so one that opens after another was asked for (or previewing stopped) isn't shown
     private int _previewRequest;
     // The frame being saved, while its file is picked
@@ -94,6 +100,8 @@ public partial class ClipRenamerPage : MarginContainer, IStepPage
 
         _player = GetNode<VlcPlayer>("%VlcPlayer");
         _clipNameEdit = GetNode<LineEdit>("%ClipNameEdit");
+        _audioNameEdit = GetNode<LineEdit>("%AudioNameEdit");
+        _subtitleNameEdit = GetNode<LineEdit>("%SubtitleNameEdit");
         _playlistPanel = GetNode<PlaylistPanel>("%PlaylistPanel");
 
         _errorDialog = GetNode<AcceptDialog>("%ErrorDialog");
@@ -134,6 +142,20 @@ public partial class ClipRenamerPage : MarginContainer, IStepPage
     private void On_ClipNameEdit_TextSubmitted(string text) => NameClipAndMoveOn();
 
     private void On_ClipNameEdit_FocusExited() => CommitClipName();
+
+    private void On_VlcPlayer_TracksChanged()
+    {
+        CommitTrackNames();
+        ShowTrackNames();
+    }
+
+    private void On_AudioNameEdit_TextSubmitted(string text) => CommitTrackNames();
+
+    private void On_AudioNameEdit_FocusExited() => CommitTrackNames();
+
+    private void On_SubtitleNameEdit_TextSubmitted(string text) => CommitTrackNames();
+
+    private void On_SubtitleNameEdit_FocusExited() => CommitTrackNames();
 
     private void On_ClipTree_ClipSelected() => SetCurrentClip(_clipTree.SelectedClip);
 
@@ -195,6 +217,8 @@ public partial class ClipRenamerPage : MarginContainer, IStepPage
         _pendingPreview = null;
         _previewRequest++;
         _player.Close();
+        _previewClip = null;
+        ShowTrackNames();
     }
 
     // ---- Disc ----
@@ -337,6 +361,59 @@ public partial class ClipRenamerPage : MarginContainer, IStepPage
         CommitClipName();
         if (_currentClip is not null && _clipTree.SelectNextAfter(_currentClip))
             FocusClipName();
+    }
+
+    // ---- Track names ----
+
+    /// <summary>Shows the names of the audio and subtitle tracks picked in the player, to name them.</summary>
+    private void ShowTrackNames()
+    {
+        _audioNamed = ShowTrackName(_audioNameEdit, ClipTrackKind.Audio, "No audio track");
+        _subtitleNamed = ShowTrackName(_subtitleNameEdit, ClipTrackKind.Subtitle, "Pick subtitles to name them");
+    }
+
+    private ClipTrack? ShowTrackName(LineEdit edit, ClipTrackKind kind, string none)
+    {
+        var track = _disc is not null && _previewClip is not null ? _player.SelectedTrack(kind) : null;
+        var original = track is not null ? OriginalTrack(track) : null;
+        edit.Editable = original is not null;
+        edit.Text = original is not null ? _disc!.GetTrackName(_previewClip!, original.StreamId) ?? "" : "";
+        // What the disc says it is, to name it after
+        edit.PlaceholderText = original?.Label ?? none;
+        return original;
+    }
+
+    private void CommitTrackNames()
+    {
+        CommitTrackName(_audioNameEdit, _audioNamed);
+        CommitTrackName(_subtitleNameEdit, _subtitleNamed);
+    }
+
+    private void CommitTrackName(LineEdit edit, ClipTrack? track)
+    {
+        var disc = _disc;
+        var clip = _previewClip;
+        if (disc is null || clip is null || track is null)
+            return;
+
+        var name = edit.Text.Trim();
+        if ((disc.GetTrackName(clip, track.StreamId) ?? "") == name)
+            return;
+
+        disc.SetTrackName(clip, track.StreamId, name);
+        Save();
+        _player.RenameTrack(track, NamedTrack(disc, clip, track).Label);
+    }
+
+    /// <summary>One of the previewed file's tracks as the disc lists it, without the name it was given.</summary>
+    private ClipTrack? OriginalTrack(ClipTrack track) =>
+        _previewClip is not null ? _contents?.FindClip(_previewClip)?.Tracks?.FirstOrDefault(t => t.Kind == track.Kind && t.StreamId == track.StreamId) : null;
+
+    /// <summary>A track with the name it was given, e.g. "Commentary (English · AC3 · 2 ch)", as the player lists it.</summary>
+    private static ClipTrack NamedTrack(ProjectDisc disc, string clip, ClipTrack track)
+    {
+        var name = disc.GetTrackName(clip, track.StreamId);
+        return name is not null ? track with { Label = $"{name} ({track.Label})" } : track;
     }
 
     private void UpdateClipDetails()
@@ -532,7 +609,13 @@ public partial class ClipRenamerPage : MarginContainer, IStepPage
         }
 
         var summary = _contents?.FindClip(clip);
-        _player.Open(preview, summary?.Tracks, summary?.Duration.Value);
+        var disc = _disc;
+        var named = disc is not null ? summary?.Tracks?.Select(t => NamedTrack(disc, clip, t)).ToList() : summary?.Tracks;
+        // The names being edited are of the file playing until now
+        CommitTrackNames();
+        _audioNamed = _subtitleNamed = null;
+        _previewClip = clip;
+        _player.Open(preview, named, summary?.Duration.Value);
     }
 
     // ---- Helpers ----

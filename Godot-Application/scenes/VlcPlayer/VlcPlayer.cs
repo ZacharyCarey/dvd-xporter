@@ -16,6 +16,10 @@ using System.Text;
 /// </summary>
 public partial class VlcPlayer : Control
 {
+    /// <summary>Raised when the audio or subtitle lists change, or another track is picked in them.</summary>
+    [Signal]
+    public delegate void TracksChangedEventHandler();
+
     // VLC's "no subtitles" track is -1, which OptionButton reads as "use the index", so it gets this ID instead
     private const int SubtitlesOffId = 1_000_000;
 
@@ -31,8 +35,11 @@ public partial class VlcPlayer : Control
     private Stream? _stream;
 
     // The clip's tracks in the order to offer them, and how to find each among VLC's (null = show VLC's own)
-    private IReadOnlyList<ClipTrack>? _tracks;
+    private List<ClipTrack>? _tracks;
     private PreviewTrackIds _trackIds;
+    // The clip's tracks listed, by their item IDs (VLC's)
+    private readonly Dictionary<int, ClipTrack> _audioTracks = [];
+    private readonly Dictionary<int, ClipTrack> _subtitleTracks = [];
 
     // VLC can't seek streams by time (or does so far off), so they're seeked by position: to the byte offset
     // the clip's index gives when there is one (Blu-ray), otherwise by the fraction of the clip's known length
@@ -195,12 +202,17 @@ public partial class VlcPlayer : Control
         _volumeBubbleTime = VolumeBubbleLinger;
     }
 
-    private void On_AudioOption_ItemSelected(long index) => _mediaPlayer?.SetAudioTrack(_audioOption.GetItemId((int)index));
+    private void On_AudioOption_ItemSelected(long index)
+    {
+        _mediaPlayer?.SetAudioTrack(_audioOption.GetItemId((int)index));
+        EmitSignal(SignalName.TracksChanged);
+    }
 
     private void On_SubtitleOption_ItemSelected(long index)
     {
         var id = _subtitleOption.GetItemId((int)index);
         _mediaPlayer?.SetSpu(id == SubtitlesOffId ? -1 : id);
+        EmitSignal(SignalName.TracksChanged);
     }
 
     public override void _ExitTree()
@@ -257,7 +269,7 @@ public partial class VlcPlayer : Control
             VideoPath = preview.FilePath;
         }
 
-        _tracks = preview.TrackIds == PreviewTrackIds.None ? null : tracks;
+        _tracks = preview.TrackIds == PreviewTrackIds.None || tracks is null ? null : [.. tracks];
         _trackIds = preview.TrackIds;
         _seekByPosition = preview.Stream is not null;
         _seekOffset = preview.SeekOffset;
@@ -268,6 +280,7 @@ public partial class VlcPlayer : Control
         _pauseOnFirstFrame = !_autoPlay.ButtonPressed;
         _mediaPlayer.Play();
         UpdateEmptyState();
+        EmitSignal(SignalName.TracksChanged);
     }
 
     /// <summary>Stops playback and unloads the video.</summary>
@@ -279,6 +292,7 @@ public partial class VlcPlayer : Control
         VideoPath = null;
         _texture.SetImage(Image.CreateEmpty(2, 2, false, Image.Format.Rgba8));
         UpdateEmptyState();
+        EmitSignal(SignalName.TracksChanged);
     }
 
     private void CloseMedia()
@@ -294,6 +308,8 @@ public partial class VlcPlayer : Control
         _tracksListed = false;
         _audioOption.Clear();
         _subtitleOption.Clear();
+        _audioTracks.Clear();
+        _subtitleTracks.Clear();
         _framesPerSecond = 0;
         _visibleWidth = 0;
         _visibleHeight = 0;
@@ -604,6 +620,8 @@ public partial class VlcPlayer : Control
 
         _audioOption.Clear();
         _subtitleOption.Clear();
+        _audioTracks.Clear();
+        _subtitleTracks.Clear();
         _subtitleOption.AddItem("Off", SubtitlesOffId);
         if (_tracks is null)
         {
@@ -615,8 +633,8 @@ public partial class VlcPlayer : Control
         else
         {
             // The clip's own list: only its selected streams, in order, with their names
-            AddClipTracks(_audioOption, _tracks.Where(t => t.Kind == ClipTrackKind.Audio).ToList(), vlcAudio);
-            AddClipTracks(_subtitleOption, _tracks.Where(t => t.Kind == ClipTrackKind.Subtitle).ToList(), vlcSubtitles);
+            AddClipTracks(_audioOption, _audioTracks, _tracks.Where(t => t.Kind == ClipTrackKind.Audio).ToList(), vlcAudio);
+            AddClipTracks(_subtitleOption, _subtitleTracks, _tracks.Where(t => t.Kind == ClipTrackKind.Subtitle).ToList(), vlcSubtitles);
 
             // Start on the first listed audio track, as a player following the disc would
             if (_audioOption.ItemCount > 0 && _audioOption.GetItemIndex(_mediaPlayer.AudioTrack) < 0)
@@ -627,13 +645,14 @@ public partial class VlcPlayer : Control
         _audioOption.Disabled = _audioOption.ItemCount < 2;
         SelectId(_subtitleOption, _mediaPlayer.Spu < 0 ? SubtitlesOffId : _mediaPlayer.Spu);
         _subtitleOption.Disabled = _subtitleOption.ItemCount < 2;
+        EmitSignal(SignalName.TracksChanged);
     }
 
     /// <summary>
     /// Adds the clip's tracks of one kind that VLC has, with the clip's names. A Blu-ray clip's are matched by PID;
     /// a primed DVD cell's by position, as VLC created its tracks in the clip's order.
     /// </summary>
-    private void AddClipTracks(OptionButton option, List<ClipTrack> clipTracks, List<TrackDescription> vlcTracks)
+    private void AddClipTracks(OptionButton option, Dictionary<int, ClipTrack> listed, List<ClipTrack> clipTracks, List<TrackDescription> vlcTracks)
     {
         for (int i = 0; i < clipTracks.Count; i++)
         {
@@ -641,7 +660,43 @@ public partial class VlcPlayer : Control
                 ? (i < vlcTracks.Count ? vlcTracks[i].Id : null)
                 : (vlcTracks.Any(t => t.Id == clipTracks[i].StreamId) ? clipTracks[i].StreamId : null);
             if (vlcId is not null)
+            {
                 option.AddItem(clipTracks[i].Label, vlcId.Value);
+                listed[vlcId.Value] = clipTracks[i];
+            }
+        }
+    }
+
+    /// <summary>
+    /// The track picked in the audio or subtitle list, of those given to <see cref="Open"/>; null if there's none (or
+    /// subtitles are off, or VLC's own tracks are listed).
+    /// </summary>
+    public ClipTrack? SelectedTrack(ClipTrackKind kind)
+    {
+        var (option, listed) = kind == ClipTrackKind.Audio ? (_audioOption, _audioTracks) : (_subtitleOption, _subtitleTracks);
+        return option.Selected >= 0 ? listed.GetValueOrDefault(option.GetItemId(option.Selected)) : null;
+    }
+
+    /// <summary>Shows another name for one of the tracks given to <see cref="Open"/> (found by its kind and stream ID).</summary>
+    public void RenameTrack(ClipTrack track, string label)
+    {
+        if (_tracks is null)
+            return;
+        var index = _tracks.FindIndex(t => t.Kind == track.Kind && t.StreamId == track.StreamId);
+        if (index < 0)
+            return;
+        var renamed = _tracks[index] = _tracks[index] with { Label = label };
+
+        var (option, listed) = track.Kind == ClipTrackKind.Audio ? (_audioOption, _audioTracks) : (_subtitleOption, _subtitleTracks);
+        foreach (var (id, listedTrack) in listed)
+        {
+            if (listedTrack.StreamId != track.StreamId)
+                continue;
+            listed[id] = renamed;
+            var item = option.GetItemIndex(id);
+            if (item >= 0)
+                option.SetItemText(item, label);
+            break;
         }
     }
 

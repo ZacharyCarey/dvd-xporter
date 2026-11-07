@@ -27,9 +27,37 @@ public sealed class ProjectDisc(string label, DiscFormat format, string fingerpr
     /// </summary>
     public Dictionary<string, string> ClipNames { get; } = new(StringComparer.OrdinalIgnoreCase);
 
+    /// <summary>
+    /// Names the user gave video files' tracks, by file name and then the track's stream ID (see
+    /// <see cref="ClipTrack.StreamId"/>), e.g. "00012.m2ts" → 0x1101 → "Director's Commentary".
+    /// </summary>
+    public Dictionary<string, Dictionary<int, string>> TrackNames { get; } = new(StringComparer.OrdinalIgnoreCase);
+
     public List<ClipPlaylist> Playlists { get; } = [];
 
     public string? GetClipName(string clip) => ClipNames.GetValueOrDefault(clip);
+
+    public string? GetTrackName(string clip, int streamId) => TrackNames.GetValueOrDefault(clip)?.GetValueOrDefault(streamId);
+
+    /// <summary>A playlist's name for a track: the first of its video files, in order, to name it.</summary>
+    public string? GetTrackName(IEnumerable<PlaylistEntry> entries, int streamId) =>
+        entries.Select(e => GetTrackName(e.Clip, streamId)).FirstOrDefault(n => n is not null);
+
+    /// <summary>Names one of a video file's tracks; a blank name removes it.</summary>
+    public void SetTrackName(string clip, int streamId, string? name)
+    {
+        var names = TrackNames.GetValueOrDefault(clip);
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            if (names is not null && names.Remove(streamId) && names.Count == 0)
+                TrackNames.Remove(clip);
+            return;
+        }
+
+        if (names is null)
+            TrackNames[clip] = names = [];
+        names[streamId] = name.Trim();
+    }
 
     /// <summary>Names a video file; a blank name removes it.</summary>
     public void SetClipName(string clip, string? name)
